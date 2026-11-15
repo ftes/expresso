@@ -47,9 +47,8 @@ Read these documents before you change the code:
   during the work.
 - `docs/speaker-notes.md` — the design for the notes of the speaker: Markdown in a note,
   and a note for some steps of a slide. The code contains this design. The document records
-  ten decisions. Nine are settled, and decision 2 has a question for the maintainer: the
-  binary shows the notes as plain text, because it does not hold MDEx. Its last section,
-  "The result", tells what changed during the work.
+  ten decisions, and each is settled. Its last section, "The result", tells what changed
+  during the work.
 - `docs/accessibility-preferences.md` — an investigation of a deck in forced colors, with
   the preference for more contrast, and against three new criteria of WCAG 2.2. It records
   the state on 2026-11-15 and a proposal for each defect. No code changed. It has two
