@@ -75,15 +75,14 @@ alternatives:
 | Alternative | Effect |
 | --- | --- |
 | MDEx with `runtime: false` | Markdown with `mix expresso`. Plain text in the binary. |
-| A parser in Elixir | The same HTML in each place. Earmark is retired on Hex. EarmarkParser returns a tree and no HTML, so Expresso must make the HTML. |
 | MDEx in the binary | Markdown in each place. The release must get the library of MDEx for each of its four targets, and an unwinder for musl. |
-
-The maintainer asked for a test of the third alternative. The test succeeded, and the
-code has that alternative. `docs/development/release.md` tells how the library loads.
 
 Earmark is not an alternative. Each of its releases is retired on Hex, and the notice
 tells a user to move to a different library, such as MDEx. `mix hex.audit` fails for a
 retired dependency.
+
+The maintainer asked for a test of the second alternative. The test succeeded, and the
+code has that alternative. `docs/development/release.md` tells how the library loads.
 
 ## The result
 
