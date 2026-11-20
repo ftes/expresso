@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Column do
   @moduledoc """
-  One column of a `columns` element
+  Defines one column of a `columns` element
 
   A column holds the same elements as a text box. The `width` option gives the
   width of the column as a CSS length or percentage, and a column without the

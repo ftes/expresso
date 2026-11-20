@@ -1,18 +1,16 @@
 defmodule Expresso.VerifierTransformer do
   @moduledoc """
-  The Spark transformer that runs the checks that give only errors
+  Runs the checks that return only errors, as a Spark transformer
 
-  It runs one time for each deck module at compile time, after the other
-  transformers. It calls `verify/1` of each module of `checks/0`, and an error
-  stops the compile. More than one error gives one `Spark.Error.DslError` with
-  the message of each error.
+  The transformer runs one time for each deck module at compile time, and an
+  error stops the compile.
 
   The checks change nothing. They run in a transformer and not as verifiers,
   because Spark raises an error from a transformer, and the compile stops.
   Spark runs a verifier in an `@after_verify` callback, and it reports the
-  error of a verifier as a warning. `Expresso.PlacementTransformer` gives the
-  same reason. The checks that give only warnings stay verifiers of
-  `Expresso.Extension`.
+  error of a verifier as a warning. `Expresso.PlacementTransformer` is a
+  transformer for the same reason. The checks that return only warnings stay
+  verifiers of `Expresso.Extension`.
   """
 
   use Spark.Dsl.Transformer
@@ -49,6 +47,10 @@ defmodule Expresso.VerifierTransformer do
 
   @doc """
   Run each check on the state of the DSL, and return an error for each error of a check
+
+  The function calls `verify/1` of each module in `checks/0`. For more than
+  one error, it returns one `Spark.Error.DslError` with the message of each
+  error.
   """
   @impl Transformer
   @spec transform(map()) :: {:ok, map()} | {:error, DslError.t()}

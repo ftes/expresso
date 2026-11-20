@@ -10,11 +10,10 @@ defmodule Expresso.Check.Browser do
   output after the check. The script of the page writes the result into an
   element `check-result`. `assets/src/check.ts` gives the rules.
 
-  The page has the size 1920 × 1080. A browser can keep a part of the window
-  for itself, so `run/3` first opens a small page that writes its size, and it
-  makes the window larger by the difference. A Chrome window is not narrower
-  than 500 px, so `run/3` returns an error when the page does not get the
-  requested size.
+  A browser can reserve a part of the window. Therefore `run/3` first opens a
+  small page that writes its size, and it makes the window larger by the
+  difference. A Chrome window is not narrower than 500 px, so `run/3` returns
+  an error when the page does not get the requested size.
   """
 
   @typedoc "The result of the page: the size, the problems of the layout and the violations of axe-core"

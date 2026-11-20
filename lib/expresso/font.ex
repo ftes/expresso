@@ -1,6 +1,6 @@
 defmodule Expresso.Font do
   @moduledoc """
-  The font of the theme, with the bytes of each file in the stylesheet
+  Holds the font of the theme, with the bytes of each file in the stylesheet
 
   The document of a deck is one file, and a font cannot be a second file. This
   module reads `assets/fonts.css` at compile time. It replaces the path of each
@@ -11,10 +11,9 @@ defmodule Expresso.Font do
   it under the SIL Open Font License, Version 1.1. `assets/fonts/OFL.txt` holds
   that license, and the license permits this use.
 
-  A browser starts to load a font only when a layout needs it. The first
-  layout of the document can thus have the fallback font, and the text moves
-  when the font comes. `loader/0` returns a script that starts the load of
-  each face before the browser reads the body.
+  A browser starts to load a font only when a layout needs it. `loader/0`
+  returns a script that starts the load of each face before the browser reads
+  the body.
   """
 
   @external_resource "./assets/fonts.css"

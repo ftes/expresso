@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.State do
   @moduledoc """
-  The plan of a state diagram of Pele
+  Makes the plan for a state diagram of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |

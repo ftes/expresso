@@ -1,6 +1,6 @@
 defmodule Expresso.Lexers.D2 do
   @moduledoc """
-  The Makeup lexer of D2, the diagram language
+  Splits a text of D2, the diagram language, into Makeup tokens
 
   A reserved key, such as `shape`, `label` or `style.fill`, is a keyword,
   and another key before `:` is a tag. A connection, such as `->` or `<->`,

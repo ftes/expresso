@@ -1,14 +1,14 @@
 defmodule Expresso.Element.Chart.Table do
   @moduledoc """
-  The table of the values of a chart, for a screen reader
+  Writes a table with the values of a chart, for a screen reader
 
   The SVG of a chart has `role="img"` and the title, so a screen reader reads
   its name and not its values. Each chart therefore writes a table with the
-  class `chart-table`, and the style sheet hides it from the eye and not from
-  a screen reader.
+  class `chart-table`. The style sheet hides the table on the screen, but a
+  screen reader reads it.
 
   Each kind of chart returns its headers and its rows as data, and `render/1`
-  writes the table. The first cell of each row is the header of the row.
+  writes the table.
   """
 
   import Temple

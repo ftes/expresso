@@ -1,11 +1,11 @@
 defmodule Expresso.Element.Diagram.Outline do
   @moduledoc """
-  The list of a graph for a screen reader
+  Makes the list of a graph for a screen reader
 
   A screen reader reads the text of an SVG in the order of the file, and that
-  order is not the order of the graph. Therefore the render writes a nested
-  list of the graph next to the SVG, and the style sheet hides the list from
-  the eye, as it hides the list of a `tree`. The list holds each container
+  order is not the order of the graph. Therefore the renderer writes a nested
+  list of the graph next to the SVG. The style sheet makes the list invisible,
+  as it makes the list of a `tree` invisible. The list holds each container
   with its nodes, and each node with the edges that leave it, such as "web,
   to api".
 
@@ -14,7 +14,7 @@ defmodule Expresso.Element.Diagram.Outline do
   | Attribute | Value |
   | --- | --- |
   | `data-graph-kind` | `node`, `container` or `edge` |
-  | `data-graph-parent` | The `id` of the container of a node or of a container |
+  | `data-graph-parent` | The `id` of the container that holds a node or a container |
   | `data-graph-from`, `data-graph-to` | The ends of an edge |
   | `data-graph-arrow` | The arrow of an edge: `->`, `<-`, `<->` or `--` |
   | `data-graph-label` | The label of an edge, when the label is not inside the group of the edge |

@@ -1,6 +1,6 @@
 defmodule Expresso.Component do
   @moduledoc """
-  The component function of Temple for the element modules
+  Defines the component function of Temple for the element modules
 
   Temple compiles `c/2` to a call of `component/3`. `use Temple.Component`
   defines that function and two helpers in the module that uses it. The

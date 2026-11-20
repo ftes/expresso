@@ -1,6 +1,6 @@
 defmodule Expresso.Template.Slide do
   @moduledoc """
-  The behaviour of a slide template
+  Defines the behaviour of a slide template
 
   A slide template makes the body of a slide. `use Expresso.Template`
   declares this behaviour, so a module without `render/1` gets a warning from

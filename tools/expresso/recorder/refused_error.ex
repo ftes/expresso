@@ -1,8 +1,8 @@
 defmodule Expresso.Recorder.RefusedError do
   @moduledoc """
-  The error when Chromium refuses a screenshot
+  Reports that Chromium refused a screenshot
 
-  Chromium can answer a screenshot with the message `Unable to capture
+  Chromium can refuse a screenshot with the message `Unable to capture
   screenshot`. `Expresso.Recorder.record/4` then records the example again in
   a new page.
   """

@@ -4,12 +4,11 @@ defmodule Expresso.Element.Diagram.Cache do
   of the watch mode to the next
 
   D2 with ELK takes some seconds for a graph, and the watch mode renders the
-  whole deck after each change. Without a cache, a change to the text of one
-  slide would run each tool of the deck again.
+  whole deck after each change. Without a cache, the watch mode runs each tool
+  of the deck again after a change to the text of one slide.
 
   `Expresso.Watch` calls `run/2` around each render, with the cache of the
-  render before. `fetch/2` returns the value of a key from that cache, or it
-  calls its function. `run/2` returns the entries that the render used, so the
+  render before. `run/2` returns the entries that the render used, so the
   cache holds only the graphs of the deck as it is now. A render outside
   `run/2`, such as a render from the command line, runs each tool one time
   and keeps nothing.

@@ -1,18 +1,19 @@
 defmodule Expresso.Media do
   @moduledoc """
-  The files of the video element and of the audio element
+  Makes the source for the file of each video element and each audio element
 
   The document holds a copy of each slide for the present view and one for
   each page of the handout view. A file in each copy would make the document
-  many times larger. Therefore an element holds only its number in the deck,
-  and the renderer writes each file one time, as a data URI, into a JSON
-  element, such as `expresso-videos`. The presenter gives an element its
-  source when it plays. `assets/src/media.ts` gives the rules of the script.
+  many times larger. Therefore an element holds only its number in the deck.
+  The renderer writes each file one time, as a data URI, into a JSON element,
+  such as `expresso-videos`. The presenter sets the source of an element when
+  the element plays. `assets/src/media.ts` gives the rules of the script.
 
-  An element with `external true` keeps its file next to the document, and
-  the JSON element then holds the address of that copy. `Expresso.MediaFiles`
-  gives the rules. The `external` option of the deck gives the default of
-  each `image`, `video` and `audio` element, and `external/1` applies it.
+  An element with `external true` keeps a copy of its file next to the
+  document, and the JSON element then holds the address of that copy.
+  `Expresso.MediaFiles` gives the rules. `external/1` applies the `external`
+  option of the deck as the default of each `image`, `video` and `audio`
+  element.
 
   An element module with the field `src` and the field `index` uses these
   functions with its own struct and its own media types, such as

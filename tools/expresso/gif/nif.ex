@@ -1,18 +1,19 @@
 defmodule Expresso.Gif.Nif do
   @moduledoc """
-  The Zig NIF of `Expresso.Gif`
+  Removes the PNG filters and encodes the GIF frames for `Expresso.Gif` in a Zig NIF
 
-  `unfilter/3` removes the PNG filters of the rows of an image of 8-bit RGB.
-  `encode_frame/4` encodes one frame of a GIF against the frame before it:
+  `unfilter/3` removes the PNG filters from the rows of an 8-bit RGB image.
+  `encode_frame/4` encodes one frame of a GIF and compares it with the frame
+  before it:
 
   1. It finds the rectangle of the pixels that are not the same as in the
-     frame before. The first frame takes the whole image.
-  2. It counts each exact color of the pixels that change, and median cut
-     makes a palette of at most 256 colors, or 255 when the frame needs a
-     transparent index. A frame with fewer colors keeps its exact colors.
-  3. Each pixel of the rectangle gets the index of the box of its color. A
-     pixel that does not change gets the transparent index.
-  4. LZW compresses the indices, with the rules of GIFENCOD.
+     frame before. For the first frame, the rectangle is the whole image.
+  2. It counts each exact color of the pixels that change. Then it uses median
+     cut to make a palette of at most 256 colors, or 255 when the frame needs
+     a transparent index. A frame with fewer colors keeps its exact colors.
+  3. Each pixel of the rectangle gets the index of the box that holds its
+     color. A pixel that does not change gets the transparent index.
+  4. It compresses the indices with LZW and the rules of GIFENCOD.
 
   Both functions run on dirty CPU schedulers. Zigler compiles the NIF with
   the Zig of the toolchain, which must be 0.16.

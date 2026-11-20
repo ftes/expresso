@@ -1,19 +1,11 @@
 defmodule Expresso.Dsl do
   @moduledoc """
-  The helpers of the transformers and the verifiers of the deck DSL
+  Holds the functions that the transformers and the verifiers of the deck DSL share
 
   Each transformer and each verifier of `Expresso.Extension` reads the slides
-  of the deck, and it reports an error with the path of a slide. These plain
-  functions do the parts that they share:
-
-  - `slide_path/1` returns the path of a slide for an error.
-  - `error/3` and `slide_error/3` make a `Spark.Error.DslError`.
-  - `map_slides/2` calls a function on each slide, and it gives the first
-    error the path of its slide.
-  - `put_slides/2` is the one place that writes the slides back to the state
-    of Spark.
-  - `css_names/1` returns the names of the CSS of the deck, which
-    `Expresso.CssTransformer` scans one time for each compile.
+  of the deck, and it reports an error with the path of a slide. The plain
+  functions of this module do the parts that the transformers and the
+  verifiers share.
 
   Spark delegates the read functions of `Spark.Dsl.Verifier` to
   `Spark.Dsl.Transformer`, so each function takes the state of a transformer
@@ -43,6 +35,8 @@ defmodule Expresso.Dsl do
 
   @doc """
   Make the error of a deck module at a path of the DSL
+
+  The error is a `Spark.Error.DslError`.
   """
   @spec error(module(), path(), String.t()) :: DslError.t()
   def error(module, path, message),
@@ -50,6 +44,8 @@ defmodule Expresso.Dsl do
 
   @doc """
   Make the error of a deck module at the path of a slide
+
+  The error is a `Spark.Error.DslError`.
   """
   @spec slide_error(module(), slide(), String.t()) :: DslError.t()
   def slide_error(module, slide, message), do: error(module, slide_path(slide), message)
@@ -90,10 +86,11 @@ defmodule Expresso.Dsl do
   @doc """
   Return the names of the CSS of the deck
 
-  `Expresso.CssTransformer` resolves and scans the `css` option one time,
-  and it persists the result. The function returns `{:ok, names}` with the
-  names from `Expresso.Css.scan/1`, or `{:error, message}` for a file that
-  the transformer cannot read. The names do not hold the names of the theme.
+  `Expresso.CssTransformer` resolves and scans the `css` option one time for
+  each compile, and it persists the result. The function returns
+  `{:ok, names}` with the names from `Expresso.Css.scan/1`, or
+  `{:error, message}` for a file that the transformer cannot read. The names
+  do not hold the names of the theme.
   """
   @spec css_names(map()) :: {:ok, Expresso.Css.names()} | {:error, String.t()}
   def css_names(dsl_state), do: Transformer.get_persisted(dsl_state, :css_names)

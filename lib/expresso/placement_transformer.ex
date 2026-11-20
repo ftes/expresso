@@ -1,10 +1,10 @@
 defmodule Expresso.PlacementTransformer do
   @moduledoc """
-  The Spark transformer of the places of the elements
+  Refuses an element in a wrong place, as a Spark transformer
 
-  It runs one time for each deck module at compile time, before the other
-  transformers. It calls `Expresso.Placement.slide/1` for each slide, and an
-  error becomes a `Spark.Error.DslError` with the path of the slide.
+  It runs one time for each deck module at compile time. It calls
+  `Expresso.Placement.slide/1` for each slide, and an error becomes a
+  `Spark.Error.DslError` with the path of the slide.
 
   The check changes nothing. It is a transformer and not a verifier, because
   Spark raises an error from a transformer, and the compile stops. Spark runs

@@ -1,9 +1,9 @@
 defmodule Expresso.Presenter.Verifier do
   @moduledoc """
-  The Spark verifier of a presenter definition
+  Makes sure of a presenter definition, as a Spark verifier
 
-  It runs one time for each module that uses `Expresso.Presenter.Dsl`, when the
-  module compiles. It refuses these errors:
+  The verifier runs one time for each module that uses `Expresso.Presenter.Dsl`,
+  when the module compiles. It refuses these errors:
 
     * The option `state` does not hold exactly the fields of
       `Expresso.Presenter.Definition`, or a value has the wrong type.
@@ -11,11 +11,11 @@ defmodule Expresso.Presenter.Verifier do
       names an unknown field. The option `sync` or the option `reset` names
       `index`.
     * Two modes have the same name.
-    * A command is not a command of `Expresso.Presenter.Definition`, or it gives
-      a field a value of the wrong type.
+    * A command is not a command of `Expresso.Presenter.Definition`, or it sets
+      a field to a value of the wrong type.
     * A mode with the option `any` has bindings.
-    * One event has two bindings in one mode. The list of keys would then show
-      two functions for the event.
+    * One event has two bindings in one mode. The list of keys then shows two
+      functions for the event.
     * The event `:element` is in a mode without the option `element`.
     * A projection names an unknown field, or an attribute or a property with
       a wrong name. `Expresso.Presenter.Projection` describes the projections. An

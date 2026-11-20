@@ -1,17 +1,17 @@
 defmodule Expresso.Element.Math do
   @moduledoc """
-  An element that shows a formula in MathML
+  Defines the element that shows a formula in MathML
 
   The `math` entity takes the formula in one of two forms:
 
   - The MathML as its first argument, from the `<math>` tag to the `</math>`
     tag. Give the `math` tag the attribute `display="block"` for a formula on
-    its own line, which is the usual form on a slide.
+    its own line. This is the usual form on a slide.
   - The LaTeX in the `tex` option. `typeset/1` makes the MathML with
-    `Expresso.Element.Math.Tex`, in one run of Node for the deck.
+    `Expresso.Element.Math.Tex`.
 
   A browser renders MathML Core without a script and without a font file, and
-  each browser of the floor of this project supports it. The text goes into
+  each browser at the floor of this project supports it. The text goes into
   the document as it is, as the text of a text area does.
   `docs/math-parts.md` gives the design of the LaTeX.
   """

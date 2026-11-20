@@ -16,10 +16,6 @@ defmodule Expresso.Test.KeyTables do
   with `table/1`. This command writes each table again:
 
       EXPRESSO_KEYS=write mix test test/expresso/presenter/key_tables_test.exs
-
-  A table has the rows of the list of keys that `?` shows, in the same order.
-  A key name goes in backticks. A label of a binding, such as `Click or tap a
-  link`, does not.
   """
 
   alias Expresso.Presenter.{Definition, Help}
@@ -46,7 +42,13 @@ defmodule Expresso.Test.KeyTables do
     end)
   end
 
-  @doc "Return the Markdown table of the keys of a mode"
+  @doc """
+  Return the Markdown table of the keys of a mode
+
+  The table has the same rows as the list of keys that `?` shows, in the same
+  order. A key name goes in backticks. A label of a binding, such as
+  `Click or tap a link`, does not.
+  """
   @spec table(atom()) :: String.t()
   def table(mode) do
     %{bindings: bindings} = Enum.find(Definition.presenter().modes, &(&1.name == mode))

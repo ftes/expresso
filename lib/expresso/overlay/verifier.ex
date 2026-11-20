@@ -1,6 +1,6 @@
 defmodule Expresso.Overlay.Verifier do
   @moduledoc """
-  The check of the overlays
+  Makes sure that the overlays of each slide are correct, as a Spark verifier
 
   `Expresso.VerifierTransformer` runs it after the other transformers, one
   time for each deck module at compile time, so an error stops the compile.

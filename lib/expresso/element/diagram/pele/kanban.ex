@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Kanban do
   @moduledoc """
-  The plan of a kanban board of Pele
+  Makes the plan for a kanban board of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |

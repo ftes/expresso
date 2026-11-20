@@ -1,11 +1,9 @@
 defmodule Expresso.Element.Diagram.Path do
   @moduledoc """
-  The points of the `d` attribute of an SVG path
+  Reads the points in the `d` attribute of an SVG path
 
-  `points/1` returns each end point and each control point of the path, in
-  absolute coordinates. `Expresso.Element.Diagram.Geometry` makes the box of
-  the path from them. The function reads each command of SVG 1.1, in its
-  absolute form and in its relative form. An arc gives its end point only.
+  `Expresso.Element.Diagram.Geometry` makes the box of a path from the points
+  that `points/1` returns.
   """
 
   alias Expresso.Element.Diagram.Geometry
@@ -26,6 +24,11 @@ defmodule Expresso.Element.Diagram.Path do
 
   @doc """
   Return the absolute points of a path
+
+  The points are each end point and each control point of the path, in
+  absolute coordinates. The function reads each command of SVG 1.1, in its
+  absolute form and in its relative form. For an arc, the function returns the
+  end point only.
 
       iex> Expresso.Element.Diagram.Path.points("M 10 10 h 20 v 5 l -5 5 z")
       [{10.0, 10.0}, {30.0, 10.0}, {30.0, 15.0}, {25.0, 20.0}]

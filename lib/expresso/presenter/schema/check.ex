@@ -5,8 +5,7 @@ defmodule Expresso.Presenter.Schema.Check do
   `check/2` examines a decoded JSON value with the same forms as the decoders
   of `assets/src/schema.ts`. `Expresso.Presenter.Verifier` uses it for the
   values of a definition, and the tests use it for each value that the
-  renderer writes. An error holds the path of the value, such as
-  `$.modes[2].keys`, and the form that the value does not agree with.
+  renderer writes.
 
   A pattern has the meaning of a JavaScript regular expression: `$` matches
   only at the end of the string, and not in front of a last newline.
@@ -18,6 +17,9 @@ defmodule Expresso.Presenter.Schema.Check do
 
   @doc """
   Make sure that a decoded JSON value agrees with a form, or with the form of a name
+
+  An error holds the path of the value, such as `$.modes[2].keys`, and the
+  form that the value does not agree with.
 
       iex> Expresso.Presenter.Schema.Check.check("12", {:string, "^[0-9]*$"})
       :ok

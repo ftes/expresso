@@ -1,6 +1,6 @@
 defmodule Expresso.Lexers.Toml do
   @moduledoc """
-  The Makeup lexer of TOML
+  Splits a text of TOML into Makeup tokens
 
   A key before `=` is an attribute. A table header in the first column of a
   line, such as `[server]` or `[[servers]]`, is a namespace, so it gets the

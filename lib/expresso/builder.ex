@@ -4,7 +4,7 @@ defmodule Expresso.Builder do
 
   Each entity of the DSL has a function with the same name, such as `slide`,
   `text_box` and `list`. `Expresso.Builder.Generator` makes the functions from
-  `Expresso.Extension`, so they take the same options as the DSL and they give
+  `Expresso.Extension`, so they take the same options as the DSL and they report
   the same errors. A function takes the arguments of the entity, then a keyword
   list with the options and the children:
 
@@ -26,11 +26,11 @@ defmodule Expresso.Builder do
   ```
 
   `deck/2` runs the transformers and the verifiers of the DSL. Therefore an
-  overlay, a `pause` and an `on` entity give the same steps as in the DSL. A
+  overlay, a `pause` and an `on` entity make the same steps as in the DSL. A
   script can return the deck, and `mix expresso` renders it.
 
   The functions are for a deck that a program makes at runtime. A deck of many
-  slides is one example: the DSL compiles a module of 2000 slides in
+  slides is one example. The compiler compiles a DSL module of 2000 slides in
   approximately 30 seconds, and these functions make the same deck in
   approximately 0.1 seconds. `docs/overlays.md` gives the reasons for this
   design.

@@ -1,17 +1,11 @@
 defmodule Expresso.IconTransformer do
   @moduledoc """
-  The Spark transformer of the icons of a deck
+  Puts the SVG of each icon into a deck, as a Spark transformer
 
-  It runs one time for each deck module at compile time, after
-  `Expresso.PathTransformer`, which makes the `root` option an absolute path.
-  It reads each SVG file of the `icons` option of the deck through
-  `Expresso.DeckFile`, so the watch mode renders the deck again after a change
-  to a file. Then it puts the SVG into each `icon` element and into each node of a tree
-  with the `icon` option, and it replaces
-  each `:icon:name:` in the text of a text area and of an item with the SVG.
-
-  A file that it cannot read, a file without an `svg` element and a name that
-  no icon has are errors, which become a `Spark.Error.DslError`.
+  The transformer runs one time for each deck module at compile time, after
+  `Expresso.PathTransformer`. It uses `Expresso.DeckFile` to read each SVG
+  file of the `icons` option. Thus the watch mode renders the deck again after
+  a change to a file.
   """
 
   use Spark.Dsl.Transformer
@@ -30,6 +24,13 @@ defmodule Expresso.IconTransformer do
 
   @doc """
   Put the SVG of each icon into the elements of the deck
+
+  The function puts the SVG into each `icon` element and into each node of a
+  tree with the `icon` option. It replaces each `:icon:name:` in the text of a
+  text area and of an item with the SVG.
+
+  A file that the function cannot read, a file without an `svg` element and a
+  name that no icon has are errors, which become a `Spark.Error.DslError`.
   """
   @impl Transformer
   @spec transform(map()) :: {:ok, map()} | {:error, Spark.Error.DslError.t()}

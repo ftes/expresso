@@ -14,30 +14,30 @@ defmodule Expresso.Watch.Server do
       end of the `body`.
     * `version` - the number of that render.
 
-  It also holds the copy of each file of a `video` or an `audio` element with
-  `external true`, in a directory such as `talk_files/`. `Expresso.MediaFiles`
-  gives the rules.
+  The directory also holds the copy of each file that a `video` or an `audio`
+  element with `external true` uses, in a directory such as `talk_files/`.
+  `Expresso.MediaFiles` gives the rules.
 
   The script asks for `version` two times each second. When the number is not
   the number of its own document, the script reloads the page. The address
   holds the slide and the step, so the page shows the same step after the
   reload. The speaker view opens the same address, so it reloads too.
 
-  `publish/2` writes the new document, and then the new number. Each write
-  goes to a temporary file, and a rename then replaces the old file. The
-  server thus never sends a part of a file.
+  Each write goes to a temporary file, and a rename then replaces the old
+  file. The server thus never sends a part of a file.
 
   The address `/` with a query, such as `/?speaker=` or `/?scheme=dark`, also
   gets `index.html`. The speaker view and the variants of a theme thus work in
   the watch mode.
 
-  The directory goes away when the process that started the server stops,
+  The directory is removed when the process that started the server stops,
   and when the VM stops. `Expresso.PrivateDir` tells how.
 
-  This module owns the server and the script, so the two always change
-  together. The file `version` and the script are internal: a later version
-  can push the reload over a WebSocket, and the user sees no difference. The
-  section "The watch mode" of `docs/architecture.md` gives the details.
+  This module contains the server and the script, so the two always change
+  together. The file `version` and the script are internal: a later release
+  of Expresso can push the reload over a WebSocket, and the user sees no
+  difference. The section "The watch mode" of `docs/architecture.md` gives the
+  details.
   """
 
   alias Expresso.PrivateDir
@@ -116,6 +116,8 @@ defmodule Expresso.Watch.Server do
   from `Expresso.MediaFiles.collect/2`. The server writes each copy into its
   directory before the document, so the document never names a file that the
   server does not have.
+
+  The function writes the new document, and then the new number in `version`.
   """
   @spec publish(t(), String.t(), [Expresso.MediaFiles.file()]) :: t()
   def publish(server, html, files \\ []) do

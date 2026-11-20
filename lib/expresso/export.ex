@@ -19,23 +19,15 @@ defmodule Expresso.Export do
   A hidden slide has no page and no file, as it has no page on paper. The
   deck option `handout_hidden true` gives it its pages and its files.
 
-  The browser prints a copy of the document for the PDF. `print_document/2`
-  writes the form and the size of the page into that copy, and the style
-  sheet of the theme reads them in its rules for paper. For each PNG file, the
-  browser opens the present view at the step and takes a picture of the
-  window. The card is such a picture in a window of 1200 × 630, and the
-  export makes it before it renders the document. The `card` option of the
-  deck can thus name the file that `--card` writes. `docs/export.md` gives the
-  design.
+  `print_document/2` makes the copy of the document that the browser prints
+  for the PDF. For each PNG file, the browser opens the present view at the
+  step and takes a picture of the window. The card is such a picture in a
+  window of 1200 × 630. `docs/export.md` gives the design.
 
   Each address has `?paused`, so the clock of a deck with the `advance`
   option does not go to a different step before the picture.
 
-  An image with `external true` has `loading="lazy"` in the document, and the
-  browser then asks for its file only near the window. Each copy for the
-  browser has no such attribute, so the load of the copy waits for the file of
-  each image, also on a slide that does not show. The browser prints or takes
-  the picture after that load. `eager/1` gives the rule.
+  `eager/1` removes `loading="lazy"` from each copy for the browser.
   """
 
   alias Expresso.Check.Browser
@@ -372,7 +364,8 @@ defmodule Expresso.Export do
   Remove `loading="lazy"` from each image of a document
 
   `Expresso.Element.Image` writes the attribute as the first attribute of
-  the `img` element of an image with `external true`. The load of the
+  the `img` element of an image with `external true`. With the attribute,
+  the browser asks for the file of the image only near the window. The load of the
   document does not wait for a lazy image of a slide that does not show, so
   the browser can print before it has the file. Without the attribute, the load of the
   document waits for the file of each image, also on a hidden slide or on a

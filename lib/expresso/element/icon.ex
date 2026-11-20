@@ -1,11 +1,11 @@
 defmodule Expresso.Element.Icon do
   @moduledoc """
-  An icon on its own, with a label under it
+  Defines an icon on its own, with a label under it
 
-  The first argument names a Lucide icon, such as `"rocket"`, or a name of the
+  The first argument names a Lucide icon, such as `"rocket"`, or a name in the
   `icons` option of the deck. `Expresso.IconTransformer` puts the SVG of the
   icon into the `svg` field at compile time. The icon takes the color of a
-  role of the theme, and its size is a CSS length.
+  role in the theme, and its size is a CSS length.
 
   Without a label, the icon is a decoration, and a screen reader skips it.
   With a label, the label is the caption of the icon, and a screen reader

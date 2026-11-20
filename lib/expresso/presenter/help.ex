@@ -6,8 +6,7 @@ defmodule Expresso.Presenter.Help do
   mode that has bindings, and the script opens the section of the mode under
   the list of keys. Each row holds the names of the keys, or the label of a
   binding, and the text of the binding. The `group` option of a binding gives
-  the heading of its row. `rows/1` gives the rows of the tables of `docs/reference/presenter.md`,
-  and `groups/1` gives the rows of the document.
+  the heading of its row.
   """
 
   alias Expresso.Presenter.Definition
@@ -28,7 +27,8 @@ defmodule Expresso.Presenter.Help do
   @doc """
   Return the rows of the list of each mode that has bindings
 
-  The modes and the rows come in the order of the definition.
+  The modes and the rows come in the order of the definition. These rows are
+  the rows of the tables in `docs/reference/presenter.md`.
 
       iex> [{:overview, [first | _rows]} | _modes] =
       ...>   Expresso.Presenter.Help.rows(Expresso.Presenter.Definition.presenter())
@@ -51,7 +51,8 @@ defmodule Expresso.Presenter.Help do
   A group is its heading and its rows, in the order of the first binding of
   the group. A binding with no group goes into a group with the heading
   `nil`. The words of a row are the names of its keys, its label and its text
-  in lower case, and the filter of the list looks for the text in them.
+  in lower case, and the filter of the list looks for the text in them. These
+  rows are the rows of the document.
 
       iex> [{:overview, [{nil, [first | _rows]}]} | _modes] =
       ...>   Expresso.Presenter.Help.groups(Expresso.Presenter.Definition.presenter())

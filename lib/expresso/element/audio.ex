@@ -1,23 +1,25 @@
 defmodule Expresso.Element.Audio do
   @moduledoc """
-  An element that plays a sound file in a slide
+  Defines the element that plays a sound file in a slide
 
-  The `audio` entity takes the path of an MP3, an M4A, an Ogg or a WAV file
-  as its first argument, relative to the working directory of the command or
-  to the `root` option of the deck. The `title` option names the sound for a
-  screen reader, and the handout view and paper show it with a note symbol.
+  The `audio` entity takes the path of a sound file as its first argument.
+  The path is relative to the working directory of the command or to the
+  `root` option of the deck. The `title` option names the sound for a screen
+  reader.
 
   The `audio` element holds only `data-audio`, the number of the element in
-  the deck, and the renderer writes each file one time, as a data URI, into
-  the element `expresso-audios`. `Expresso.Media` gives the reasons.
+  the deck. The renderer writes each file one time, as a data URI, into the
+  element `expresso-audios`. `Expresso.Media` gives the reasons.
 
-  The sound plays in the present view only, with the rules of a video: while
-  its slide shows and the element shows at the current step. A black screen,
-  the menu and the overview pause it, and it starts again from the start when
-  its slide shows again. A browser plays sound only after the first key or
-  click in the document, so a sound of the first slide starts at the first
-  key. Without `controls`, the present view shows nothing in the place of
-  the element. `docs/reference/audio-element.md` gives the rules.
+  The sound plays in the present view only, with the rules of a video. It
+  plays while its slide shows and the element shows at the current step. A
+  black screen, the menu and the overview pause it, and it starts again from
+  the start when its slide shows again.
+
+  A browser plays sound only after the first key or click in the document.
+  Thus a sound of the first slide starts at the first key. Without
+  `controls`, the present view shows nothing in the place of the element.
+  `docs/reference/audio-element.md` gives the rules.
   """
 
   use Expresso.Element

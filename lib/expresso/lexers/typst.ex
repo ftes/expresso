@@ -1,6 +1,6 @@
 defmodule Expresso.Lexers.Typst do
   @moduledoc """
-  The Makeup lexer of Typst
+  Splits a text of Typst into Makeup tokens
 
   A heading, such as `== Results`, is a heading, and markup on a line,
   such as `*strong*` and `_emphasis_`, gets its style. An expression after

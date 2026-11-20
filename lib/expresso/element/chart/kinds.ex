@@ -1,8 +1,8 @@
 defmodule Expresso.Element.Chart.Kinds do
   @moduledoc """
-  The table of the kinds of a chart, and a guard for each group of kinds
+  Holds the table of the chart kinds, and defines a guard for each group of kinds
 
-  Each kind has a family. The family decides which code draws the kind:
+  Each kind has a family. The code that draws a kind depends on its family:
 
   | Family | Kinds | The chart shows |
   | --- | --- | --- |
@@ -21,9 +21,9 @@ defmodule Expresso.Element.Chart.Kinds do
 
   `Expresso.Element.Chart`, `Expresso.Element.Chart.Motion` and
   `Expresso.Element.Chart.Sankey` use the guards of this module in place of
-  lists of kinds. A function that branches on the kind has no catch-all
-  clause, so a new kind without a clause raises `FunctionClauseError` in its
-  first render test.
+  kind lists. A function that branches on the kind has no catch-all clause,
+  so a new kind without a clause raises `FunctionClauseError` in its first
+  render test.
 
   The module depends on no other module of Expresso, so each chart module can
   use its guards at compile time with no cycle.

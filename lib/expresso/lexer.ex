@@ -1,16 +1,16 @@
 defmodule Expresso.Lexer do
   @moduledoc """
-  The tools of the Makeup lexers of Expresso
+  Supplies the tools to make the Makeup lexers of Expresso
 
   Hex has a Makeup lexer for some languages only, and `Expresso.Highlight`
-  registers the lexers of `Expresso.Lexers` for more. A slide needs clear
-  colors and not a full parser, so each lexer of Expresso is a short list of
-  rules. A rule is a NimbleParsec combinator that makes one token, such as a
-  comment, a string or a word.
+  registers the lexers of `Expresso.Lexers` for more languages. A slide needs
+  clear colors and not a full parser, so each lexer of Expresso is a short
+  list of rules. A rule is a NimbleParsec combinator that makes one token,
+  such as a comment, a string or a word.
 
-  A lexer module writes `use Expresso.Lexer, language: :toml`, makes its rules
-  with the functions of this module, and calls `deflexer/2` with the rules and
-  a table of words:
+  A lexer module contains `use Expresso.Lexer, language: :toml`, makes its
+  rules with the functions of this module, and calls `deflexer/2` with the
+  rules and a table of words:
 
       defmodule Expresso.Lexers.Example do
         use Expresso.Lexer, language: :example
@@ -21,11 +21,8 @@ defmodule Expresso.Lexer do
         )
       end
 
-  `deflexer/2` adds a last rule that takes any one character, so a lexer
-  always reads the whole text. A rule of `line_start/1` matches only at the
-  start of a line, such as a table header of TOML. The table gives the token type of a word, such
-  as `:keyword` for `"let"`. A word that is not in the table keeps the type
-  `:name`. `Expresso.Highlight` gives each token type a role of the theme.
+  The table gives the token type of a word, such as `:keyword` for `"let"`.
+  `Expresso.Highlight` gives each token type a role of the theme.
   """
 
   import NimbleParsec
@@ -52,8 +49,9 @@ defmodule Expresso.Lexer do
   Define the callbacks of `Makeup.Lexer` from the rules and the table of words
 
   The rules come first, in order, and a rule for any one character comes
-  last. Each token gets the language in its metadata. The table applies to
-  the tokens of the types in `types`, by default `[:name]`.
+  last. Thus a lexer always reads the whole text. Each token gets the
+  language in its metadata. The table applies to the tokens of the types in
+  `types`, by default `[:name]`.
   """
   defmacro deflexer(rules, words, types \\ [:name]) do
     quote do
@@ -126,11 +124,12 @@ defmodule Expresso.Lexer do
   @doc """
   A rule that matches only at the start of a line, after its indentation
 
-  The rule starts with the line break before the line, and `lex/2` puts a
-  line break before the text, so the first line has one too. The line break
-  and the indentation become tokens of white space. Put such a rule before
-  `whitespace/0`. With `indent: false`, the rule matches only at the first
-  column, such as a definition at the top level of Haskell.
+  An example is a table header of TOML. The rule starts with the line break
+  before the line, and `lex/2` puts a line break before the text, so the
+  first line has one too. The line break and the indentation become tokens of
+  white space. Put such a rule before `whitespace/0`. With `indent: false`,
+  the rule matches only at the first column, such as a definition at the top
+  level of Haskell.
   """
   @spec line_start(combinator(), keyword()) :: combinator()
   def line_start(combinator, opts \\ []) do

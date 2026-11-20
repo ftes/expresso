@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Math.Rule do
   @moduledoc """
-  A rule with variables for a rewrite of a derivation
+  Matches a rule with variables for a rewrite of a derivation
 
   The `rule` option of a rewrite gives a left side and a right side in LaTeX,
   such as `{~S"a\\,(b + c)", ~S"a\\,b + a\\,c"}`, and `vars` names the
@@ -17,11 +17,11 @@ defmodule Expresso.Element.Math.Rule do
   must bind equal LaTeX. A brace group or a command of the pattern matches
   its groups in full.
 
-  The function gives the first binding of each variable the part `var-k-x`
-  and the match the part `rule-k` in the old line, and it returns the right
-  side as a template of `Expresso.Element.Math.Rewrite`, with
+  In the old line, `match/6` puts the part `var-k-x` around the first binding
+  of each variable, and the part `rule-k` around the match. It returns the
+  right side as a template of `Expresso.Element.Math.Rewrite`, with
   `\\use{var-k-x}` in place of each variable. The match does not cross a
-  `\\part` or a `\\from` of the old line, but it looks inside them.
+  `\\part` or a `\\from` of the old line, but it searches the atoms in them.
   `docs/line-rewrites.md` gives the design.
   """
 

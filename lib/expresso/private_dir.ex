@@ -9,16 +9,16 @@ defmodule Expresso.PrivateDir do
     * The name is `expresso-<kind>-<random>`, and `<random>` has 26 random
       characters.
     * `File.mkdir/1` makes the directory, so a directory or a symbolic link
-      that is already there is an error. The function then tries a different
+      that is already there is an error. `create!/3` then tries a different
       name.
     * The mode of the directory is 0700, so no other user can read or write
       its files.
 
   `open!/1` also starts a small `sh` process that removes the directory when
-  the process that owns it stops, and when the VM stops. Ctrl-C and SIGTERM
-  halt the VM before an `after` block can run, but the operating system then
-  closes the pipe to the `sh` process, and that process removes the
-  directory. `close/1` removes the directory at once.
+  the calling process stops, and when the VM stops. Ctrl-C and SIGTERM halt
+  the VM before an `after` block can run. But the operating system then closes
+  the pipe to the `sh` process, and that process removes the directory.
+  `close/1` removes the directory at once.
   """
 
   @enforce_keys [:path]

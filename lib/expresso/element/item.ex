@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Item do
   @moduledoc """
-  An item of a list
+  Defines an item of a list
 
   The `item` entity takes its text as its first argument, and it can hold one
   nested `list`. `Expresso.Element.List` gives the rules of a list.

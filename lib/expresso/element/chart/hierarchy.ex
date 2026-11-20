@@ -1,33 +1,32 @@
 defmodule Expresso.Element.Chart.Hierarchy do
   @moduledoc """
-  The treemap, the sunburst and the Voronoi treemap: charts of the parts of a
-  whole in groups
+  Draws the treemap, the sunburst and the Voronoi treemap: charts that show the
+  parts of a whole in groups
 
   A category with a slash names a part in a group, such as
-  `"Production/Press"`, and the `separator` option of the chart can give a
+  `"Production/Press"`. The `separator` option of the chart can give a
   different text than the slash. A category can also be a list of its
-  levels, such as `["Production", "Press"]`, and the `levels` option reads
+  levels, such as `["Production", "Press"]`. The `levels` option reads
   such lists from the columns of a CSV file. The categories therefore give a
   tree, and the one series gives the value of each leaf. A group has the sum
   of its parts.
 
   A treemap divides its box into rectangles in proportion to the values, with
-  the squarified layout of Bruls, Huizing and van Wijk, so the rectangles are
-  close to squares. A group holds its parts, with its name in a strip at its
-  top. A sunburst draws each level of the tree as a ring around a center, and
-  each part as an arc of its ring.
+  `squarify/2`. A group holds its parts, with its name in a strip at its top.
+  A sunburst shows each level of the tree as a ring around a center, and each
+  part as an arc of its ring.
 
   A Voronoi treemap divides a convex container into cells, with the layout of
   `Expresso.Element.Chart.Voronoi`. Each part is a cell, and a group is the
   cell that holds the cells of its parts, with a thicker outline. A leaf has
   its label in its cell, in smaller text when the cell is narrow, and a
-  legend gives the top-level groups.
+  legend shows the top-level groups.
   The chart has one frame and no effect `:grow`.
 
   Each top-level group has a color of the palette, and its parts have lighter
   tints of the same color. The drawing of a treemap and of a sunburst uses the
-  channels of `Expresso.Element.Chart.Motion`, so the parts move from frame to
-  frame, and the effect `:grow` opens the chart.
+  channels of `Expresso.Element.Chart.Motion`. Thus the parts move from frame
+  to frame, and the effect `:grow` opens the chart.
   """
 
   import Temple

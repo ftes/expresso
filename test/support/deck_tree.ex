@@ -7,10 +7,7 @@ defmodule Expresso.Test.DeckTree do
   keyword list such as `[elements: [tree], on: [tree]]`. A deck is a keyword
   list of options and a list of slide trees.
 
-  `dsl/3` writes a module that uses the DSL, with each option in the `do`
-  block of its entity, and it compiles the module. `builder/2` calls the
-  function of each entity. `slide/0` and `deck/0` are StreamData generators of
-  valid decks.
+  `dsl/3` and `builder/2` make the two decks.
   """
 
   import StreamData
@@ -20,7 +17,12 @@ defmodule Expresso.Test.DeckTree do
   @typedoc "An entity, with its arguments, its options and its children"
   @type tree :: {atom(), list(), keyword(), keyword([tree()])}
 
-  @doc "Make the deck with the DSL, in a module with the name `module`"
+  @doc """
+  Make the deck with the DSL, in a module with the name `module`
+
+  The function writes a module that uses the DSL, with each option in the `do`
+  block of its entity, and it compiles the module.
+  """
   @spec dsl(module(), keyword(), [tree()]) :: Expresso.Deck.t()
   def dsl(module, opts, slides) do
     body =

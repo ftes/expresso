@@ -1,16 +1,12 @@
 defmodule Expresso.Theme do
   @moduledoc """
-  The custom properties, the effects and the transitions of the theme
+  Reads the custom properties, the effects and the transitions of the theme
 
-  `assets/style.css` is the theme of this project, and the theme owns the
+  `assets/style.css` is the theme of this project, and the theme defines the
   custom properties. This module reads the file at compile time with
-  `Expresso.Css.scan/1`, and it gives four answers. `uses?/1` tells you
-  whether the theme uses a property. `declares?/1` tells you whether the theme
-  gives the property a value. `syntax/1` gives the `syntax` descriptor of the
-  `@property` rule of the theme. `effects/0` gives the effects of the theme,
-  and `transitions/0` gives its transitions between slides.
+  `Expresso.Css.scan/1`.
 
-  `Expresso.Overlay.Properties` reads the answers, and
+  `Expresso.Overlay.Properties` reads the names of the theme, and
   `Expresso.Overlay.PropertyVerifier` then gives a warning for a property that
   the theme does not use. The CSS of a deck adds its own names.
   `docs/overlays.md` gives the contract.

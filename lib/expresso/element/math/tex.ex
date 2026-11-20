@@ -7,7 +7,6 @@ defmodule Expresso.Element.Math.Tex do
   `Expresso.Element.Diagram.Tool`. The project holds a copy of `temml.mjs`
   and its license in `priv/temml/`, so a render needs Node and no package of
   npm. `EXPRESSO_NODE` gives the path of Node, as for a diagram of Mermaid.
-  `version/0` gives the version of the copy.
 
   One run of Node makes the MathML of each source of a list, so a deck starts
   Node one time. Temml makes a formula in display mode, and it trusts `\\class`

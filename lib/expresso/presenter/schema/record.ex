@@ -1,8 +1,8 @@
 defmodule Expresso.Presenter.Schema.Record do
   @moduledoc """
-  Writes a value as the array of a record form of `Expresso.Presenter.Schema`
+  Writes a value as the array of a record form in `Expresso.Presenter.Schema`
 
-  A record form gives the order of the values in the array.
+  A record form sets the order of the values in the array.
   `Expresso.Test.SchemaWriter` makes the converter of the script from the
   same form, so the renderer and the script use one order.
   """

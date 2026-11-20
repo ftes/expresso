@@ -4,16 +4,16 @@ defmodule Expresso.Watch.Files do
 
   `Expresso.Watch` takes a snapshot of the files two times each second, and
   `changed?/2` compares it with the snapshot before it. `Expresso.DeckFile`
-  gives the list of the files.
+  returns the list of the files.
 
   A snapshot holds the size of each file and the time of its last change. The
-  file system gives that time to the second, so a file that changed in the
+  file system gives that time in whole seconds, so a file that changed in the
   last two seconds also gets a digest of its bytes. `changed?/2` compares two
   digests only when both snapshots have one:
 
     * Two changes in the same second give two different digests, so the second
       change is found.
-    * An old file gets no digest, so a digest that goes away is not a change.
+    * An old file gets no digest, so a digest that is removed is not a change.
 
   The section "The watch mode" of `docs/architecture.md` tells why the watch
   mode reads the file system, and not the events of the operating system.

@@ -1,6 +1,6 @@
 defmodule Expresso.Template do
   @moduledoc """
-  Functions for working with templates
+  Renders the templates of a deck and the elements of a slide
 
   `use Expresso.Template` makes a slide template. It imports Temple and this
   module, and it declares the behaviour `Expresso.Template.Slide`, so a module

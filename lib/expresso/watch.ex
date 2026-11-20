@@ -4,10 +4,11 @@ defmodule Expresso.Watch do
 
       $ mix expresso deck.exs [deck.html] --watch [--port 4100]
 
-  Open `http://127.0.0.1:4100/` in a browser. After each change to the deck
-  file, or to an image, a diagram or a style sheet of the deck, the watch mode
-  renders the deck again. The page then reloads, and it shows the same step.
-  With an output path, the watch mode also writes the document to that file.
+  Open `http://127.0.0.1:4100/` in a browser. The watch mode renders the deck
+  again after each change to the deck file. A change to an image, a diagram or
+  a style sheet of the deck also starts a render. The page then reloads, and
+  it shows the same step. With an output path, the watch mode also writes the
+  document to that file.
 
   When a render fails, the watch mode writes the error to the standard error.
   The page then keeps the last good document, and the output file does not
@@ -17,9 +18,9 @@ defmodule Expresso.Watch do
 
     * `Expresso.DeckFile` records the files that each render reads.
     * `Expresso.Watch.Files` finds a change to one of those files.
-    * `Expresso.Watch.Server` serves the page, and makes it reload.
+    * `Expresso.Watch.Server` serves the page, and it makes the page reload.
     * `Expresso.Element.Diagram.Cache` keeps the SVG of each graph from one
-      render to the next, so a change does not run each tool of the deck
+      render to the next, so a render does not run each tool of the deck
       again.
 
   The section "The watch mode" of `docs/architecture.md` gives the design, and

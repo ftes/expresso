@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Requirement do
   @moduledoc """
-  The plan of a requirement diagram of Pele
+  Makes the plan for a requirement diagram of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |
@@ -8,9 +8,9 @@ defmodule Expresso.Element.Diagram.Pele.Requirement do
   | A relationship | `bundle-fast-0` | `bundle->fast`, by its source and its destination |
   | A second relationship between the same ends in the same direction | `bundle-fast-3` | `bundle->fast:2` |
 
-  Pele names the relationship at the index `n` from 0
-  `<source>-<destination>-<n>`. The label of a relationship is its type, such
-  as `satisfies`.
+  Pele names the relationship at the index `n` as
+  `<source>-<destination>-<n>`, and the index starts at 0. The label of a
+  relationship is its type, such as `satisfies`.
   """
 
   @behaviour Expresso.Element.Diagram.Pele.Plan

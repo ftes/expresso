@@ -1,6 +1,6 @@
 defmodule Expresso.Lexers.Haskell do
   @moduledoc """
-  The Makeup lexer of Haskell
+  Splits a text of Haskell into Makeup tokens
 
   A name at the first column of a line, such as the name of a type
   signature or of an equation, is a function. A name that starts with a

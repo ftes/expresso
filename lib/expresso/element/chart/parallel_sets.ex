@@ -9,7 +9,7 @@ defmodule Expresso.Element.Chart.ParallelSets do
   `Expresso.Element.Chart.Sankey.layout_frames/3` returns. Each category is
   one ribbon from the first column to the last, so the user can see one
   group in each column. A sankey adds the flows of each link, so it does not
-  show a group after the first node. Here, a ribbon is a chain of link
+  show a group after the first node. Here, a ribbon is a sequence of link
   shapes.
 
   The layout has these rules:
@@ -19,13 +19,12 @@ defmodule Expresso.Element.Chart.ParallelSets do
      the other columns are gray.
   2. At each node, the ribbons have one stack, with the same place on the
      two sides of the node, so a ribbon does not break at a node.
-  3. The stack of a node has the order of the nodes of each path, from the
-     first column, so the ribbons of one first node stay together.
+  3. The stack of a node has the order of the nodes in each path, from the
+     first column. Thus the ribbons of one first node stay together.
 
   `render/1` draws each series as a group with its ribbons. The nodes and
   their labels show with the chart. Thus `reveal true` adds the ribbons of
-  one first node at each step. `table/1` writes a row for
-  each path for a screen reader.
+  one first node at each step.
   """
 
   import Temple
@@ -246,6 +245,8 @@ defmodule Expresso.Element.Chart.ParallelSets do
   Return the headers and the rows of the table of a parallel sets chart: one
   row for each path, with the name of its node in each column and its value
   in each frame
+
+  The table is for a screen reader.
   """
   @spec table(map()) :: %{headers: [String.t()], rows: [[String.t()]]}
   def table(assigns) do

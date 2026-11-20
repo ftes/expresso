@@ -1,6 +1,6 @@
 defmodule Expresso.Lexers.Lisp do
   @moduledoc """
-  The rules that the lexers of Emacs Lisp and Fennel share
+  Makes the rules that the lexers of Emacs Lisp and Fennel share
 
   A comment starts with `;`, a keyword such as `:name` is a symbol, and
   the word after a definer, such as the name after `defun`, is a function.

@@ -1,25 +1,29 @@
 defmodule Expresso.Element.Math.Rewrite do
   @moduledoc """
-  The lines of a derivation that a substitution makes
+  Makes a line of a derivation from an old line by a substitution
 
   A `rewrite` entity makes the LaTeX of a new line from the LaTeX of an old
-  line. `expand/1` reads the old line with `Expresso.Element.Math.Latex` and
-  walks its atoms:
+  line. `expand/1` reads the old line with `Expresso.Element.Math.Latex`. Then
+  it does a walk through the atoms of the line:
 
     * An occurrence of `replace` becomes the new content: `\\from{name}{…}`
       with the LaTeX of the part `by`, or the LaTeX of `by_tex`.
-    * A part of `drop` goes away.
+    * A part of `drop` is removed.
     * A run of other atoms in one group becomes `\\part{keep-k-n}{…}` in the
-      old line and `\\from{keep-k-n}{…}` in the new line, so it moves down at
-      the step of the new line. `k` is the number of the new line.
+      old line. In the new line, it becomes `\\from{keep-k-n}{…}`, so it moves
+      down at the step of the new line. `k` is the number of the new line.
     * A group or a command that holds an occurrence or a part of `drop` stays,
-      and the walk goes into it. In the new line, it fades in.
+      and the walk also reads the atoms in it. In the new line, it fades in.
 
   Each occurrence also gets `\\class{hit-k}{…}` in the old line. The new line
-  has 3 steps by default, one for each phase: at `:occurrences`, the
-  occurrences and the source of `by` get a color; at `:kept`, the kept runs
-  move; at `:copies`, the copies of `by` move. The `steps` option puts phases
-  together in one step. Without `why`, the reason is `replace := by` in LaTeX.
+  has 3 steps by default, one for each phase:
+
+    * at `:occurrences`, the occurrences and the source of `by` get a color,
+    * at `:kept`, the kept runs move,
+    * at `:copies`, the copies of `by` move.
+
+  The `steps` option puts phases together in one step. Without `why`, the
+  reason is `replace := by` in LaTeX.
 
   The links of `Expresso.Element.Math.Links` and the copies of
   `Expresso.Element.Copy` then move the symbols. `docs/line-rewrites.md` gives

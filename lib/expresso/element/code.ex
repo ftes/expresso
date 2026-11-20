@@ -1,59 +1,59 @@
 defmodule Expresso.Element.Code do
   @moduledoc """
-  An element that shows source code
+  Defines an element that shows source code
 
   The `code` entity takes the name of the language as its optional first
   argument. The `text` option holds the source, or the `src` option gives the
   path of a file that holds it. `Expresso.Highlight` makes the markup of each
-  line at render time, and it names the languages.
+  line at render time. `Expresso.Highlight.languages/0` returns the names of
+  the languages.
 
-  The `src` option takes a path that is relative to the working directory of
-  the command or to the `root` option of the deck, as for an image. The `lines` option takes a range of the lines
-  of the file, such as `3086..3095`, and the element then shows only those
-  lines. It can also take a start text and an end text, such as
-  `[from: "def start(", to: "\n  end"]`. The excerpt then starts at the line
-  of the start text and ends at the line of the end text, so a change above
-  the excerpt does not move it. `to: :block` in place of an end text ends
-  the excerpt at the end of the block that the start line opens. `build/1` reads the file through
-  `Expresso.DeckFile`, so the watch
-  mode renders the deck again after a change to the file. The element takes
-  `text` or `src`, and not both.
+  The `src` option takes a relative path, as for an image. The path is
+  relative to the working directory of the command or to the `root` option of
+  the deck. `build/1` reads the file through `Expresso.DeckFile`, so the watch
+  mode renders the deck again after a change to the file.
+
+  The `lines` option takes a range of lines in the file, such as
+  `3086..3095`, and the element then shows only those lines. It can also take
+  a start text and an end text, such as `[from: "def start(", to: "\n  end"]`.
+  The excerpt then starts at the line of the start text and ends at the line
+  of the end text. Therefore, a change above the excerpt does not move it.
+  `to: :block` in place of an end text ends the excerpt at the end of the
+  block that the start line opens.
 
   Each line has a number. The first line of the text is line 1. With `src`,
   the number of a line is its number in the file, so the first line of
-  `lines: 3086..3095` is line 3086. The `line_numbers` option shows the
-  number in front of each line.
+  `lines: 3086..3095` is line 3086.
 
-  The `reveal` option shows the lines in groups, one group at each step. It
-  takes a list of line numbers and of ranges, such as `[1..3, 4..8, 10]`.
-  `build/1` makes one `Expresso.Element.Lines` child for each item, with the
-  specification `[from: :next]`, and the transformer then gives each group
-  its steps as it does for the items of a list. A line that is in no group
-  shows at each step. A hidden line keeps its space, so the block does not
-  move when a group shows. A line number that the element does not show gives
-  an error, because such a group shows nothing.
+  The `reveal` option shows the lines in groups, one group at each step.
+  `build/1` makes one `Expresso.Element.Lines` child for each item of the
+  option, with the specification `[from: :next]`. The transformer then gives
+  each group its steps, as it does for the items of a list. A line that is in
+  no group shows at each step. A hidden line keeps its space, so the block
+  does not move when a group shows.
 
   A group of `reveal` or `highlight` can also be texts, such as
   `[from: "let hit", to: "return hit;"]`, in the form of the `lines` option.
-  The group then runs from the line of the start text to the line of the end
-  text, inside the text of the element. A group with only `from` is the line
-  of the start text. A group with `to: :block` runs to the end of the block
-  that the start line opens, as `block_end/2` finds it. The `relative` option counts the numbers of the groups
-  from the first line of the element, so 1 is the first line of an excerpt.
-  `resolve/2` turns each group into line numbers before the other checks.
+  The group then holds the lines from the line of the start text to the line
+  of the end text, inside the text of the element. A group with only `from`
+  is the line of the start text. A group with `to: :block` ends at the end of
+  the block that the start line opens, as `block_end/2` finds it. The
+  `relative` option counts the numbers of the groups from the first line of
+  the element, so 1 is the first line of an excerpt. `resolve/2` changes each
+  group into line numbers before the other checks.
 
   The `dim` option gives each group the state `dim` from the first step of a
   later group. A line that is in no group does not dim. `docs/overlays.md`
   gives the rules.
 
   The `highlight` option takes groups of lines in the same form as `reveal`.
-  Each line shows at each step, and each group is in focus at its own step:
-  the lines of the group get the state `highlight`, and each other line gets
-  the state `dim`. `build/1` gives each group an `on` entity with `:next`, so
-  the transformer gives the groups one step each from the counter of the
-  slide. Each line in no group goes into one more group with no `on` entity.
-  `spotlight/1` then gives each group the state `dim` at the steps of the
-  other groups, before the render.
+  Each line shows at each step, and each group is in focus at its own step.
+  At the step of a group, the lines of the group get the state `highlight`,
+  and each other line gets the state `dim`. `build/1` gives each group an
+  `on` entity with `:next`, so the transformer gives the groups one step each
+  from the counter of the slide. Each line in no group goes into one more
+  group with no `on` entity. `spotlight/1` then gives each group the state
+  `dim` at the steps of the other groups, before the render.
 
   A group of `highlight` can also be `[each: "count"]`, each token of the
   highlighter with the text `count`. Its `Expresso.Element.Lines` child has
@@ -61,7 +61,7 @@ defmodule Expresso.Element.Code do
   the tokens with the text show in full color with a bar under them. A token
   group does not dim at the steps of the other groups, because its tokens
   dim with their lines. `reveal` takes no such group, because a hidden token
-  leaves a hole in its line.
+  leaves an empty space in its line.
 
   The `whole_first` option gives the code element one step before its first
   group, as a `pause` in front of it does. At that step, no group is in focus,

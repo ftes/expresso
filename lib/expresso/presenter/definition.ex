@@ -21,7 +21,7 @@ defmodule Expresso.Presenter.Definition do
       speaker and the handout views remove the typed digits with each key. A
       binding with `each: false` does not get them.
     * `any` - the commands for each event of the mode. The black screen and the
-      list of keys close at the next event, and the event does no more.
+      list of keys close at the next event, and the event has no other effect.
     * `other` - true when a key with no binding gets the `each` commands.
     * `element` - true when a click on an element runs the commands of that
       element, after the `each` commands. A page of the overview has the
@@ -45,7 +45,7 @@ defmodule Expresso.Presenter.Definition do
     * `{:assign, :selected, {:entry, :slide}}` - selects the slide of the current
       step.
     * `{:append, :digits}` - adds the key to the typed digits.
-    * `{:step, count}` - moves forward or back by a number of steps of the talk.
+    * `{:step, count}` - moves forward or back by a number of steps in the talk.
       A move skips each hidden slide, and a move past the first step or the
       last step of the talk makes no change.
     * `{:goto, index}` - goes to the step at an index in the deck.
@@ -54,7 +54,7 @@ defmodule Expresso.Presenter.Definition do
     * `{:select, slide}` and `{:select_by, count}` - select a slide in the
       overview, or move the selection by a number of slides. A slide outside the
       deck makes no change.
-    * `:go_typed` - goes to step 1 of the slide of the talk with the number
+    * `:go_typed` - goes to step 1 of the slide in the talk with the number
       that the typed digits give, and removes the digits. A hidden slide has
       no number.
     * `{:copy, to, from}` - sets a field that holds the index of a step to the

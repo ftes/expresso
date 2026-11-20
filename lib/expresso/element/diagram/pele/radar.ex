@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Radar do
   @moduledoc """
-  The plan of a radar chart of Pele
+  Makes the plan for a radar chart of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |

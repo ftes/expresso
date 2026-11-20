@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Row do
   @moduledoc """
-  A row of a table
+  Shows a row of a table
 
   The `row` entity takes its cells as its first argument, which is a list of
   strings. `Expresso.Element.Table` gives the rules of a table.

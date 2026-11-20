@@ -1,7 +1,7 @@
 defmodule Expresso.Element.Hierarchy do
   @moduledoc """
-  A tree: a hierarchy of nodes as boxes and lines, such as an org chart or the
-  use of a disk
+  Defines a tree: a hierarchy of nodes as boxes and lines, such as an org
+  chart or the use of a disk
 
   The `tree` entity holds one `node` entity, the root, and each node holds the
   nodes under it. The name of a node is its identity, and the default text of
@@ -9,20 +9,19 @@ defmodule Expresso.Element.Hierarchy do
   A box can also show an image or an icon, and a line for each field.
 
   The color of a box comes from the `color` option of the node or of the
-  nearest node above it, then from the `color` option of the tree, which takes
-  the colors of the palette for each branch or for each value of a field.
-  `colors/1` returns the color of each node.
+  nearest node above it. Without such an option, the color comes from the
+  `color` option of the tree. That option takes the colors of the palette for
+  each branch or for each value of a field. `colors/1` returns the color of
+  each node.
 
   `Expresso.Element.Hierarchy.Layout` places each box, and the drawing is one
   SVG with the `viewBox` of the layout, so it scales to the box of the element.
   The lines are paths in the SVG. Each box is a `foreignObject` that holds the
-  HTML of the box, so its text ends with an ellipsis as HTML does. The SVG is
-  hidden from a screen reader. A nested list with the same tree holds the text
-  for a screen reader, and the eye does not see it.
+  HTML of the box, so its text ends with an ellipsis as HTML does.
 
   The element module is `Hierarchy`, because `Expresso.Element.Tree` holds the
   functions that walk the elements of a slide. `docs/tree.md` gives the plan,
-  and `docs/reference/tree-element.md` gives the rules for the author.
+  and `docs/reference/tree-element.md` gives the rules for the user.
   """
 
   use Expresso.Element

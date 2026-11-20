@@ -1,18 +1,16 @@
 defmodule Expresso.Element.Chart.Csv do
   @moduledoc """
-  The reader of the CSV file of a chart
+  Reads the CSV file of a chart
 
   A delimiter, a comma by default, divides the cells of a row. A cell in
-  double quotes can hold the delimiter, a line break and a quote, which two
-  quotes give. The first row holds the headings, and each other row holds a
-  category and one number for each series. `table/3` reads a file without
-  frames. `frames/4` reads a file with a column that names the frame of each
-  row. Each function returns the text of an error for a file that it cannot
-  read, and `Expresso.Element.Chart` gives that error to the author.
+  double quotes can hold the delimiter, a line break and a quote. In such a
+  cell, two quotes make one quote. `table/3` reads a file without frames.
+  `frames/4` reads a file with a column that names the frame of each row.
+  Each function returns the text of an error for a file that it cannot read,
+  and `Expresso.Element.Chart` gives that error to the user.
 
-  The `cell` option gives the function that reads a cell of a value. The
-  default is `number/1`, and a waterfall chart also reads the mark of a
-  total.
+  The default of the `cell` option is `number/1`. For a waterfall chart, the
+  function of the option also reads the mark of a total.
 
   For a treemap or a sunburst, the `levels` option can name the columns that
   hold the levels of a category, from the top level down. The category of a

@@ -1,60 +1,60 @@
 defmodule Expresso.Element.Chart.Voronoi do
   @moduledoc """
-  The layout of a Voronoi treemap: a convex polygon divided into cells, with
-  an area in proportion to the value of each part
+  Makes the layout of a Voronoi treemap: a convex polygon divided into cells,
+  with an area in proportion to the value of each part
 
   A Voronoi treemap divides a container into one cell for each part of the
   top level. Each group then divides its own cell for its parts, down to the
   leaves. A cell has no fixed direction, so the cell of a small part does not
-  become a thin strip, as a rectangle of a squarified treemap can.
+  become a thin strip. A rectangle of a squarified treemap can become such a
+  strip.
 
   The layout uses the algorithm of Nocaj and Brandes, "Computing Voronoi
   Treemaps: Faster, Simpler, and Resolution-independent" (2012). In each
   container, the algorithm does these steps:
 
   1. Put one site for each part inside the container. The sites come from
-     the Halton sequence of the bases 2 and 3, so the same input gives the
+     the Halton sequence of the bases 2 and 3, so the same input makes the
      same layout.
   2. Make the power diagram of the sites. The cell of a site is the
      container, clipped by one half-plane for each other site.
-  3. Move each site to the centroid of its cell, and change its weight by the
-     ratio of the target area to the area of its cell. A change is at most 50
-     percent. When the error becomes larger than in the iteration before,
-     the most change becomes smaller, so the weights do not swing from side
-     to side. Then make sure that each site stays in its own cell, and do
-     step 2 again. After 50 iterations, the sites stay where they are, and
-     only the weights change.
+  3. Move each site to the centroid of its cell. Change the weight of each
+     site by the ratio of the target area to the area of its cell. A change
+     is at most 50 percent. When the error becomes larger than in the
+     iteration before, the most change becomes smaller, so the weights do not
+     increase and decrease in turn. Then make sure that each site stays in
+     its own cell. Do step 2 again. After 50 iterations, the sites stay where
+     they are, and only the weights change.
   4. Stop when the error is less than 1 percent and each part has a cell, or
-     after 200 iterations. The error is the sum of the differences between
-     each area and its target, as a part of the area of the container. A
-     small part can lose its cell while the error stays below the limit, so
-     a diagram with an empty cell does not stop the iterations.
+     after 200 iterations. `error/3` returns the error. A small part can lose
+     its cell while the error stays below the limit. Therefore, a diagram
+     with an empty cell does not stop the iterations.
   5. When the error is still more than 1 percent, start again with the next
-     sites of the Halton sequence, for at most 6 starts. The layout keeps the
-     diagram with the smallest error.
+     sites of the Halton sequence. Make at most 6 starts. The layout keeps
+     the diagram with the smallest error.
 
-  The error of each area is therefore less than the error of the diagram. A
-  part with the value 0 gets no cell.
+  The error of each area is therefore less than the error of the diagram.
 
-  The sites stop because a moving site can keep the small cells in a cycle.
-  With one large part and three small parts in a box, the small parts can
-  pass area among themselves until the last iteration, and the error stays
+  The sites stop because a site that moves can keep the small cells in a
+  cycle. With one large part and three small parts in a box, area can move
+  between the small parts until the last iteration. The error then stays
   near 3 percent after each start. With fixed sites, the weights alone bring
   each area to its target.
 
-  A very thin container, such as a triangle with one side of a few units and
-  two sides of hundreds, leaves little room to move the sites. Its error can
-  stay above the limit after each start, and the layout then returns the
-  diagram with the smallest error. A container that is a box, a circle, a
-  hexagon or a polygon with no sharp corner reaches the limit.
+  A very thin container leaves little space to move the sites. An example is
+  a triangle with one side of a few units and two sides of hundreds. The
+  error of a thin container can stay above the limit after each start, and
+  the layout then returns the diagram with the smallest error. A container
+  that is a box, a circle, a hexagon or a polygon with no sharp corner
+  reaches the limit.
 
-  The container must be convex. A cell is convex before the clip, so a
-  convex container gives convex cells, and each group can divide its cell
+  The container must be convex. A cell is convex before the clip, so the
+  cells of a convex container are convex, and each group can divide its cell
   again. The dent of a concave container can cut a cell into two pieces.
   `check_shape/1` refuses a concave polygon.
 
   The coordinates are the units of the SVG, and the y axis goes down. Each
-  polygon has its corners in the order that gives it a positive area.
+  polygon has its corners in the order that makes its area positive.
   """
 
   @typedoc "A point in the units of the SVG"

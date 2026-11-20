@@ -3,7 +3,7 @@ defmodule Expresso.Test.PngWriter do
   Writes an RGB image as a PNG image of 8-bit RGB, for the tests of `Expresso.Gif`
 
   Each row can have a different filter, so a test can make sure that
-  `Expresso.Gif.Nif.unfilter/3` removes each of the five filters of PNG.
+  `Expresso.Gif.Nif.unfilter/3` removes each of the five PNG filters.
   """
 
   import Bitwise

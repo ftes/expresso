@@ -1,12 +1,9 @@
 defmodule Expresso.Overlay.Expand do
   @moduledoc """
-  The expansion of the overlay specifications of one slide
+  Expands the overlay specifications of one slide
 
   `slide/1` does the work of the transformer, and it is a pure function on an
-  `Expresso.Slide` struct. It reads the elements in document order, it gives
-  each `:next` the value of the counter, it removes each `pause` from the
-  slide, and it expands each specification into a list of step numbers. The
-  maximum step number goes into the metadata of the slide.
+  `Expresso.Slide` struct.
 
   `docs/overlays.md` gives the rules.
   """
@@ -20,11 +17,12 @@ defmodule Expresso.Overlay.Expand do
   @doc """
   Expand the specifications of a slide
 
-  The counter of the slide starts at 1. A `pause` at the level of the slide
-  increments the counter, and the function removes it. Inside an element, the
-  `at` option reads the counter first, then each `on` entity in order, then
-  each child element. A `pause` inside an element stays in place, and the
-  verifier reports it.
+  The function reads the elements in document order, and it replaces each
+  `:next` with the value of the counter. The counter of the slide starts at 1.
+  A `pause` at the level of the slide increments the counter, and the function
+  removes it. Inside an element, the `at` option reads the counter first, then
+  each `on` entity in order, then each child element. A `pause` inside an
+  element stays in place, and the verifier reports it.
 
   The maximum step number is the `steps` option of the slide when the slide
   declares it. Otherwise it is the largest step number of the specifications,

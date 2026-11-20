@@ -1,17 +1,24 @@
 defmodule Expresso.PathTransformer do
   @moduledoc """
-  The Spark transformer of the paths of a deck
+  Joins the paths of a deck to its root, as a Spark transformer
 
-  It runs one time for each deck module at compile time, and before
-  `Expresso.Overlay.Transformer`. When the deck has the `root` option, it
-  joins each relative path of the deck to that directory: the `src` of an
-  image, a diagram, a code element, a local embed, a video and a sound, the
-  `fallback` of an embed, the `poster` of a video, the `image` of a node of a
-  tree, the image of the `background` option of a slide and of the deck, the
-  picture of the `card` option, the icon of the `favicon` option, and
-  the `css` option when it is a path. An absolute path and the address of an embed stay as they
-  are. The option itself becomes an absolute
-  path, so the renderer can resolve a `url()` of an inline style sheet.
+  It runs one time for each deck module at compile time.
+  When the deck has the `root` option, it joins each relative path of the deck
+  to that directory:
+
+  - the `src` of an image, a diagram, a code element, a local embed, a video
+    and a sound
+  - the `fallback` of an embed
+  - the `poster` of a video
+  - the `image` of a node in a tree
+  - the image in the `background` option of a slide and of the deck
+  - the picture of the `card` option
+  - the icon of the `favicon` option
+  - the `css` option, when it is a path
+
+  An absolute path and the address of an embed stay as they are. The `root`
+  option itself becomes an absolute path, so the renderer can resolve a
+  `url()` of an inline style sheet.
 
   Then it builds each code element with `src`: it reads the file, and it
   makes the groups of lines with `Expresso.Element.Code.build/1`. It builds

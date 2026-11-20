@@ -2,18 +2,14 @@ defmodule Expresso.Element.Diagram.D2 do
   @moduledoc """
   Draws a graph in the language of D2, and names its elements
 
-  A `diagram` with a `.d2` file calls `draw!/2`. The function runs `d2` with
-  the layout engine of the `layout` option, through
-  `Expresso.Element.Diagram.Tool`, and it returns the SVG with a name for each
-  shape, container and connection.
+  `draw!/2` draws the graph of a `diagram` with a `.d2` file.
 
   D2 gives no `id` to a shape. It puts each shape, container and connection in
   a `g` element with one class: the key of the element in Base64, such as
   `YXBwLndlYg==` for `app.web`. The key of a connection holds its two ends and
-  its index, such as `(app.api -> db)[0]`, and a connection inside a
-  container has the key of the container in front, such as
-  `app.(web -> api)[0]`. Therefore `name/1` gives each such `g` element an
-  `id`:
+  its index, such as `(app.api -> db)[0]`. A connection inside a container
+  has the key of the container in front, such as `app.(web -> api)[0]`.
+  Therefore `name/1` gives each such `g` element an `id`:
 
   | Element | Key | Name |
   | --- | --- | --- |
@@ -23,10 +19,11 @@ defmodule Expresso.Element.Diagram.D2 do
   | A connection in a container | `app.(web -> api)[0]` | `app.web->app.api` |
   | A second connection between the same ends | `(app.api -> db)[1]` | `app.api->db:2` |
 
-  The name of a connection has no spaces, and each end has its full key, so a
-  part names a connection as the source names its ends. Each connection also
-  gets the keys of its two ends, in the attributes `data-graph-from` and
-  `data-graph-to`, for the `edges` option of `Expresso.Element.Diagram`.
+  The name of a connection has no spaces, and each end has its full key.
+  Therefore a part names a connection as the source names its ends. Each
+  connection also gets the keys of its two ends, in the attributes
+  `data-graph-from` and `data-graph-to`, for the `edges` option of
+  `Expresso.Element.Diagram`.
   """
 
   alias Expresso.Element.Diagram.{Font, Tool}
@@ -57,9 +54,10 @@ defmodule Expresso.Element.Diagram.D2 do
   @doc """
   Run D2 on a source file, and return the SVG and the names
 
-  The names are the `id` of each shape, container and connection, in the
-  order of the file. The function raises an `ArgumentError` when D2 is not
-  present and when D2 fails.
+  The function runs `d2` with the layout engine of the `layout` option,
+  through `Expresso.Element.Diagram.Tool`. The names are the `id` of each
+  shape, container and connection, in the order of the file. The function
+  raises an `ArgumentError` when D2 is not present and when D2 fails.
   """
   @spec draw!(Path.t(), atom(), Font.t()) :: {String.t(), [String.t()]}
   def draw!(src, layout, font \\ Font.builtin()) do

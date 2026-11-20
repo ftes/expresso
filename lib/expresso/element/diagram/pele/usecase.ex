@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Usecase do
   @moduledoc """
-  The plan of a use case diagram of Pele
+  Makes the plan for a use case diagram of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |

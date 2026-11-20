@@ -1,9 +1,9 @@
 defmodule Expresso.Overlay.Typewriter do
   @moduledoc """
-  The characters of an element with `effect :type`
+  Makes the HTML that shows an element with `effect :type` one character at a time
 
   An element with steps and with `effect :type` shows its text one character
-  at a time. `wrap/1` takes the HTML of the body of a slide, and it puts each
+  at a time. `wrap/1` takes the HTML of a slide's body, and it puts each
   character of such an element into its own `span`:
 
       <p data-on="2" data-effect="type" style="--type-n: 2">
@@ -16,28 +16,14 @@ defmodule Expresso.Overlay.Typewriter do
 
   | Part | Purpose |
   | --- | --- |
-  | `--type-n` | The number of characters of the element. The theme makes the time of the effect from it. |
+  | `--type-n` | The number of characters in the element. The theme makes the time of the effect from it. |
   | `type-text` | The whole text. It has no size, and only a screen reader reads it. |
-  | `type-chars` | The characters that the eye sees. A screen reader does not read them. |
+  | `type-chars` | The characters that show on the screen. A screen reader does not read them. |
   | `--i` | The position of the character in the element, from 0. |
 
   The rules of the theme for `[data-effect="type"]` move the registered
-  property `--type` from 0 to 1, and each character shows when the property
+  property `--type` from 0 to 1. Each character shows when the property
   passes its position. `docs/typewriter-effect.md` gives the design.
-
-  The function obeys these rules:
-
-  - White space takes no position, so it takes no time. It is in the `span`
-    of the character before it.
-  - A character reference such as `&amp;` is one character.
-  - An element inside with its own steps is not part of the text. It shows
-    at its own steps, with its own effect.
-  - Elements with the same parent and the same steps, such as the lines of
-    one group of a code element, make one sequence. The positions of the
-    second element start after the last position of the first one.
-  - A picture, a formula, a script and an element with `aria-hidden` keep
-    their content. They show with the element, at once.
-  - An element with no character loses `data-effect`, so it fades.
   """
 
   # A comment, an end tag or a start tag. The value of an attribute can hold
@@ -72,6 +58,20 @@ defmodule Expresso.Overlay.Typewriter do
 
   @doc """
   Put each character of each element with `effect :type` into its own `span`
+
+  The function obeys these rules:
+
+  - White space takes no position, so it takes no time. It is in the `span`
+    of the character before it.
+  - A character reference such as `&amp;` is one character.
+  - An element inside with its own steps is not part of the text. It shows
+    at its own steps, with its own effect.
+  - Elements with the same parent and the same steps, such as the lines in
+    one group of a code element, make one sequence. The positions of the
+    second element start after the last position of the first one.
+  - A picture, a formula, a script and an element with `aria-hidden` keep
+    their content. They show with the element, at once.
+  - An element with no character loses `data-effect`, so it fades.
 
   The function returns HTML with no such element as it is.
 

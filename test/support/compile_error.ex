@@ -3,9 +3,9 @@ defmodule Expresso.Test.CompileError do
   Compiles a deck module that has an error, and returns the error
 
   Put `import Expresso.Test.CompileError` in the test module. A check that
-  gives only errors runs in `Expresso.VerifierTransformer`, so its error stops
-  the compile. `Spark.Test.dsl_errors/1` collects only the errors of a
-  verifier, so it does not see these errors.
+  returns only errors runs in `Expresso.VerifierTransformer`, so its error
+  stops the compile. `Spark.Test.dsl_errors/1` collects only the errors of a
+  verifier, so it does not collect these errors.
   """
 
   @doc """

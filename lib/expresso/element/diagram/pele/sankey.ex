@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Sankey do
   @moduledoc """
-  The plan of a sankey diagram of Pele
+  Makes the plan for a sankey diagram of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |

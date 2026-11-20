@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Xychart do
   @moduledoc """
-  The plan of an XY chart of Pele
+  Makes the plan for an XY chart of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |
@@ -8,11 +8,12 @@ defmodule Expresso.Element.Diagram.Pele.Xychart do
   | A series without a title | none | Its type and its number among the series of that type, from 1, such as `line1` |
 
   An XY chart has no edges. Each series is a node. Pele gives a series with a
-  title its title as its `data-id`, and a series without a title no
+  title its title as its `data-id`, and it gives a series without a title no
   `data-id`. Pele draws each bar series, then each line series, each in the
-  order of the source. The plan names the series without a title at the index
-  `n` from 0 by the series without a title at that index in the same order.
-  The bars and the points of a series show with their series.
+  order of the source. The plan puts the series of the model without a title in
+  the same order. The element without a `data-id` at the index `n`, from 0,
+  then takes the name of the series at the index `n` in that order. The bars
+  and the points of a series show with their series.
   """
 
   @behaviour Expresso.Element.Diagram.Pele.Plan

@@ -1,24 +1,24 @@
 defmodule Expresso.LinkPreview do
   @moduledoc """
-  The tags of the document for the address of a deck and for a link preview
+  Makes the tags of the document for the address of a deck and for a link preview
 
   A chat program or a social network makes a card for a link from the Open
   Graph tags of the page. Four options of the deck give the values, and each
   one is optional:
 
-    * `url` is the address of the deck on its host. The document then has
-      `link rel="canonical"`, the Open Graph tags and `twitter:card`.
+    * With the `url` option, the document has `link rel="canonical"`, the
+      Open Graph tags and `twitter:card`.
     * `card` is the picture of the card. The render keeps a copy of the file
       next to the document, as `Expresso.MediaFiles` does for an `image` with
-      `external true`, and `og:image` holds the absolute address of the copy.
-      It needs the `url` option.
-    * `favicon` is the icon of the tab. It goes into the document as a data
-      URI, so it needs no address.
+      `external true`. `og:image` holds the absolute address of the copy.
+      The `card` option needs the `url` option.
+    * `favicon` is the icon of the tab. The document holds it as a data URI,
+      so the icon needs no address.
     * `robots` is the content of `meta name="robots"`, such as `"noindex"`.
 
   Expresso itself writes no address of a network into the document. An
   address comes only from the `url` option, which the user gives.
-  `docs/document-tags.md` gives the design.
+  `docs/document-tags.md` holds the design.
   """
 
   alias Expresso.Deck

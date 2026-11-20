@@ -1,16 +1,16 @@
 defmodule Expresso.Element.Diagram.Pele.Wardley do
   @moduledoc """
-  The plan of a Wardley map of Pele
+  Makes the plan for a Wardley map of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |
   | An anchor or a component, with the arrow of its evolution | `Renderer` | `Renderer` |
   | A link | `Deck-Renderer` | `Deck->Renderer`, by its source and its target |
 
-  A link is an edge from its source to its target. Pele gives the arrow of
-  the evolution of a component, from `evolve Renderer 0.70`, the name of the
-  component as its `data-id`, so a part of a component shows its evolution
-  too. The frame, the stages and the notes show at each step.
+  A link is an edge from its source to its target. Pele gives the arrow that
+  shows the evolution of a component, from `evolve Renderer 0.70`, the name of
+  the component as its `data-id`. Thus a part of a component shows its
+  evolution too. The frame, the stages and the notes show at each step.
   """
 
   @behaviour Expresso.Element.Diagram.Pele.Plan

@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.C4 do
   @moduledoc """
-  The plan of a C4 diagram of Pele
+  Makes the plan for a C4 diagram of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |

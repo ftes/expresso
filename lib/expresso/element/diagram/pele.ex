@@ -6,23 +6,23 @@ defmodule Expresso.Element.Diagram.Pele do
   `lang: :mermaid`, calls `draw!/3`. [Pele](https://pele.run) is a library in
   JavaScript, so the function runs Node with the script `priv/pele/render.mjs`,
   through `Expresso.Element.Diagram.Tool`. The project holds a copy of
-  `pele.js` and its license in `priv/pele/`, so a render needs Node and no
-  package of npm. `version/0` gives the version of the copy.
+  `pele.js` and its license in `priv/pele/`, so `draw!/3` needs Node and no
+  package of npm.
 
-  The script writes the SVG of Pele and the model of its `parse()`. Pele gives
-  each part of a diagram the attribute `data-id`, and the model gives the
-  ends of each edge and the members of each group. `name/1` gives each part
-  an `id` and the marks of `Expresso.Element.Diagram.Outline`, with the plan
-  of its type, such as `Expresso.Element.Diagram.Pele.Flowchart`.
-  `Expresso.Element.Diagram.Pele.Plan` gives the contract of a plan.
+  Pele gives each part of a diagram the attribute `data-id`. The model of
+  `parse()` gives the ends of each edge and the members of each group.
+  `name/1` uses the plan for the type of the diagram, such as
+  `Expresso.Element.Diagram.Pele.Flowchart`, to add an `id` and the marks of
+  `Expresso.Element.Diagram.Outline` to each part.
+  `Expresso.Element.Diagram.Pele.Plan` holds the contract of a plan.
 
-  The name of an edge has its two ends and its arrow, as for Graphviz and D2,
-  so a part names an edge as the source names its ends. Some parts have more
-  than one element with the same `data-id`, such as an edge and its label, or
-  an actor of a sequence diagram at the top and at the bottom. Each element
-  gets the same `id`, so a part shows them at the same steps. Only the first
-  element whose plan gives marks gets them, so the list for a screen reader
-  holds each part one time.
+  The name of an edge has its two ends and its arrow, as for Graphviz and D2.
+  Therefore a part names an edge as the source names its ends. Some parts
+  have more than one element with the same `data-id`. Examples are an edge
+  and its label, or an actor of a sequence diagram at the top and at the
+  bottom. Each element gets the same `id`, so a part shows them at the same
+  steps. Only the first element whose plan returns marks gets them, so the list
+  for a screen reader holds each part one time.
 
   A diagram of a type without a plan keeps the `data-id` of Pele as the name
   of each part, with no marks.

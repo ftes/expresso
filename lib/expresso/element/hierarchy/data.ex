@@ -1,7 +1,7 @@
 defmodule Expresso.Element.Hierarchy.Data do
   @moduledoc """
-  The nodes of a tree from a flat list: the rows of a CSV file, or nodes with
-  the `parent` option
+  Makes the nodes of a tree from a flat list: the rows of a CSV file, or nodes
+  with the `parent` option
 
   A CSV file gives a tree in one of two forms:
 
@@ -10,7 +10,7 @@ defmodule Expresso.Element.Hierarchy.Data do
   | Parent | `id`, `parent`, and the other columns. An empty `parent` makes the root. |
   | Path | `path`, and the other columns. The separator divides a path into its levels. |
 
-  The other columns have the names of the options of a node: `label`,
+  The other columns have the same names as the options of a node: `label`,
   `detail`, `image`, `icon`, `value`, `color`, `layout` and `class`. The
   `fields` option of the tree names more columns, and each one becomes a
   field of the box with its heading as its name.

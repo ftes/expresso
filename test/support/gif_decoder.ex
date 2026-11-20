@@ -2,11 +2,11 @@ defmodule Expresso.Test.GifDecoder do
   @moduledoc """
   Decodes a GIF89a file to the RGB image of each frame, for the tests of `Expresso.Gif`
 
-  The decoder knows only the parts that `Expresso.Gif.Container` writes: no
+  The decoder reads only the parts that `Expresso.Gif.Container` writes: no
   global color table, a graphic control extension in front of each image, a
   local color table, and the disposal method "do not dispose". It returns the
   whole logical screen after each frame, so a test can compare the result with
-  the frames that went into the encoder.
+  the input frames of the encoder.
   """
 
   import Bitwise

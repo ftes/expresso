@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Class do
   @moduledoc """
-  The plan of a class diagram of Pele
+  Makes the plan for a class diagram of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |
@@ -14,9 +14,9 @@ defmodule Expresso.Element.Diagram.Pele.Class do
   The model gives the relations in the order of the source, with no id. Pele
   names the relation at the index `n` from 1 `id_<class>_<class>_<n>`. The arrow
   of a relation is `->` for a marker at its second class, such as `-->` or
-  `--|>`, `<-` for a marker at its first class, such as `<|--`, `<->` for a
-  marker at each end, and `--` for no marker. A class in a namespace has the
-  namespace as its parent.
+  `--|>`. The arrow is `<-` for a marker at its first class, such as `<|--`.
+  The arrow is `<->` for a marker at each end, and `--` for no marker. A class
+  in a namespace has the namespace as its parent.
   """
 
   @behaviour Expresso.Element.Diagram.Pele.Plan

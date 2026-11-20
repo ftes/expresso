@@ -3,19 +3,17 @@ defmodule Expresso.Element.Diagram.Tool do
   Finds and runs the tool that draws a graph, such as Graphviz, or Node for
   the MathML of a formula
 
-  Expresso and the binary of Burrito do not hold the tools. The function
-  `find/3` looks for the program of a tool on the `PATH`, and a variable of
-  the environment, such as `EXPRESSO_DOT`, gives a different path. A tool that
-  is not present stops the render with a message that names the tool and the
-  way to install it.
+  Expresso and the binary of Burrito do not hold the tools. `find/3` looks for
+  the program of a tool. A tool that is not present stops the render with a
+  message that names the tool and the way to install it.
 
-  `System.cmd/3` cannot keep the standard error apart from the standard
-  output. Therefore the tool writes the SVG to a file in a private directory,
-  and the standard error goes into the standard output. A tool that fails
-  stops the render with that output, which holds the message of the tool,
-  such as a syntax error and its line. A tool that succeeds can also write a
-  warning, such as a color that it does not know. The render does not show
-  that warning, so a test does not write to the standard error.
+  `System.cmd/3` cannot return the standard error and the standard output as
+  two different texts. Therefore the tool writes the SVG to a file in a private
+  directory, and the standard error goes into the standard output. A tool that
+  fails stops the render with that output, which holds the message of the
+  tool, such as a syntax error and its line. A tool that succeeds can also
+  write a warning, such as a color that it does not support. The render does
+  not show that warning, so a test does not write to the standard error.
   """
 
   @typedoc "A tool: its name for the user, its program and its variable of the environment"
@@ -31,9 +29,10 @@ defmodule Expresso.Element.Diagram.Tool do
   @doc """
   Find the program of a tool
 
-  The variable of the tool in `env` gives the path of the program. Without
-  the variable, the function looks for the program on the `PATH`. `src` is
-  the path of the source or a subject, for the message.
+  The variable of the tool in `env`, such as `EXPRESSO_DOT`, gives the path
+  of the program. Without the variable, the function looks for the program
+  on the `PATH`. `src` is the path of the source or a subject, for the
+  message.
   """
   @spec find(t(), subject(), %{String.t() => String.t()}) ::
           {:ok, Path.t()} | {:error, String.t()}

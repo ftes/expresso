@@ -1,10 +1,10 @@
 defmodule Expresso.Test.HTTP do
   @moduledoc """
-  Sends the HTTP requests of the tests of the watch mode and of the binary
+  Sends the HTTP requests for the tests of the watch mode and of the binary
 
   `get/1` uses `:httpc`. `raw_get/3` writes the request to a TCP socket, so
-  the test controls each header, and the binary tests do not start `:httpc`,
-  which changes the monotonic counter of the VM.
+  the test controls each header. Therefore the binary tests also do not start
+  `:httpc`, which changes the monotonic counter of the VM.
   """
 
   @doc """

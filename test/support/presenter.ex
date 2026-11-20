@@ -1,9 +1,6 @@
 defmodule Expresso.Test.Presenter do
   @moduledoc """
   Makes programs and states for the tests of the presenter model
-
-  A test gives the number of steps for each slide, and `program/2` makes the
-  program of such a deck from `Expresso.Presenter.Definition.presenter/0`.
   """
 
   import ExUnit.Assertions
@@ -14,6 +11,7 @@ defmodule Expresso.Test.Presenter do
   @doc """
   Return the program of a deck from the number of steps and the kind of each slide
 
+  The function makes the program from `Expresso.Presenter.Definition.presenter/0`.
   `options` holds more options of the deck, such as `loop: true`.
   """
   @spec program([pos_integer()], [atom()], keyword()) :: Program.t()

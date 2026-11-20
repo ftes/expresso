@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Block do
   @moduledoc """
-  The plan of a block diagram of Pele
+  Makes the plan for a block diagram of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |
@@ -10,9 +10,9 @@ defmodule Expresso.Element.Diagram.Pele.Block do
   | A second edge between the same ends in the same direction | `2-server-db` | `server->db:2` |
 
   The model gives each edge its ends and the type of the arrow at each end.
-  The arrow of the name is `->` for a head at the end, `<-` for a head at the
-  start, `<->` for a head at each end, and `--` for no head. A block in a
-  composite block has the composite block as its parent.
+  The arrow of the name is `->` for a head at the end, and `<-` for a head at
+  the start. The arrow is `<->` for a head at each end, and `--` for no head.
+  A block in a composite block has the composite block as its parent.
   """
 
   @behaviour Expresso.Element.Diagram.Pele.Plan

@@ -1,35 +1,34 @@
 defmodule Expresso.Element.Chart.Motion do
   @moduledoc """
-  The marks of a chart that move: the frames and the effect `:grow`
+  Draws the marks of a chart that move, for the frames and for the effect `:grow`
 
   `Expresso.Element.Chart` calls this module for a chart with two or more
   frames, and for a chart with the effect `:grow`. The module draws each mark
   one time, at the origin of the SVG, and a CSS transform moves the mark to its
-  place. The place comes from a custom property of the chart, a **channel**,
-  such as `--b1-3` for the top of the bar of series 1 in category 3. The style
-  attribute of the mark reads the channel, with the value of the first frame
-  as the fallback.
+  place. The place comes from a custom property of the chart, a **channel**.
+  For example, `--b1-3` holds the top of the bar for series 1 in category 3.
+  The style attribute of the mark reads the channel, with `ref/2`.
 
   The generated style block of the deck sets the channels of each later frame
-  at the steps of that frame. `rules/3` writes these rules. A mark copies the
+  at the steps of that frame. `rules/3` returns these rules. A mark copies the
   channel into a registered property of the theme, such as `--chart-v`, and the
-  theme gives that property a transition. Therefore the mark moves from one
+  theme sets a transition on that property. Therefore the mark moves from one
   frame to the next with the time and the easing of the element.
 
   A text that changes, such as the value of a bar, has one copy for each
-  frame, and the channel `--k<n>` of frame `n` is 1 for the copy of the frame
+  frame. The channel `--k<n>` of frame `n` is 1 for the copy of the frame
   that shows. The copies fade. With the `count` option, the text has one copy
-  instead, and the presenter script writes the number from the registered
-  property `--chart-n` at each frame of the animation. At the end of the
-  animation, the script writes a label from the attribute `data-texts`, so
-  the number shows each digit of the value.
+  instead. For that copy, the presenter script writes the number from the
+  registered property `--chart-n` at each frame of the animation. At the end
+  of the animation, the script writes a label from the attribute
+  `data-texts`, so the number shows each digit of the value.
 
   The effect `:grow` multiplies each place by `--chart-shown`, which the theme
   sets from `--shown` on a chart or a series with that effect. A bar then
   grows from the base line, and a pie opens from the top. The line of a line
   chart opens from the left with a clip.
 
-  `docs/reference/chart-element.md` gives the rules for the author, and
+  `docs/reference/chart-element.md` gives the rules for the user, and
   `docs/architecture.md` gives the design.
   """
 

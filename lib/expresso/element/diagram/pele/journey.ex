@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Journey do
   @moduledoc """
-  The plan of a user journey of Pele
+  Makes the plan for a user journey of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |

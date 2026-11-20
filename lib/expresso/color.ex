@@ -1,15 +1,9 @@
 defmodule Expresso.Color do
   @moduledoc """
-  Calculates the contrast of two colors, and moves the lightness of a color
+  Calculates the contrast of two colors, and changes the lightness of a color
 
-  A color is a `#rrggbb` string of sRGB. `contrast/2` returns the contrast ratio
-  of WCAG 2.2, from 1 to 21. `lightness_contrast/2` returns the lightness
-  contrast `Lc` of APCA, from 0 to about 108. `blend/3` returns the color of a
-  foreground with an opacity on a background, as a browser paints it.
-  `adjust/4` makes a foreground lighter or darker until it has a contrast ratio
-  and a lightness contrast with a background. It changes only the lightness of
-  the color in OKLab, so the hue stays the same. `Expresso.Palette` uses these
-  functions for the themes.
+  A color is a `#rrggbb` string of sRGB. `Expresso.Palette` uses the functions
+  of this module for the themes.
   """
 
   @typedoc "A color as `#rrggbb`"
@@ -79,7 +73,7 @@ defmodule Expresso.Color do
 
   The ratio is `(L1 + 0.05) / (L2 + 0.05)`, where `L1` is the relative
   luminance of the lighter color and `L2` the luminance of the darker color.
-  The order of the arguments is not important.
+  The ratio is from 1 to 21. The order of the arguments is not important.
 
       iex> Expresso.Color.contrast("#000000", "#ffffff")
       21.0
@@ -98,8 +92,9 @@ defmodule Expresso.Color do
 
   The function uses the constants of APCA-W3 version 0.0.98G-4g. APCA gives a
   negative value for light text on a dark background. This function returns
-  the absolute value, so a larger value is always more contrast. The order of
-  the arguments is important: the first color is the text.
+  the absolute value, so a larger value is always more contrast. The value is
+  from 0 to about 108. The order of the arguments is important: the first
+  color is the text.
 
   APCA raises each luminance to a different power for the text and for the
   background, and the powers depend on which color is lighter. Thus the
@@ -190,9 +185,10 @@ defmodule Expresso.Color do
   The function returns the color and the change of its lightness in OKLab, from
   0 to 1. A color that already has the contrast comes back with the change 0.
   The foreground becomes lighter on a dark background and darker on a light
-  background, in steps of 0.001. The function reduces the chroma only where a
-  color with the new lightness is outside sRGB. It returns `:error` when no
-  lightness gives the contrast.
+  background, in steps of 0.001. The function changes only the lightness of
+  the color in OKLab, so the hue stays the same. The function reduces the
+  chroma only where a color with the new lightness is outside sRGB. It returns
+  `:error` when no lightness gives the contrast.
 
       iex> Expresso.Color.adjust("#ffffff", "#000000", 4.5)
       {:ok, "#ffffff", 0.0}

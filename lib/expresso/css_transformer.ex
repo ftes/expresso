@@ -1,19 +1,18 @@
 defmodule Expresso.CssTransformer do
   @moduledoc """
-  The Spark transformer that reads and scans the CSS of a deck one time
+  Reads and scans the CSS of a deck one time
 
   The `css` option of the deck is a style sheet or the path of a file. Three
   verifiers need its names: `Expresso.Overlay.EffectVerifier` for the
   effects, `Expresso.TransitionVerifier` for the transitions and
-  `Expresso.Overlay.PropertyVerifier` for the custom properties. This
+  `Expresso.Overlay.PropertyVerifier` for the custom properties. This Spark
   transformer resolves the option with `Expresso.Css.resolve/1` and scans
   it with `Expresso.Css.scan/1`, and it persists the result under
   `:css_names`. `Expresso.Dsl.css_names/1` reads it.
 
-  The transformer gives no error for a file that it cannot read. It persists
-  `{:error, message}`, and `Expresso.Overlay.EffectVerifier` reports the
-  message, as before. It runs after `Expresso.PathTransformer`, which joins
-  the path of the file to the `root` option of the deck.
+  The transformer returns no error for a file that it cannot read. It
+  persists `{:error, message}`, and `Expresso.Overlay.EffectVerifier`
+  reports the message, as before.
   """
 
   use Spark.Dsl.Transformer
@@ -22,6 +21,9 @@ defmodule Expresso.CssTransformer do
 
   @doc """
   Run after `Expresso.PathTransformer`, which gives the path of the file
+
+  `Expresso.PathTransformer` joins the path of the file to the `root` option
+  of the deck.
   """
   @impl Transformer
   @spec after?(module()) :: boolean()

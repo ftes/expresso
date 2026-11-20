@@ -1,10 +1,10 @@
 defmodule Expresso.Element.Chart.Plot do
   @moduledoc """
-  The arithmetic of a chart: the ticks of the axis, the numbers and the paths
+  Holds the arithmetic of a chart: the ticks of the axis, the numbers and the paths
 
   Each function takes numbers and returns numbers or the text of a path, so
-  the tests need no render. The chart draws in a box of 800 by 450 units, and
-  the SVG scales that box to the width of the element.
+  the tests do not need to render a chart. A chart has a box of 800 by 450
+  units, and the SVG scales that box to the width of the element.
   """
 
   @doc """

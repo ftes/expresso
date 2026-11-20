@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Cynefin do
   @moduledoc """
-  The plan of a Cynefin diagram of Pele
+  Makes the plan for a Cynefin diagram of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |
@@ -10,9 +10,9 @@ defmodule Expresso.Element.Diagram.Pele.Cynefin do
 
   A domain is a container, and each item in it has it as its parent. Pele
   draws the region of a domain as a `path`, so
-  `Expresso.Element.Diagram.Pele.name/1` puts it into a group with its marks,
-  and the label of the domain gets the same name. A transition is an edge
-  from one domain to another, with its label.
+  `Expresso.Element.Diagram.Pele.name/1` puts the region into a group with
+  its marks. The label of the domain gets the same name as the region. A
+  transition is an edge from one domain to another, with its label.
   """
 
   @behaviour Expresso.Element.Diagram.Pele.Plan

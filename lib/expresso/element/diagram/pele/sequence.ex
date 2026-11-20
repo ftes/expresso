@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Sequence do
   @moduledoc """
-  The plan of a sequence diagram of Pele
+  Makes the plan for a sequence diagram of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |
@@ -14,8 +14,8 @@ defmodule Expresso.Element.Diagram.Pele.Sequence do
   them gets the name of the actor, and a part of the actor shows them at its
   steps. The label of a message gets the name of its message.
 
-  A message is an edge of the graph from one actor to the other, with the arrow
-  `<->` for a message with a head at each end and `->` for each other message.
+  A message is an edge of the graph from one actor to the other. Its arrow is
+  `<->` for a message with a head at each end, and `->` for each other message.
   With `edges :follow`, a message without a part shows from the step where both
   of its actors show. A note is a node with no edges.
   """

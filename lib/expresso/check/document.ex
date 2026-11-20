@@ -1,17 +1,10 @@
 defmodule Expresso.Check.Document do
   @moduledoc """
-  The checks of `--check` that need no tool: they read the deck and its HTML
+  Holds the checks of `--check` that need no tool: they read the deck and its HTML
 
-  `Expresso.Check` runs these checks at each level. Each check returns a list
-  of problems and a list of notes. A problem makes the exit status 1. A note
-  tells of a choice that can be correct, such as an image with no `alt` text.
-
-  | Check | Kind | Finds |
-  | --- | --- | --- |
-  | `theme/1` | problem | Each role of a theme of 16 colors under its minimum of contrast |
-  | `theme/1` | note | Each variant of the theme that does not dim at the `dim_contrast` option |
-  | `size/1` | note | The size of the document, and its largest files |
-  | `slides/1` | note | An image with no `alt` text, a diagram with no `alt` text, a slide with only a hidden heading, and a slide with no `h1` |
+  `Expresso.Check` runs these checks at each level. A problem makes the exit
+  status 1. A note tells of a choice that can be correct, such as an image with
+  no `alt` text.
   """
 
   @typedoc "The problems and the notes of a check"
@@ -29,9 +22,10 @@ defmodule Expresso.Check.Document do
   Return a problem for each role of the theme of the deck under its minimum of contrast
 
   The problems are the warnings of `Expresso.ThemeVerifier.messages/1`. A
-  built-in theme has no problem. The notes are the warnings of
-  `Expresso.ThemeVerifier.dim_messages/3`: a deck that does not dim can be
-  correct, so they do not change the exit status.
+  built-in theme has no problem. Only a theme of 16 colors can have a problem.
+  The notes are the warnings of `Expresso.ThemeVerifier.dim_messages/3`: a
+  deck that does not dim can be correct, so they do not change the exit
+  status.
   """
   @spec theme(Expresso.Deck.t()) :: result()
   def theme(deck) do

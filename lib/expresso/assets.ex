@@ -17,7 +17,7 @@ defmodule Expresso.Assets do
       name of that attribute, such as `data-asset-0="src"`;
     * each other element loses the attribute, and gets `data-asset-src="0"` or
       `data-asset-href="0"` in its place. An `xlink:href` gets
-      `data-asset-href`, because SVG 2 reads `href` in place of `xlink:href`,
+      `data-asset-href`, because SVG 2 accepts `href` in place of `xlink:href`,
       and a selector cannot hold the `:` of the name.
 
   The presenter script copies the value back into each element when the

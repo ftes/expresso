@@ -1,6 +1,6 @@
 defmodule Expresso.Lexers.Org do
   @moduledoc """
-  The Makeup lexer of Org mode
+  Splits a text of Org mode into Makeup tokens
 
   A heading, such as `** TODO Write the talk`, is a heading, and its state,
   such as `TODO` or `DONE`, is a keyword. A keyword line, such as

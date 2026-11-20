@@ -1,11 +1,12 @@
 defmodule Expresso.Overlay do
   @moduledoc """
-  An overlay specification, which tells the compiler which steps show an element
+  Defines an overlay specification, which tells the compiler which steps show an
+  element
 
   A specification is an Elixir term. `new/1` accepts each form and puts it
   into this struct. The struct holds one pair for each item of the term: the
-  first step and the last step. In a pair, `:next` stands for the counter of the
-  slide, and `:max` stands for the maximum step number of the slide. The
+  first step and the last step. In a pair, `:next` means the counter of the
+  slide, and `:max` means the maximum step number of the slide. The
   transformer resolves both with `resolve_next/2` and `steps/2`.
 
   `docs/overlays.md` gives the forms and the rules.

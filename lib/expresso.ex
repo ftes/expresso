@@ -4,12 +4,11 @@ defmodule Expresso do
 
   A deck comes from one of two input paths. A module declares a deck with the
   DSL of this module, or a script makes an `Expresso.Deck` struct with the
-  functions of `Expresso.Builder`. The two paths run the same transformers and
+  functions of `Expresso.Builder`. The two paths use the same transformers and
   verifiers. `to_deck/1` accepts the value of either path.
 
   `main/2` is the entry point of the command `mix expresso <input> [output]` and
-  of the binary that Burrito makes. It reads the input script, it makes the HTML,
-  and it writes the HTML to the output path or to the standard output.
+  of the binary that Burrito makes.
 
   `docs/architecture.md` gives the render pipeline, the templates and the
   elements.

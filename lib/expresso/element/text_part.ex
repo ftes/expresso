@@ -1,12 +1,12 @@
 defmodule Expresso.Element.TextPart do
   @moduledoc """
-  A part of the text of an element that shows or changes at its own steps
+  A part of an element's text that shows or changes at its own steps
 
   A tag in the text of a text area or of an item takes the attribute `at`,
   such as `<span at="2-">42</span>`. `Expresso.Overlay.Inline` makes one
   struct of this module for each such tag, and it puts the structs into the
   `elements` of the text element. The expansion of the overlays then gives a
-  part its steps as it gives them to an element, and the counter of the slide
+  part its steps as it gives them to an element. The counter of the slide
   goes through the parts in the order of the text.
 
   `index` is the number of the part in its text, from 1. The tag in the text

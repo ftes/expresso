@@ -1,22 +1,17 @@
 defmodule Expresso.Css do
   @moduledoc """
-  The CSS of a deck, and the names in a style sheet
+  Reads the CSS of a deck, and finds the names in a style sheet
 
-  The `css` option of a deck holds a style sheet, or the path of a file that
-  holds one. `resolve/1` gives the style sheet. The renderer puts it into the
-  document after the theme and after the generated rules, so a rule of the
-  deck can replace each rule of the theme.
+  `resolve/1` returns the style sheet that the `css` option of a deck gives.
+  The renderer puts it into the document after the theme and after the
+  generated rules. Thus a rule of the deck can replace each rule of the theme.
 
-  The document is one file, so `render/2` also puts each local file of a
-  `url()`, such as a font or an image, into the style sheet as a data URI. A
-  `url()` resolves as in a browser: in a file, from the directory of the file,
-  and in a style sheet of the option itself, from the `root` option of the
-  deck or from the working directory.
+  The document is one file. Thus `render/2` also puts each local file of a
+  `url()`, such as a font or an image, into the style sheet as a data URI.
 
-  `scan/1` gives the names of a style sheet that the compiler checks: the
-  custom properties that it uses, declares and registers, and the effects
-  and the transitions that it gives a rule. `Expresso.Theme` scans the theme in the same way, and
-  the verifiers join the two results.
+  `scan/1` returns the names in a style sheet that the compiler examines.
+  `Expresso.Theme` scans the theme in the same way, and the verifiers join the
+  two results.
   """
 
   alias Shoddy.Result
@@ -77,11 +72,12 @@ defmodule Expresso.Css do
   @doc """
   Give the style sheet of a `css` option, with each local file of a `url()` as a data URI
 
-  `root` is the `root` option of the deck, or `nil`. A `url()` of a file
-  resolves from the directory of the file. A `url()` of a style sheet in the
-  option resolves from `root`, or from the working directory without it. An
-  address, such as `https://example.com/font.woff2`, a `data:` URI and a
-  fragment, such as `#shadow`, stay as they are.
+  `root` is the `root` option of the deck, or `nil`. A `url()` resolves as in
+  a browser. A `url()` of a file resolves from the directory of the file. A
+  `url()` of a style sheet in the option resolves from `root`, or from the
+  working directory without it. An address, such as
+  `https://example.com/font.woff2`, a `data:` URI and a fragment, such as
+  `#shadow`, stay as they are.
   """
   @spec render(String.t() | nil, Path.t() | nil) :: {:ok, String.t()} | {:error, String.t()}
   def render(css, root) do

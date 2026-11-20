@@ -1,16 +1,10 @@
 defmodule Expresso.Element.Chart.Scatter.Labels do
   @moduledoc """
-  The places of the labels of the points of a scatter plot
+  Finds a place for the label of each point in a scatter plot
 
-  A label goes next to its mark. The function `place/2` tries eight places in
-  order: right, left, above, below, and the four corners. It takes the first
-  place where the label covers no other label and no other mark, and stays
-  inside the box of the plot. When no place is free, the label takes the
-  place that covers the least area of the other labels, then of the marks.
-
-  The labels go in the order of the points, so an earlier point gets the
-  better place. The width of a label is an estimate from its number of
-  characters, because the compiler does not measure text.
+  A label is next to its mark, and `place/2` finds its place. The width of a
+  label is an estimate from its number of characters, because the compiler
+  does not measure text.
   """
 
   # The height of a label, the width of a character, and the gap between a
@@ -27,6 +21,15 @@ defmodule Expresso.Element.Chart.Scatter.Labels do
 
   Each point has `index`, `name`, `x`, `y` and `r`, in the units of the SVG.
   `labeled` holds the numbers of the points with a label.
+
+  The function tries eight places in order: right, left, above, below, and
+  the four corners. It takes the first free place. At a free place, the label
+  covers no other label and no other mark, and it is inside the box of the
+  plot. When no place is free, the label takes the place that covers the
+  least area of the other labels, then of the marks.
+
+  The function places the labels in the order of the points, so an earlier
+  point gets the better place.
 
       iex> points = [%{index: 1, name: "api", x: 100, y: 100, r: 6}, %{index: 2, name: "web", x: 140, y: 100, r: 6}]
       iex> box = %{left: 0, right: 400, top: 0, bottom: 300}

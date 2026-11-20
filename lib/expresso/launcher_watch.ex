@@ -1,18 +1,18 @@
 defmodule Expresso.LauncherWatch do
   @moduledoc """
-  The watch that halts the VM of the binary when the launcher of Burrito stops
+  Halts the VM of the binary when the launcher of Burrito stops
 
   The binary that Burrito makes is a launcher. The launcher starts the VM as
   its child process, and it waits for the VM. The launcher of Burrito 1.6 does
-  not send SIGTERM or SIGINT on to the VM. Thus a SIGTERM to the binary stopped
+  not send SIGTERM or SIGINT to the VM. Thus a SIGTERM to the binary stopped
   only the launcher, and the VM continued with no parent. In the watch mode,
   the VM then kept the port. In `--check`, the VM waited for ever on the closed
   standard output.
 
-  `start/0` reads the process id of the parent of the VM, which is the
-  launcher. It opens a port to a shell loop. The loop reads the parent of the
-  VM with `ps`, and it exits when the parent is different. The VM halts when
-  the port closes.
+  `start/0` reads the process id of the VM's parent, which is the launcher.
+  It opens a port to a shell loop. The loop reads the parent of the VM with
+  `ps`, and it exits when the parent is different. The VM halts when the port
+  closes.
 
   The operating system gives a new parent to a process at once when its
   parent stops. A test of the launcher with `kill -0` is not sufficient,
@@ -20,7 +20,7 @@ defmodule Expresso.LauncherWatch do
   zombie until its own parent waits for it.
 
   The shell loop also stops after the VM halts, because `ps` then finds no VM.
-  The VM sees the stop of the launcher in less than one second.
+  The watch finds the stop of the launcher in less than one second.
   """
 
   # The time in seconds between two tests of the parent in the shell loop.

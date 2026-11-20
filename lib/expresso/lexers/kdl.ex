@@ -1,11 +1,11 @@
 defmodule Expresso.Lexers.Kdl do
   @moduledoc """
-  The Makeup lexer of KDL, versions 1 and 2
+  Splits a text of KDL, version 1 or 2, into Makeup tokens
 
   The name of a node at the start of a line is a tag, a property before `=`
   is an attribute, and a type annotation such as `(date)` is a type. `/-`
-  comments out the next node, value or block, and the lexer shows the rest
-  of its line as a comment.
+  changes the next node, value or block into a comment, and the lexer shows
+  the rest of its line as a comment.
   """
 
   use Expresso.Lexer, language: :kdl

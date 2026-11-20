@@ -1,11 +1,13 @@
 defmodule Expresso.Element.Chart.Scatter.Trend do
   @moduledoc """
-  The arithmetic of a scatter plot that is not a place on an axis: the
-  least-squares line of a group of points, and the jitter of a mark
+  Holds the arithmetic of a scatter plot that is not a place on an axis
+
+  The arithmetic is the least-squares line through a group of points, and the
+  jitter of a mark.
 
   Each function takes the places of the points as fractions of the axes,
-  from 0 at the low end to 1 at the high end. A logarithmic axis therefore
-  fits the line to the logarithms of the values.
+  from 0 at the low end to 1 at the high end. On a logarithmic axis, `fit/1`
+  therefore fits the line to the logarithms of the values.
   """
 
   @doc """

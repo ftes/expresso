@@ -32,10 +32,11 @@ defmodule Mix.Tasks.Expresso do
 
   ## Check mode
 
-  With `--check`, the task renders the deck, checks it, and writes a report
-  to the standard output. The exit status is 1 when the report has a problem,
-  so a CI job can run the check. With `[output]`, the task also writes the
-  document to that file. Each level runs the checks of the level before it:
+  With `--check`, the task renders the deck, runs the checks, and writes a
+  report to the standard output. The exit status is 1 when the report has a
+  problem, so a CI job can run the check. With `[output]`, the task also
+  writes the document to that file. Each level runs the checks of the level
+  before it:
 
     * `--check` - the render, the contrast of the theme, and the text for a
       screen reader. It needs no other tool.
@@ -47,13 +48,13 @@ defmodule Mix.Tasks.Expresso do
       deck, or give the path of `axe.min.js` in `EXPRESSO_AXE`.
     * `--check=browser` - also the keys of the presenter in Playwright: each
       step, each view, the focus and the errors of the script. Add the Hex
-      package `playwright_ex` to your project, and run
+      package `playwright_ex` to your project. Run
       `npm install --save-dev playwright axe-core` and
       `npx playwright install chromium` in the directory of the deck.
 
-  A browser level checks the page at 1920 × 1080. Give `--size 1024x768` for
-  another size, and give the option more than one time for more sizes. Each
-  problem of one size only names its size.
+  A browser level examines the page at 1920 × 1080. Give `--size 1024x768` for
+  another size. Give the option more than one time for more sizes. When a
+  problem occurs at only one size, the report names that size.
 
   `mix expresso --install-check-tools` installs the npm packages and the
   browser of the browser levels into a directory of the user.
@@ -64,8 +65,8 @@ defmodule Mix.Tasks.Expresso do
   With `--pdf <file>`, the task renders the deck, and a headless Chrome or
   Chromium writes a PDF of it. With `--png <directory>`, the browser writes a
   PNG file of each slide into that directory. With `--card <file>`, the
-  browser writes the picture of a link preview. The options can go together.
-  With `[output]`, the task also writes the document to that file.
+  browser writes the picture of a link preview. You can use the options
+  together. With `[output]`, the task also writes the document to that file.
   The task writes a line for each export to the standard output.
 
     * `--pdf deck.pdf` - one page for each slide, as the present view shows
@@ -121,11 +122,11 @@ defmodule Mix.Tasks.Expresso do
   ## Exit status
 
   The task writes the usage text and each error message to the standard
-  error, and the exit status is then 1. With `--check`, a problem in the
-  report also gives the exit status 1. An export that cannot write a file
-  gives the exit status 1 too. When the standard output closes
-  before the task writes all the HTML, as for `| head`, the task stops with no
-  message, and the exit status is 0.
+  error, and the exit status is then 1. With `--check`, the exit status is
+  also 1 when the report has a problem. The exit status is 1 too when an
+  export cannot write a file. When the standard output closes before the task
+  writes all the HTML, as for `| head`, the task stops with no message. The
+  exit status is then 0.
   """
 
   use Mix.Task

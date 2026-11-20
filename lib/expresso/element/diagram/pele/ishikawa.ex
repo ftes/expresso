@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Ishikawa do
   @moduledoc """
-  The plan of an Ishikawa diagram of Pele
+  Makes the plan for an Ishikawa diagram of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |

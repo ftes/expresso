@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Mindmap do
   @moduledoc """
-  The plan of a mindmap of Pele
+  Makes the plan for a mindmap of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |

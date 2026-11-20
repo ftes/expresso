@@ -1,10 +1,9 @@
 defmodule Expresso.Renderer do
   @moduledoc """
-  The renderer
+  Makes one HTML document from a deck
 
-  It makes one HTML document from a deck. The document holds the present view, the
-  handout view, the styles, the generated rules of the overlays and the script of
-  the presenter.
+  The document holds the present view, the handout view, the styles, the
+  generated rules of the overlays and the script of the presenter.
 
   The present view holds one `section` for each slide. The handout view holds one
   `section` for each step of each slide, with the notes of the speaker under each

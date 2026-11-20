@@ -2,26 +2,26 @@ defmodule Expresso.Element.Video do
   @moduledoc """
   An element that plays a video file in a slide
 
-  The `video` entity takes the path of a WebM or an MP4 file as its first
-  argument, relative to the working directory of the command or to the `root`
-  option of the deck. The `title` option names the video for a screen reader,
-  and the `poster` option gives the path of an image. Both are required. The
-  poster shows on paper, in the handout view, in the speaker view, in the
-  overview, in the menu and while the video loads.
+  The path in the first argument of the `video` entity is relative to the
+  working directory of the command or to the `root` option of the deck. The
+  `title` option names the video for a screen reader, and the `poster` option
+  gives the path of an image. Both are required. The poster shows on paper, in
+  the handout view, in the speaker view, in the overview, in the menu and
+  while the video loads.
 
   The `video` element holds only `data-video`, the number of the element in
-  the deck, and the renderer writes each video one time, as a data URI, into
-  the element `expresso-videos`. `Expresso.Media` gives the reasons. The
-  presenter gives a video its source when it plays.
+  the deck. The renderer writes each video one time, as a data URI, into the
+  element `expresso-videos`. `Expresso.Media` gives the reasons.
 
   The video plays in the present view only, while its slide shows and the
   element shows at the current step. Thus `at` gives the step where it
   starts. A black screen, the menu and the overview pause it. A video starts
-  again from the start when its slide shows again. It has no sound, because a
-  browser starts a video with sound only after a click. With
-  `controls true`, the video shows the controls of the browser, and the
-  presenter can turn the sound on. `docs/reference/video-element.md` gives
-  the rules.
+  again from the start when its slide shows again.
+
+  A video has no sound, because a browser starts a video with sound only
+  after a click. With `controls true`, the video shows the controls of the
+  browser, and the presenter can turn the sound on.
+  `docs/reference/video-element.md` gives the rules.
   """
 
   use Expresso.Element
@@ -150,9 +150,9 @@ defmodule Expresso.Element.Video do
   Make the HTML of a video
 
   The element has the box of an embed: the poster, and the `video` element on
-  it. The `video` element has no source, and the presenter gives it one. It
-  has no sound, and it plays inline on a phone. A video with no controls gets
-  `tabindex="-1"`, so the key Tab does not go into it.
+  it. The `video` element has no source, and the presenter gives it one when
+  the video plays. It has no sound, and it plays inline on a phone. A video
+  with no controls gets `tabindex="-1"`, so the key Tab does not go into it.
   """
   @spec render(map()) :: Phoenix.HTML.safe()
   @impl Expresso.Element

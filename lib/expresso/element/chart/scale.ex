@@ -1,14 +1,7 @@
 defmodule Expresso.Element.Chart.Scale do
   @moduledoc """
-  An axis of a scatter plot: its range, its ticks, and the place of a value on it
-
-  A linear axis has round ticks, as `Expresso.Element.Chart.Plot.ticks/1`
-  gives, but it does not need zero. The axis adds a margin of 5 percent of
-  the range of the values at each end, so a mark is not on the edge of the
-  plot. The margin does not go past zero. A logarithmic axis has a tick at each
-  power of ten, and also at 2 and 5 times each power when the axis holds two
-  powers of ten or less. A range from the deck, such as `{0, 100}`, gives the
-  ends of the axis, and the ticks are the round numbers between the ends.
+  Makes an axis of a scatter plot, with its range and its ticks, and finds the
+  place of a value on it
 
   Each function takes numbers and returns numbers, so the tests need no
   render.
@@ -30,6 +23,17 @@ defmodule Expresso.Element.Chart.Scale do
 
   @doc """
   Make the axis of a list of values, from a range or from the values
+
+  A linear axis has round ticks, as `Expresso.Element.Chart.Plot.ticks/1`
+  returns them, but the axis does not need zero. The function adds a margin
+  at each end, so a mark is not on the edge of the plot. The margin is 5
+  percent of the range that the values cover. The margin does not go past
+  zero.
+
+  A logarithmic axis has a tick at each power of ten. When the axis
+  holds two powers of ten or less, it also has a tick at 2 and 5 times each
+  power. A range from the deck, such as `{0, 100}`, gives the ends of the
+  axis, and the ticks are the round numbers between the ends.
 
       iex> Expresso.Element.Chart.Scale.new([12, 47], nil, :linear)
       %Expresso.Element.Chart.Scale{type: :linear, low: 10, high: 50, ticks: [10, 20, 30, 40, 50]}

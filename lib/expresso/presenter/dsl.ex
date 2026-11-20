@@ -1,9 +1,9 @@
 defmodule Expresso.Presenter.Dsl do
   @moduledoc """
-  The module that a presenter definition uses
+  Lets a module write a presenter definition in the presenter DSL
 
-  `use Expresso.Presenter.Dsl` gives a module the DSL of
-  `Expresso.Presenter.Extension`. `Expresso.Presenter.Default` uses it.
+  `use Expresso.Presenter.Dsl` adds the DSL of `Expresso.Presenter.Extension`
+  to a module. `Expresso.Presenter.Default` uses it.
   """
 
   use Spark.Dsl,

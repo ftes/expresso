@@ -1,10 +1,9 @@
 defmodule Expresso.Overlay.Check do
   @moduledoc """
-  The checks of the overlay steps of one slide
+  Makes sure that the overlay steps of one slide obey the rules
 
   `slide/1` does the work of the verifier, and it is a pure function on an
-  `Expresso.Slide` struct that `Expresso.Overlay.Expand.slide/1` expanded. It
-  reads the `steps` field of each element and of each `on` entity.
+  `Expresso.Slide` struct that `Expresso.Overlay.Expand.slide/1` expanded.
 
   `docs/overlays.md` gives the conditions.
   """
@@ -15,6 +14,9 @@ defmodule Expresso.Overlay.Check do
 
   @doc """
   Give an error for a slide that breaks a rule of the overlays
+
+  The function reads the `steps` field of each element and of each `on`
+  entity.
 
   The function reports the first of these conditions:
 

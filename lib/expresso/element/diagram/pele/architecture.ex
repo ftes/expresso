@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Architecture do
   @moduledoc """
-  The plan of an architecture diagram of Pele
+  Makes the plan for an architecture diagram of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |
@@ -9,16 +9,16 @@ defmodule Expresso.Element.Diagram.Pele.Architecture do
   | An edge | `web-api` | `web->api`, by its two ends |
   | A second edge between the same ends | `web-api` | `web->api:2` |
 
-  Pele gives each edge between the same two ends the same `data-id`, and the
-  label of an edge that same `data-id` too. Therefore the function of this
-  plan takes the number of earlier elements with the same `data-id` and the
-  same classes. The edges come in the order of the model, and the labels in
-  the order of the edges with a title.
+  Pele gives each edge between the same two ends the same `data-id`. Pele also
+  gives the label of an edge the `data-id` of the edge. Therefore the
+  function of this plan takes the number of earlier elements with the same
+  `data-id` and the same classes. The edges are in the order of the model, and
+  the labels are in the order of the edges with a title.
 
   The arrow of an edge is `->` for a head at its second end, such as
-  `web:R --> L:api`, `<-` for a head at its first end, `<->` for a head at
-  each end, and `--` for no head. A service, a junction or a group in a group
-  has that group as its parent.
+  `web:R --> L:api`, and `<-` for a head at its first end. The arrow is `<->`
+  for a head at each end, and `--` for no head. A service, a junction or a
+  group in a group has that group as its parent.
   """
 
   @behaviour Expresso.Element.Diagram.Pele.Plan

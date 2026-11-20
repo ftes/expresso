@@ -1,22 +1,22 @@
 defmodule Expresso.Element.Chart.Scatter do
   @moduledoc """
-  A scatter plot: one mark for each point, at the place of its x value and its
-  y value
+  Draws a scatter plot: one mark for each point, at the place of its x value
+  and its y value
 
-  `Expresso.Element.Chart` sends each function of a chart of the family
-  `:points` to this module: the check, the assigns, the layout, the marks and
+  For a chart in the family `:points`, `Expresso.Element.Chart` calls this
+  module for each function: the check, the assigns, the layout, the marks and
   the table. `docs/scatter-plots.md` gives the design.
 
   The check puts the points into groups. Each group is an
-  `Expresso.Element.Series` with its points in `elements`, and it is a child
-  of the chart, so a group takes the steps of the overlay contract.
+  `Expresso.Element.Series` with its points in `elements`. A group is a child
+  of the chart, so it takes the steps of the overlay contract.
 
   Each mark has its place in the channels of `Expresso.Element.Chart.Motion`:
   `--x<n>` and `--y<n>` for point `n`, and `--r<n>` for its radius. The style
-  attribute of the mark reads the channels with the value of the first frame
-  as the fallback, so a chart of one frame needs no rule.
+  attribute of the mark reads the channels. The value of the first frame is
+  the fallback, so a chart of one frame needs no rule.
 
-  `Expresso.Element.Chart.Encoding` gives the symbol, the color and the size
+  `Expresso.Element.Chart.Encoding` returns the symbol, the color and the size
   of each mark, and `Expresso.Element.Chart.Scatter.Legend` draws the legends
   at the right of the plot.
   """

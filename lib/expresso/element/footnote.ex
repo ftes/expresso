@@ -1,12 +1,12 @@
 defmodule Expresso.Element.Footnote do
   @moduledoc """
-  An element that gives a source or a note at the bottom of a slide
+  Defines the element that gives a source or a note at the bottom of a slide
 
   The `footnote` entity takes its text as its first argument. The text can
-  contain HTML, as the text of a text area does. A footnote shows nothing in
-  the place where the deck writes it. The renderer puts the footnotes of a
-  slide into one numbered list at the bottom of the slide, under the slide
-  template, in the order of the deck. `of_slide/1` returns them.
+  contain HTML, as the text of a text area does. The renderer puts the
+  footnotes of a slide into one numbered list, in the order of the deck. The
+  list is at the bottom of the slide, under the slide template. `of_slide/1`
+  returns the footnotes of a slide.
 
   The number of a footnote is its position in the list of its slide, from 1.
   Write the same number in the text, such as `<sup>1</sup>`, to point to it.

@@ -1,11 +1,11 @@
 defmodule Expresso.LinkPreviewVerifier do
   @moduledoc """
-  The Spark verifier of the options of a link preview
+  Makes sure, as a Spark verifier, that a deck with a `card` option has a `url` option
 
-  The `card` option gives the picture of the preview of a link, and the tag
-  `og:image` holds its absolute address. The address comes from the `url`
-  option, so a deck with a card and with no address is an error at compile
-  time. `Expresso.LinkPreview` gives the rules of the options.
+  The `card` option gives the picture of a link preview, and the tag `og:image`
+  holds its absolute address. The address comes from the `url` option, so a
+  deck with a card and with no address is an error at compile time.
+  `Expresso.LinkPreview` holds the rules of the options.
   """
 
   use Spark.Dsl.Verifier

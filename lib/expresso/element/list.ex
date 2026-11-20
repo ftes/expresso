@@ -1,20 +1,20 @@
 defmodule Expresso.Element.List do
   @moduledoc """
-  An element that shows a list of items
+  Defines the element that shows a list of items
 
   A list holds `item` entities, and an item holds text and nested lists. A
-  list can nest to each depth. The `ordered` option gives a
-  numbered list, and the default is a bulleted list.
+  list can nest to any depth. The `ordered` option gives a numbered list, and
+  the default is a bulleted list.
 
   The `reveal` option shows the items one after the other, one item at each
   step. The transformer gives `at [from: :next]` to each item that has no `at`
   option, as the `auto_reveal` option of a slide does for its elements. A list
-  with an absolute `at` option starts its items at its own first step, so no
-  item gets a step at which the list does not show.
+  with an absolute `at` option starts its items at its own first step. Thus
+  no item gets a step at which the list does not show.
 
   The `dim` option gives each item the state `dim` from the first step of a
-  later item, so the newest item has the attention. `docs/overlays.md` gives
-  the rules.
+  later item, so that the audience looks at the newest item.
+  `docs/overlays.md` gives the rules.
   """
 
   use Expresso.Element

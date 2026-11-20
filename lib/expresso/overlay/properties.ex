@@ -1,15 +1,11 @@
 defmodule Expresso.Overlay.Properties do
   @moduledoc """
-  The check of the custom properties of one slide
+  Finds the defects in the custom properties of one slide
 
   `slide/1` does the work of `Expresso.Overlay.PropertyVerifier`, and it is a
-  pure function on an `Expresso.Slide` struct. It reads the `state` option and
-  the `set` option of each `on` entity of the slide, and it gives one warning
-  for each property that `Expresso.Theme` reports as a defect.
+  pure function on an `Expresso.Slide` struct.
 
   `registered_state/2` does a part of the work of `Expresso.Overlay.Verifier`.
-  It refuses a state that takes the name of a property that the theme
-  registers.
 
   `docs/overlays.md` gives the rules.
   """

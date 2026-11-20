@@ -1,8 +1,8 @@
 defmodule Expresso.Recorder.Frames do
   @moduledoc """
-  Calculates the timing of the frames of a GIF of `Expresso.Recorder`
+  Calculates the timing of the frames in a GIF that `Expresso.Recorder` records
 
-  This module does not touch the browser, so each function has a unit test.
+  This module does not use the browser, so each function has a unit test.
   """
 
   @fps 25

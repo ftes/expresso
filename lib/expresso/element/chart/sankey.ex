@@ -3,16 +3,16 @@ defmodule Expresso.Element.Chart.Sankey do
   Draws a sankey chart: the flows between the nodes of a graph
 
   A category of a sankey is a path of two nodes or more, such as
-  `["Coal", "Electricity"]` or `"Gas/Electricity/Homes"`. Its value goes
-  along each link of the path. `links/4` adds the values of the same link.
+  `["Coal", "Electricity"]` or `"Gas/Electricity/Homes"`. Its value applies
+  to each link of the path. `links/4` adds the values of the same link.
   Thus a CSV file can hold one row for each flow, or one row for each record
   of a path with the `levels` option.
 
   The layout has these rules:
 
-  1. A node with no flow into it is in the first column. Each other node is
-     one column after its last source. Thus a link can go across a column.
-     The `column` of a node entity sets the column of its node.
+  1. `columns/2` puts a node one column after its last source, so a link
+     can go across a column. The `column` of a node entity sets the column
+     of its node.
   2. The height of a node is the larger of the flow into it and the flow out
      of it. One scale sets the height of each node, and the fullest column
      fills the height of the chart. The nodes of each column are in the
@@ -20,27 +20,17 @@ defmodule Expresso.Element.Chart.Sankey do
   3. The nodes of a column keep the order of the data, or the `order` of
      their node entity. At each node, the links have the order of their
      other ends, from the top, so few links cross.
-  4. A link is a ribbon between two cubic Bézier curves. The control points
-     are at the middle between the two columns, so a link leaves and enters
-     each node horizontally. The ribbon is a filled shape, and not a thick
-     stroke, so its height is its value at each point.
+  4. A link is a ribbon, and `ribbon/5` returns its path. The ribbon is a
+     filled shape, and not a thick stroke, so its height is its value at
+     each point.
 
   An alluvial chart has one node for each name in each column. The column of
   a node is its place in the path, so the same name in two columns becomes
-  two nodes. Its node is the tuple `{column, name}`, as `links/4` returns it. The
-  nodes of one name have one color and one place in each column.
+  two nodes. The nodes of one name have one color and one place in each
+  column.
 
   A graph with a loop has no first column. `back_links/1` finds the links
-  that close a loop. The layout finds the columns from the other links, and
-  a back link goes in a lane under the nodes. The frames of a chart share the
-  columns, the order and the scale of the nodes, as `layout_frames/3`
-  returns them. Each frame is a layer, and the opacity of the layers changes
-  from one frame to the next.
-
-  `render/1` draws each series of the chart as a group. The group holds the
-  links of the series and the nodes that show first with it. The node labels
-  of each series are in a group after the links, with the same steps.
-  `table/1` writes a row for each link for a screen reader.
+  that close a loop. A back link goes in a lane under the nodes.
   """
 
   import Temple
@@ -649,6 +639,10 @@ defmodule Expresso.Element.Chart.Sankey do
   layer for each frame. The layer of the frame that shows has the opacity 1.
   The channel `--k<n>` of `Expresso.Element.Chart.Motion` sets the opacity,
   so the opacity of the layers changes from one frame to the next.
+
+  The function draws each series of the chart as a group. The group holds
+  the links of the series and the nodes that show first with it. The node
+  labels of each series are in a group after the links, with the same steps.
   """
   @spec render(map()) :: Phoenix.HTML.safe()
   def render(assigns) do
@@ -795,6 +789,8 @@ defmodule Expresso.Element.Chart.Sankey do
   @doc """
   Return the headers and the rows of the table of a sankey: one row for each
   link, with its source, its target and its value in each frame
+
+  The table is for a screen reader.
   """
   @spec table(map()) :: %{headers: [String.t()], rows: [[String.t()]]}
   def table(assigns) do

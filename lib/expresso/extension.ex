@@ -1,11 +1,11 @@
 defmodule Expresso.Extension do
   @moduledoc """
-  The Spark DSL extension
+  Defines the Spark DSL extension
 
-  It gives the `deck` section, the `slide` entity and the entities of an element.
+  It defines the `deck` section, the `slide` entity and the entities of an element.
   The transformers and the verifiers run for each deck module.
-  `Expresso.VerifierTransformer` runs the checks that give only errors, so an
-  error stops the compile. The verifiers give only warnings.
+  `Expresso.VerifierTransformer` runs the checks that return only errors, so an
+  error stops the compile. The verifiers return only warnings.
   """
 
   # The overlay specification of an element. Each element entity merges this

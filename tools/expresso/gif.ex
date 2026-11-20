@@ -2,22 +2,23 @@ defmodule Expresso.Gif do
   @moduledoc """
   Encodes the frames of a recording as one GIF that repeats with no end
 
-  A frame is a PNG image of 8-bit RGB, the format of a screenshot of Chromium,
-  and the time that the GIF shows it, in milliseconds. `encode/1` does these
-  steps:
+  The PNG image of each frame is 8-bit RGB, the format of a Chromium
+  screenshot. `encode/1` does these steps:
 
   1. `Expresso.Gif.Png` inflates each PNG image, and the NIF
-     `Expresso.Gif.Nif` removes the PNG filters. The frames run in parallel.
-  2. A frame that is the same as the frame before it adds its delay to that
-     frame, and it makes no frame of its own.
+     `Expresso.Gif.Nif` removes the PNG filters. `encode/1` decodes the frames
+     in parallel.
+  2. When a frame is the same as the frame before it, `encode/1` makes no GIF
+     frame for it, and adds its delay to the earlier frame.
   3. The NIF encodes each frame in parallel. The first frame holds each pixel.
      Each later frame holds only the rectangle of the pixels that change, and
      a pixel in it that does not change is transparent. Each frame has its own
-     palette, which median cut makes from its exact colors.
+     palette, which the NIF makes with median cut from the exact colors of
+     the frame.
   4. `Expresso.Gif.Container` writes the GIF around the frames.
 
-  `prototypes/gif_encoder` compares this encoder with others, and its README
-  gives the reasons for this design.
+  The prototype in `prototypes/gif_encoder` compares this encoder with others,
+  and its README tells the reasons for this design.
   """
 
   alias Expresso.Gif.{Container, Nif, Png}

@@ -9,8 +9,8 @@ defmodule Expresso.Copies do
   `next/0` returns the number for the next copy.
 
   `Expresso.Renderer.render/1` makes a document in `number/1`, which counts
-  from 1. Thus the same deck gives the same document in each VM, and the
-  binary of Burrito and `Expresso.main/2` write the same HTML.
+  from 1. Thus the renderer makes the same document from the same deck in each
+  VM, and the binary of Burrito and `Expresso.main/2` write the same HTML.
   """
 
   @key {__MODULE__, :last}

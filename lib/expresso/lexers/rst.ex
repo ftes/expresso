@@ -1,6 +1,6 @@
 defmodule Expresso.Lexers.Rst do
   @moduledoc """
-  The Makeup lexer of reStructuredText
+  Splits a text of reStructuredText into Makeup tokens
 
   A section title, with the line of `=`, `-` or another mark under it, is a
   heading. A directive, such as `.. code-block:: elixir`, is a keyword, and

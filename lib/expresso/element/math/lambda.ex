@@ -1,9 +1,9 @@
 defmodule Expresso.Element.Math.Lambda do
   @moduledoc """
-  A parser of the λ-terms in the LaTeX of a line
+  Reads the λ-terms in the LaTeX of a line
 
   A `reduce` entity of a derivation makes the next line by one β-reduction,
-  so it must know the terms of the old line. `parse/1` reads the atoms of
+  so it needs the terms of the old line. `parse/1` reads the atoms of
   `Expresso.Element.Math.Latex` into a term:
 
     * `%{kind: :var, name: name}`, a variable: a letter, a number, or a
@@ -17,10 +17,10 @@ defmodule Expresso.Element.Math.Lambda do
   of its last token. `tokens/1` returns the tokens, each with its atom and the
   path of the atom in the tree, so a caller can find the LaTeX of a term.
 
-  The parser reads through a `\\part`, an `\\id`, a `\\class`, a `\\from`, a
-  `\\data` and a brace group, and it skips spaces. A body goes as far right as
-  it can, and an application groups from the left. `docs/beta-reductions.md`
-  gives the design.
+  The parser reads the body of a `\\part`, an `\\id`, a `\\class`, a `\\from`, a
+  `\\data` and a brace group, and it skips spaces. A body extends as far to the
+  right as possible, and an application is left-associative.
+  `docs/beta-reductions.md` gives the design.
   """
 
   alias Expresso.Element.Math.Latex

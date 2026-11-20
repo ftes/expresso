@@ -1,16 +1,17 @@
 defmodule Expresso.Element.Toc do
   @moduledoc """
-  A table of contents: one entry for each section of the deck
+  An element that shows a table of contents: one entry for each section of the deck
 
-  A slide with the `section` option starts a section, and the section runs to
-  the next slide with a `section` option. `Expresso.SectionTransformer` puts
-  one `Expresso.Element.TocEntry` into the toc for each section, with a link
-  to the first slide of the section. The entries are the children of the toc,
-  so the `reveal` option gives each entry its own step, and the `dim` option
-  dims each entry when a later entry shows, as for the series of a chart.
+  A slide with the `section` option starts a section, and the section ends
+  before the next slide with a `section` option. `Expresso.SectionTransformer`
+  puts one `Expresso.Element.TocEntry` into the toc for each section, with a
+  link to the first slide of the section. The entries are the children of the
+  toc, so the `reveal` option gives each entry its own step. For the same
+  reason, the `dim` option dims each entry when a later entry shows, as for
+  the series of a chart.
 
-  The section of the slide of the toc is the current section. Its entry takes
-  the accent color. The `progress` option tells how the other entries look:
+  The section that holds the toc is the current section. Its entry takes the
+  accent color. The `progress` option tells how the other entries look:
 
   | Value | The other entries |
   | --- | --- |

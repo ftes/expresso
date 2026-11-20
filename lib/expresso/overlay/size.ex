@@ -1,9 +1,9 @@
 defmodule Expresso.Overlay.Size do
   @moduledoc """
-  The check of the number of steps of one slide
+  Warns about a slide with very many steps
 
   `slide/1` is a pure function on an `Expresso.Slide` struct that
-  `Expresso.Overlay.Expand.slide/1` expanded. It gives a warning for a slide
+  `Expresso.Overlay.Expand.slide/1` expanded. It returns a warning for a slide
   with very many steps, because such a slide usually comes from a mistake in a
   step number.
 

@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Flowchart do
   @moduledoc """
-  The plan of a flowchart of Pele
+  Makes the plan for a flowchart of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |
@@ -10,16 +10,17 @@ defmodule Expresso.Element.Diagram.Pele.Flowchart do
   | A second edge between the same ends | `L_web_api_1` | `web->api:2` |
   | An edge with an id in the source, such as `web e1@--> api` | `e1` | `e1` |
 
-  The ends of an edge and the members of a subgraph come from the model,
-  because an id such as `L_web_ui_api_0` cannot give its ends safely. The
-  arrow is `<->` for an edge with a head at each end, `--` for an edge with no
-  head, and `->` for each other edge. The group of the label of an edge has
-  the class `pele-edge-label`, so it takes the name of its edge and no marks.
+  The ends of an edge come from the model, because the plan cannot read them
+  safely from an id such as `L_web_ui_api_0`. The members of a subgraph come
+  from the model too. The arrow is `<->` for an edge with a head at each end,
+  `--` for an edge with no head, and `->` for each other edge. The group that
+  holds the label of an edge has the class `pele-edge-label`, so it takes the
+  name of its edge and no marks.
 
   A swimlane diagram and an agent flow have the model of a flowchart, and a
-  lane or a flow is a subgraph, so this plan names their parts too. Pele draws
-  a collapsed flow of an agent flow as one node, with no group for its
-  members, so an edge to a member has the flow as its end.
+  lane or a flow is a subgraph. Therefore this plan names their parts too.
+  Pele draws a collapsed flow of an agent flow as one node, with no group for
+  its members. Therefore an edge to a member has the flow as its end.
   """
 
   @behaviour Expresso.Element.Diagram.Pele.Plan

@@ -2,20 +2,18 @@ defmodule Expresso.DeckFile do
   @moduledoc """
   Reads the files that a deck names, and records their paths for the watch mode
 
-  A deck can name an image, a diagram, a code file, a page, a style sheet and
-  a file of a `url()` of the style sheet. The module of each reads the file
-  with `read/1` or `read!/2`. A module that puts the file into the document
-  as text reads it with `read_text/1` or `read_text!/2`, which also make sure
-  that the file is UTF-8. An element gives the message of `read_error/3` for a
-  file that it cannot read.
+  A deck can name an image, a diagram, a code file, a page and a style sheet.
+  A `url()` of the style sheet can also name a file. The module of each reads
+  the file with `read/1` or `read!/2`. A module that puts the file into the
+  document as text reads it with `read_text/1` or `read_text!/2`.
 
-  `Expresso.Watch` renders a deck inside `track/1`. That function returns each
-  path that `read/1` read during the render, so the watch mode knows which
-  files to watch. Outside `track/1`, `read/1` records nothing. Thus those
-  modules need no code for the watch mode.
+  `Expresso.Watch` renders a deck inside `track/1`, and the watch mode then
+  watches the file at each path that `track/1` returns. Outside `track/1`,
+  `read/1` records nothing. Thus those modules need no code for the watch
+  mode.
 
   `track/1` keeps the paths in the process dictionary. Two renders in two
-  processes therefore keep their paths apart.
+  processes therefore keep separate lists of paths.
   """
 
   @key {__MODULE__, :paths}

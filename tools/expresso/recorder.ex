@@ -9,13 +9,9 @@ defmodule Expresso.Recorder do
   A GIF must show each animation in the same way on each run. Therefore the
   recorder pauses the animations of the page after each key. It moves each
   animation to the time of each frame, and it takes a screenshot of each
-  frame. The time of the computer then has no effect on the frames. The clock
-  of the page is also fixed, and an action can move it, so the timer of the
-  speaker view shows the same time on each run. Chromium can refuse a
-  screenshot, and the recorder then records the example again in a new page.
-
-  The environment variable `EXPRESSO_CHROMIUM` gives the path of a Chromium
-  executable, as it does for the browser tests.
+  frame. The time of the computer then has no effect on the frames. The
+  recorder also fixes the clock of the page, so the timer of the speaker view
+  shows the same time on each run. An action can move the clock.
   """
 
   alias Expresso.Recorder.{Frames, RefusedError}
@@ -62,6 +58,9 @@ defmodule Expresso.Recorder do
 
   The GIF is 800 by 450 pixels. The slides have the layout of a window of
   1280 by 720 pixels, and the scale of 0.625 makes each frame smaller.
+
+  The environment variable `EXPRESSO_CHROMIUM` gives the path of a Chromium
+  executable, as it does for the browser tests.
   """
   @spec start() :: t()
   def start do

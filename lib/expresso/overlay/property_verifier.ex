@@ -1,11 +1,12 @@
 defmodule Expresso.Overlay.PropertyVerifier do
   @moduledoc """
-  The Spark verifier of the custom properties of the overlays
+  Reports each defect in the custom properties of the overlays as a compile
+  warning
 
-  It runs after the transformers, one time for each deck module at compile
-  time. It calls `Expresso.Overlay.Properties.slide/2` for each slide with the
-  names of the theme and of the CSS of the deck, and it gives each result to
-  the compiler as a warning.
+  This Spark verifier runs after the transformers, one time for each deck
+  module at compile time. It calls `Expresso.Overlay.Properties.slide/2` for
+  each slide with the names from the theme and from the CSS of the deck. It
+  returns each result to the compiler as a warning.
 
   A warning is not an error. The deck compiles, and the renderer writes the
   property. Elixir reports the warning of a verifier as a compile warning, and

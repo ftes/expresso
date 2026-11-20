@@ -1,6 +1,6 @@
 defmodule Expresso.Presenter.Binding do
   @moduledoc """
-  The target of the `key` and `event` entities of the presenter DSL
+  Defines the target of the `key` and `event` entities in the presenter DSL
 
   A binding holds one or more events, a list of commands and its row in the
   list of keys. `Expresso.Presenter.Definition.from/1` makes a map of

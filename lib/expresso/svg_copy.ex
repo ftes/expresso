@@ -8,28 +8,15 @@ defmodule Expresso.SvgCopy do
 
     * A browser resolves a reference such as `url(#fill)` to the first element
       of the document with that `id`. That element can be in a view that the
-      browser does not show, and a gradient, a clip or a mask in a hidden view
+      browser does not show. A gradient, a clip or a mask in a hidden view
       does not paint.
     * A `<style>` element in an inline SVG applies to the whole document. Two
       files with the same class names then change the colors of each other.
 
-  `number/2` puts the number of the copy after each `id` of the SVG, and it
-  puts the same number into each `url(#id)`, each `href="#id"` and each `#id`
-  selector of a `<style>`. It makes a map from each old id to its new id, and
-  it changes the text in one pass, so an id such as `g1-2` does not change
-  two times. Then it limits each rule of each `<style>` to the copy: the root
-  `svg` element gets `data-svg-copy` with the number, and the subject of each
-  selector gets `:where([data-svg-copy="N"], [data-svg-copy="N"] *)`. The
-  `:where` adds no specificity, so the rules of the file keep their order
-  against the rules of the theme.
-
-  A rule in `@media`, `@supports`, `@container` or `@layer` gets the same
-  change. Other at-rules, such as `@keyframes` and `@font-face`, stay as they
-  are.
-
+  `number/2` changes the ids and the style rules of a copy.
   `Expresso.Element.Diagram`, `Expresso.Element.Icon`,
   `Expresso.Element.TextArea` and `Expresso.Element.Item` use this module, and
-  `Expresso.Copies.next/0` gives the number.
+  `Expresso.Copies.next/0` returns the number.
   """
 
   # An attribute with an id, a reference, or a `<style>` element. The `\s`
@@ -68,6 +55,22 @@ defmodule Expresso.SvgCopy do
 
   @doc """
   Put a number into each id, each reference and each style rule of an SVG
+
+  The function puts the number of the copy after each `id` of the SVG. It
+  puts the same number into each `url(#id)`, each `href="#id"` and each `#id`
+  selector of a `<style>`. It makes a map from each old id to its new id.
+  Then it changes the text in one pass, so an id such as `g1-2` does not
+  change two times.
+
+  Then it limits each rule of each `<style>` to the copy. The root `svg`
+  element gets `data-svg-copy` with the number, and the subject of each
+  selector gets `:where([data-svg-copy="N"], [data-svg-copy="N"] *)`. The
+  `:where` adds no specificity, so the rules of the file keep their order
+  against the rules of the theme.
+
+  A rule in `@media`, `@supports`, `@container` or `@layer` gets the same
+  change. Other at-rules, such as `@keyframes` and `@font-face`, stay as they
+  are.
 
       iex> Expresso.SvgCopy.number(~s|<svg><linearGradient id="g1"/><linearGradient id="g1-2"/><rect fill="url(#g1-2)"/></svg>|, 2)
       ~s|<svg><linearGradient id="g1-2"/><linearGradient id="g1-2-2"/><rect fill="url(#g1-2-2)"/></svg>|

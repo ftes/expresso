@@ -1,21 +1,20 @@
 defmodule Expresso.Highlight do
   @moduledoc """
-  The highlighting of a code element
+  Highlights the source text of a code element
 
   `lines/2` makes one HTML fragment for each line of a source text. Makeup
   lexes the text when a lexer package or a lexer of `Expresso.Lexers`
-  registers the language, and it escapes each token. Without a lexer for the language, or without a language, the
-  function escapes each line and puts it in one `span`, with no class.
+  registers the language, and it escapes each token.
   `Expresso.CodeVerifier` gives a warning for a language with no lexer.
 
-  `stylesheet/0` gives the rules of the token classes, and the renderer writes
-  them into the document.
+  `stylesheet/0` returns the rules of the token classes, and the renderer
+  writes them into the document.
 
-  Each fragment holds its line break, and no text node of a fragment is only
-  white space. `Expresso.Deck.render/1` writes the document with Floki, and
-  Floki drops a text node that is only white space. Therefore the function
-  puts each white space token into the span of the token before it, and it
-  puts a zero width space into a line that has no other character.
+  No text node of a fragment is only white space. `Expresso.Deck.render/1`
+  writes the document with Floki, and Floki removes a text node that is only
+  white space. Therefore `lines/2` puts each white space token into the span
+  of the token before it, and it puts a zero width space into a line that has
+  no other character.
   """
 
   alias Makeup.Formatters.HTML.HTMLFormatter
@@ -85,6 +84,8 @@ defmodule Expresso.Highlight do
   The language is a name that a lexer package or `Expresso.Lexers`
   registers, such as `"elixir"`, `"js"`, `"rust"` or `"toml"`.
   `languages/0` returns each name. A language with no lexer, or no language, gives plain lines.
+  For such a text, the function escapes each line and puts it in one `span`,
+  with no class.
 
   The option `trailing_comments: false` removes a comment at the end of a
   line that has code before it, with the white space before the comment. A

@@ -1,19 +1,19 @@
 defmodule Expresso.Element.Hierarchy.Values do
   @moduledoc """
-  The values of a tree: the sums, the order, the limit, the depth and the text
+  Prepares the values of a tree: the sums, the order, the limit, the depth and
+  the text
 
   `prepare/2` changes the tree before the layout, in this order:
 
   1. `depth` cuts the tree at a level. A node at the last level gets the
      total of its subtree as its value.
-  2. `sum` gives a node with no value the sum of the values of its nodes.
+  2. `sum` gives a node with no value the sum of its nodes' values.
   3. `sort` puts the nodes under each node in the order of their values.
   4. `limit` keeps a number of nodes under each node, and one more node holds
      the sum of the rest.
 
-  `text/3` writes a value in the format of the `value_format` option. The
-  layout and the renderer then read the prepared tree only, so each part of
-  the drawing shows the same values.
+  The layout and the renderer then read the prepared tree only, so each part
+  of the drawing shows the same values.
   """
 
   alias Expresso.Element.Node
@@ -139,7 +139,8 @@ defmodule Expresso.Element.Hierarchy.Values do
   @doc """
   Write a value in a format
 
-  `total` is the value of the root, for the format `:percent`.
+  The `value_format` option gives the format. `total` is the value of the
+  root, for the format `:percent`.
 
       iex> alias Expresso.Element.Hierarchy.Values
       iex> Values.text(1250, :number, nil)

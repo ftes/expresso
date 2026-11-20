@@ -1,34 +1,23 @@
 defmodule Expresso.Notes do
   @moduledoc """
-  The notes of the speaker of a slide, as HTML
+  Makes HTML from the notes of the speaker for a slide
 
   A slide has two sources of notes:
 
   - the `notes` option of the slide, which is a note for each step,
   - each `note` entity of the slide, which is a note for the steps of its
-    `at` option. `Expresso.Element.Note` gives the entity.
+    `at` option. `Expresso.Element.Note` defines the entity.
 
-  The text of a note is Markdown. `html/1` makes its HTML with MDEx:
-
-  | Markdown | HTML |
-  | --- | --- |
-  | `**bold**`, `*italic*`, `~~old~~` | `strong`, `em`, `del` |
-  | `` `code` `` and a block between two lines of three backticks | `code`, and `pre` with `code` |
-  | `- item` and `1. item` | `ul` and `ol` |
-  | `[text](https://example.com)` and an address | `a` |
-  | a line break | `br` |
-
-  HTML in a note shows as text, so a note can hold `<Enter>`.
+  The text of a note is Markdown. `html/1` makes its HTML with MDEx.
 
   MDEx is a NIF, and it is a dependency with `runtime: false`. A release, such
-  as the binary of Burrito, does not hold it, because the precompiled library
-  of MDEx does not load in the ERTS of that binary. `markdown?/0` tells if
-  MDEx is available. Without MDEx, `html/1` returns the text of the note as
-  it is, in one paragraph with the class `note-plain`.
+  as the binary of Burrito, does not hold MDEx. The reason is that the
+  precompiled library of MDEx does not load in the ERTS of that binary.
 
-  The application environment `config :expresso, notes_markdown: false` also
-  gives the notes with no Markdown. A test of the binary uses it to make the
-  document that the binary writes. `docs/speaker-notes.md` gives the design.
+  With `config :expresso, notes_markdown: false` in the application
+  environment, the notes also have no Markdown. A test of the binary uses this
+  value to make the document that the binary writes. `docs/speaker-notes.md`
+  gives the design.
   """
 
   alias Expresso.Element.Note
@@ -65,6 +54,20 @@ defmodule Expresso.Notes do
 
   @doc """
   Make the HTML of the text of a note
+
+  The function makes the HTML with MDEx:
+
+  | Markdown | HTML |
+  | --- | --- |
+  | `**bold**`, `*italic*`, `~~old~~` | `strong`, `em`, `del` |
+  | `` `code` `` and a block between two lines of three backticks | `code`, and `pre` with `code` |
+  | `- item` and `1. item` | `ul` and `ol` |
+  | `[text](https://example.com)` and an address | `a` |
+  | a line break | `br` |
+
+  HTML in a note shows as text, so a note can hold `<Enter>`. Without MDEx,
+  the function returns the text of the note as it is, in one paragraph with
+  the class `note-plain`.
 
       iex> Expresso.Notes.html("Ask the **room**.")
       "<p>Ask the <strong>room</strong>.</p>"

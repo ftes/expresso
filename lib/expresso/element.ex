@@ -1,6 +1,6 @@
 defmodule Expresso.Element do
   @moduledoc """
-  The behaviour of an element of a slide
+  Defines the behaviour of an element of a slide
 
   `use Expresso.Element` declares this behaviour, so the compiler gives a
   warning for an element module without `get_assigns/1` or `render/1`. It

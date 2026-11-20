@@ -2,13 +2,10 @@ defmodule Expresso.Element.Diagram.Graphviz do
   @moduledoc """
   Draws a graph in the language of Graphviz, and names its elements
 
-  A `diagram` with a `.dot` or a `.gv` file calls `draw!/2`. The function runs
-  `dot -Tsvg` with the layout engine of the `layout` option, through
-  `Expresso.Element.Diagram.Tool`, and it returns the SVG with a name for each
-  node, edge and cluster.
+  A `diagram` with a `.dot` or a `.gv` file calls `draw!/2`.
 
   Graphviz puts each node, edge and cluster in a `g` element with the class
-  `node`, `edge` or `cluster`, and the `g` element holds a `<title>` with the
+  `node`, `edge` or `cluster`. The `g` element holds a `<title>` with the
   name from the source. An element without an `id` in the source gets an `id`
   such as `node1`, `edge2` or `clust1`, and the numbers change when the graph
   changes. Therefore `name/1` replaces each such `id` with the text of the
@@ -22,14 +19,14 @@ defmodule Expresso.Element.Diagram.Graphviz do
   | An edge of a graph with no direction | `a--b` | `a--b` |
   | A second edge between the same ends | `web->api` | `web->api:2` |
 
-  An `id` that the source gives stays, unless it has the form of an `id` of
-  Graphviz, such as `node1`.
+  An `id` that the source gives stays, unless it has the form of an `id` that
+  Graphviz gives, such as `node1`.
 
   Each edge also gets the names of its two ends, in the attributes
   `data-graph-from` and `data-graph-to`. An end is the `id` of its node, so
   `db [id="store"]` gives the end `store`. `Expresso.Element.Diagram` reads
   the ends for the `edges` option. A port of an end, such as `web:out`, is not
-  a part of the name of the end.
+  in the name of the end.
   """
 
   alias Expresso.Element.Diagram.{Font, Tool}
@@ -60,10 +57,12 @@ defmodule Expresso.Element.Diagram.Graphviz do
   @doc """
   Run Graphviz on a source file, and return the SVG and the names
 
-  The names are the `id` of each node, edge and cluster, in the order of the
-  file. Graphviz measures each text with the font, and a `fontname` of the
-  source still applies to its element. The function raises an
-  `ArgumentError` when Graphviz is not present and when Graphviz fails.
+  The function runs `dot -Tsvg` with the layout engine of the `layout` option,
+  through `Expresso.Element.Diagram.Tool`. The names are the `id` of each
+  node, edge and cluster, in the order of the file. Graphviz measures each
+  text with the font, and a `fontname` of the source still applies to its
+  element. The function raises an `ArgumentError` when Graphviz is not present
+  and when Graphviz fails.
   """
   @spec draw!(Path.t(), atom(), Font.t()) :: {String.t(), [String.t()]}
   def draw!(src, layout, font \\ Font.builtin()) do

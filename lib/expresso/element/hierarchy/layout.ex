@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Hierarchy.Layout do
   @moduledoc """
-  The layout of a tree: the place of each box and the path of each line
+  Calculates the layout of a tree: the place of each box and the path of each line
 
   The layout is recursive. Each subtree is a box, and the layout of a node
   places the boxes of the subtrees under it with one of three layouts:
@@ -12,19 +12,20 @@ defmodule Expresso.Element.Hierarchy.Layout do
   | `:stacked` | One under the other below the node, with an indent. |
 
   The layout does not move a subtree into the space next to a smaller
-  subtree, so the author can predict the place of each box. `docs/tree.md`
+  subtree, so the user can predict the place of each box. `docs/tree.md`
   gives the reasons.
 
   Each level has a size of its own, from the `box` option of the tree. In a
   tree with one layout, the boxes of one level thus have their tops in one
-  row for `:top_down`, and their left edges in one column for `:left_right`.
+  row for `:top_down`. For the same reason, they have their left edges in one
+  column for `:left_right`.
 
-  A line goes from the edge of a box to the edge of the box of a child, with
-  horizontal and vertical parts only. The lines of the children of one node
+  A line goes from the edge of a box to the edge of a child's box, with
+  horizontal and vertical parts only. The lines to the children of one node
   share the part from the box of the node.
 
   The layout is a function of the tree and the options only, so the same tree
-  gives the same picture each time.
+  makes the same picture each time.
   """
 
   alias Expresso.Element.Node

@@ -1,19 +1,17 @@
 defmodule Expresso.Watch.Range do
   @moduledoc """
-  Sends a part of a file of the watch server for a request with a `Range` header
+  Sends a part of a file for a request with a `Range` header to the watch server
 
-  A browser asks for a part of a video file or of a sound file, so it can go
-  to a time of the file before the whole file arrives. A `video` or an
-  `audio` element with `external true` keeps its file next to the document,
-  and the watch server sends that file. `Expresso.MediaFiles` gives the rules
-  of such a file.
+  To go to a time before the whole file arrives, a browser asks for a part of
+  a video file or of a sound file. A `video` or an `audio` element with
+  `external true` keeps its file next to the document, and the watch server
+  sends that file. `Expresso.MediaFiles` gives the rules of such a file.
 
   `mod_range` of OTP writes the header `Content-Range: bytes=2-5/10`. The
   form of RFC 9110 is `bytes 2-5/10`, and a browser refuses the first form.
   Therefore this module answers the request.
 
-  The module answers a request for one range: `bytes=2-5`, `bytes=2-` and
-  `bytes=-4`. Each other request goes to the next module, which sends the
+  For a request that this module does not answer, the next module sends the
   whole file. `Expresso.Watch.Server` puts this module after `mod_alias` and
   in front of `mod_get` in the `:httpd` module list.
   """

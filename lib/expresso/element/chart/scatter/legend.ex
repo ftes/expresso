@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Chart.Scatter.Legend do
   @moduledoc """
-  The legends of a scatter plot, in a column at the right of the plot
+  Draws the legends of a scatter plot, in a column at the right of the plot
 
   A scatter plot has up to four legends, from the top:
 
@@ -15,7 +15,7 @@ defmodule Expresso.Element.Chart.Scatter.Legend do
 
   The options `color_label`, `symbol_label` and `size_label` give a title
   to each legend. `layout/1` makes the rows, `place/2` puts them at the
-  right of the box of the plot, and `render/1` draws them.
+  right of the plot, and `render/1` draws them.
   """
 
   import Temple

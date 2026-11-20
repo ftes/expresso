@@ -1,11 +1,9 @@
 defmodule Expresso.BurritoEntryPoint do
   @moduledoc """
-  The entry point of the binary that Burrito makes
+  Runs the command line of the binary that Burrito makes
 
-  In a Burrito binary, `start/2` runs the command line with `run/2`, and then
-  it halts the VM with the exit status. `run/2` calls
-  `Expresso.CommandLine.run/3`, so the binary and `mix expresso` take the same
-  arguments. Outside a Burrito binary, the module only starts the application.
+  `run/2` calls `Expresso.CommandLine.run/3`, so the binary and `mix expresso`
+  take the same arguments.
 
   The launcher of Burrito starts the VM with `-s elixir start_cli`. After the
   boot, the CLI of Elixir runs the first argument as a script, and then it

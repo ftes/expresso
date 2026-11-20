@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Packet do
   @moduledoc """
-  The plan of a packet diagram of Pele
+  Makes the plan for a packet diagram of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |

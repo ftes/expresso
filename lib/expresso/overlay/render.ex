@@ -1,11 +1,8 @@
 defmodule Expresso.Overlay.Render do
   @moduledoc """
-  The part of the renderer that writes the CSS contract of the overlays
+  Writes the CSS contract of the overlays for the renderer
 
-  `identify/1` gives each element with an `on` entity a value for the
-  `data-el` attribute. `attributes/1` makes the `data-on` and `data-el`
-  attributes of one element. `style/1` makes the generated style block of a
-  deck. `Expresso.Renderer` calls each of them.
+  `Expresso.Renderer` calls `identify/1`, `attributes/1` and `style/1`.
 
   `docs/overlays.md` gives the contract.
   """

@@ -1,6 +1,6 @@
 defmodule Expresso.Goto do
   @moduledoc """
-  A link from an element to a slide and a step of the deck
+  Defines a link from an element to a slide and a step of the deck
 
   The `goto` option of a text area, an image or an item takes a keyword list,
   such as `goto: [slide: 5]` or `goto: [slide: 5, step: 2]`. The slide is a
@@ -12,29 +12,28 @@ defmodule Expresso.Goto do
   <a class="goto" href="#5.2" data-link="0">
   ```
 
-  `data-link` holds the number of the link in the deck. The renderer writes
-  the commands of each link one time into the element `expresso-links`, in
-  the order of these numbers, such as `[[["goto",7]]]`. The number 7 is the
-  index of step 2 of slide 5 in the list of the steps. A click on the link in
-  the present view runs the commands of the link with the program of the
-  presenter, so the presenter goes to that step. The link is an HTML link, so
-  the keyboard and a screen reader can use it. In the handout view and in the
+  `data-link` holds the number of the link in the deck. `json/1` returns the
+  commands of each link, and the renderer writes them one time into the
+  element `expresso-links`. A click on the link in the present view runs the
+  commands of the link with the program of the presenter. The presenter thus
+  goes to the slide and the step of the link. The link is an HTML link, so the
+  keyboard and a screen reader can use it. In the handout view and in the
   speaker view, the script does not run the commands.
 
   The link holds no commands itself. Thus raw HTML in a text area can refer to
-  the commands of a link of the deck, but it cannot give new commands. The
-  compiler makes each command, and `Expresso.Presenter.Schema` gives the
+  the commands of a link in the deck, but it cannot give new commands. The
+  compiler makes each command, and `Expresso.Presenter.Schema` defines the
   form of the list.
 
   A name must belong to one slide of the deck. A link by name stays correct
-  when a slide comes in front of its target, and a link by number does not.
+  when a slide is put in front of its target, and a link by number does not.
 
   A link can only go to a slide and a step of the deck. Thus the handout view
-  and the print show each state that a link can give. `Expresso.GotoVerifier`
+  and the print show each state that a link can go to. `Expresso.GotoVerifier`
   refuses a slide or a step that the deck does not have, and a name that no
-  slide or more than one slide has. A deck from the
-  imperative API can put a struct into the `goto` field of the element, and
-  `resolve/1` raises for such a slide or step.
+  slide or more than one slide has. A deck from the imperative API can put a
+  struct into the `goto` field of the element, and `resolve/1` raises for such
+  a slide or step.
   """
 
   alias Expresso.{Deck, Steps}

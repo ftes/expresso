@@ -1,22 +1,19 @@
 defmodule Expresso.SectionTransformer do
   @moduledoc """
-  The Spark transformer of the sections of a deck
+  Puts the sections of a deck into its slides and its tocs, as a Spark transformer
 
-  It runs one time for each deck module at compile time, and before
-  `Expresso.Overlay.Transformer`. A slide with the `section` option starts a
-  section, and the section runs to the next slide with a `section` option. The
-  transformer does two things:
+  The transformer runs one time for each deck module at compile time. A slide
+  with the `section` option starts a section, and the section continues until
+  the next slide with a `section` option. The transformer does two things:
 
-  - It puts the title of the section of each slide into the metadata of the
-    slide, under the key `:section`. A slide before the first section has no
-    key. A template reads it as `@metadata[:section]`.
+  - It puts the title of each slide's section into the slide's metadata, under
+    the key `:section`. A slide before the first section has no key. A
+    template reads it as `@metadata[:section]`.
   - It puts one `Expresso.Element.TocEntry` for each section into each
-    `Expresso.Element.Toc`, with a link to the first slide of the section and
-    the place of the section from the slide of the toc. The entries are then
-    the children of the toc, so the overlay transformer gives them their steps.
-
-  A toc in a deck without a section is an error, which becomes a
-  `Spark.Error.DslError` with the path of the slide.
+    `Expresso.Element.Toc`. Each entry holds a link to the first slide of the
+    section and the place of the section relative to the slide that holds the
+    toc. The entries are then the children of the toc, so the overlay
+    transformer gives them their steps.
   """
 
   use Spark.Dsl.Transformer
@@ -39,6 +36,9 @@ defmodule Expresso.SectionTransformer do
 
   @doc """
   Put the section of each slide into its metadata, and the entries into each toc
+
+  A toc in a deck without a section is an error, which becomes a
+  `Spark.Error.DslError` with the path of the slide.
   """
   @impl Transformer
   @spec transform(map()) :: {:ok, map()} | {:error, Spark.Error.DslError.t()}

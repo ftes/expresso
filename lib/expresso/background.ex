@@ -1,6 +1,6 @@
 defmodule Expresso.Background do
   @moduledoc """
-  The background of a slide: an image, a color or a gradient behind its content
+  Defines the background of a slide: an image, a color or a gradient behind its content
 
   The `background` option of a slide and of a deck takes one of these values:
 
@@ -10,16 +10,14 @@ defmodule Expresso.Background do
   | `[image: "photo.jpg", fit: :contain, position: "center top", dim: 0.4]` | The image, with its fit, its position and a dim layer |
   | `[color: :accent]` or `[color: "#102030"]` | One color: a role of the theme or a hex color |
   | `[gradient: [:accent, :background], angle: 135]` | A gradient of two or more colors |
-  | `:none` | No background. A slide gives it to turn off the background of the deck. |
+  | `:none` | No background. With it, a slide does not show the background of the deck. |
 
-  `option/1` makes a struct of this module from the value. The option of the
-  deck gives the background of each slide that has no option of its own, and
-  `of/2` returns the background of one slide.
+  `option/1` makes a struct of this module from the value.
 
   The renderer writes the background as the first element of the slide, with
   the class `slide-background`. An image is an `img` element with a data URI,
-  as for `Expresso.Element.Image`, so `Expresso.Assets.dedupe/1` keeps one
-  copy of the file for the copies of the slide. `docs/slide-backgrounds.md`
+  as for `Expresso.Element.Image`. Therefore `Expresso.Assets.dedupe/1` keeps
+  one copy of the file for the copies of the slide. `docs/slide-backgrounds.md`
   gives the design.
   """
 

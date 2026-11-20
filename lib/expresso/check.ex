@@ -1,6 +1,6 @@
 defmodule Expresso.Check do
   @moduledoc """
-  Runs `mix expresso <input> --check`, and writes a report of the problems of the deck
+  Runs `mix expresso <input> --check`, and writes a report with the problems of the deck
 
   The check has four levels. Each level runs the checks of the level before
   it, and it needs one more tool:
@@ -12,10 +12,10 @@ defmodule Expresso.Check do
   | `:a11y` | `--check=a11y` | The rules of axe-core at each step, and in the menu, the list of keys, the overview and the handout view | Chrome or Chromium, and axe-core |
   | `:browser` | `--check=browser` | The checks of `:a11y` in Playwright, and the keys of the presenter: each step, each view, the focus and the errors of the script | Node, the npm packages `playwright` and `axe-core`, and the Hex package `playwright_ex` |
 
-  `Expresso.Check.Document` gives the checks with no tool, and
+  `Expresso.Check.Document` holds the checks with no tool, and
   `Expresso.Check.Browser` runs the checks in the browser.
-  `Expresso.Check.Session` runs the browser level in Playwright. A problem makes the
-  exit status 1. A note does not.
+  `Expresso.Check.Session` runs the browser level in Playwright. A note does not
+  change the exit status.
   """
 
   alias Expresso.Check.{Browser, Document, Session}

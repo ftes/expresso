@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Window do
   @moduledoc """
-  A frame that looks like a window of an operating system, around a code
+  Puts a frame that looks like a window of an operating system around a code
   element, an image or an embedded page
 
   The `window` option of the element gives the style of the frame. The
@@ -12,12 +12,10 @@ defmodule Expresso.Element.Window do
     * `:terminal` — the same dots, and the title at the left in the font of
       the code. The bar has the color of the code.
     * `:plain` — a bar with only the title.
-    * `:none` — no frame. An element gives it to turn off the style of the
-      deck.
+    * `:none` — no frame. The user gives it to an element to turn off the
+      style of the deck.
 
-  The `window_title` option gives the text of the bar. A code element with
-  `src` and without the option shows the name of its file, such as
-  `server.ex`.
+  The `window_title` option gives the text of the bar.
 
   `apply/1` gives each element its style and its title before the render.
   `wrap/3` then puts the HTML of the element into the frame.

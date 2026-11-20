@@ -1,20 +1,20 @@
 defmodule Expresso.Element.Part do
   @moduledoc """
-  A part of a diagram
+  Holds a part of a diagram
 
-  The `part` entity takes the `id` of an element of the SVG file as its first
-  argument, and its `at` option gives the steps that show that element.
+  The `part` entity takes the `id` of an element in the SVG file as its first
+  argument. Its `at` option gives the steps that show that element.
   `Expresso.Element.Diagram` gives the rules.
 
-  A `copy` entity of a part goes into `copies`. `Expresso.Element.Copy.expand/1`
-  gives each copy its own part, with the source in `copy_of` and the target in
+  A part holds its `copy` entities in `copies`. `Expresso.Element.Copy.expand/1`
+  makes one part for each copy, with the source in `copy_of` and the target in
   `copy_to`. A copy of a copy has the target of its source in `copy_start`.
 
   In a formula, `each` names a symbol and `within` names the part that holds
   its occurrences. With `bare`, the base of a symbol with an index is not an
-  occurrence. `Expresso.Element.Math.Each` gives the occurrences the class of
-  the part. The copy of a link between the lines of a formula has `covers`, and it hides its
-  target.
+  occurrence. `Expresso.Element.Math.Each` adds the class of the part to the
+  occurrences. The copy of a link between the lines of a formula has
+  `covers`, and it hides its target.
   """
 
   @typedoc "The struct of a part"

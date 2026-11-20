@@ -1,20 +1,21 @@
 defmodule Expresso.ThemeVerifier do
   @moduledoc """
-  The Spark verifier of the contrast of the `theme` option
+  Makes sure, as a Spark verifier, that the colors of the `theme` option have enough contrast
 
-  It runs one time for each deck module at compile time. A built-in theme
-  meets each minimum of `Expresso.Palette`, so only a theme of 16 colors can
-  fail. The verifier gives a warning for each role that fails, and the deck
-  still compiles. The option itself refuses a value that is not a theme.
+  The verifier runs one time for each deck module at compile time. A built-in
+  theme meets each minimum of `Expresso.Palette`, so only a theme of 16
+  colors can fail. The verifier gives a warning for each role that fails, and
+  the deck still compiles. Spark refuses a value of the option that is not a
+  theme.
 
   The warning of a role names the slot of its color, and a color for that
   slot that passes, from `Expresso.Palette.suggestions/1`. The colors of the
   map stay as the user gives them.
 
-  The verifier checks each variant of the option that is a map, after the
-  adjustment of `adjust: true`, and the warning of a variant names it. An
-  adjustment that changes a color by more than the limit of a built-in theme
-  gives a warning too.
+  The verifier measures each variant of the option that is a map, after the
+  adjustment of `adjust: true`, and the warning of a variant names it. The
+  verifier also gives a warning for an adjustment that changes a color by
+  more than the limit of a built-in theme.
 
   The verifier also gives a warning for each variant that does not dim at the
   `dim_contrast` option of the deck. `dim_messages/3` gives the rules.

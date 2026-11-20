@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Note do
   @moduledoc """
-  A note of the speaker for some steps of a slide
+  Holds a note of the speaker for some steps of a slide
 
   The `note` entity takes its text as its first argument, and the `at` option
   gives the steps of the note:
@@ -8,18 +8,17 @@ defmodule Expresso.Element.Note do
       note "Ask the room for a number.", at: 2
       note "The answer stays on the screen.", at: [from: 3]
 
-  The text is Markdown, as the text of the `notes` option of a slide.
-  `Expresso.Notes` makes its HTML. A note with no `at` option is a note for
-  each step of the slide.
+  The text is Markdown, as in the `notes` option of a slide. `Expresso.Notes`
+  makes its HTML. A note with no `at` option is a note for each step of the
+  slide.
 
   A note shows nothing on the slide. The speaker view shows the notes of the
-  current step, and a page of the handout view shows the notes of its step,
-  under the note of the slide. `docs/speaker-notes.md` gives the design.
+  current step. A page of the handout view shows the notes of its step, under
+  the note of the slide. `docs/speaker-notes.md` gives the design.
 
   The `at` option takes the forms of an overlay specification with step
-  numbers, such as `3`, `2..4`, `[2, 5]` and `[from: 3]`. It takes no `:next`,
-  because a note takes no step from the counter of the slide. A note does not
-  add a step to its slide, so a step that the slide does not have is an error.
+  numbers, such as `3`, `2..4`, `[2, 5]` and `[from: 3]`. A note does not add
+  a step to its slide, so a step that the slide does not have is an error.
   """
 
   alias Expresso.Overlay

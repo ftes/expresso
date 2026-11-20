@@ -1,21 +1,20 @@
 defmodule Expresso.Element.Shape do
   @moduledoc """
-  An element that draws a rectangle, an ellipse, a line or an arrow over a slide
+  Draws a rectangle, an ellipse, a line or an arrow over a slide
 
   The `shape` entity takes the kind as its first argument: `:rect`,
-  `:ellipse`, `:line` or `:arrow`. A rectangle and an ellipse take `x`, `y`,
-  `width` and `height`, and they can hold a short text. A line and an arrow
-  take the points `from` and `to`. Each length is a CSS length, and a
-  percentage is a part of the width or of the height of the slide. The point
-  `["0%", "0%"]` is the top left corner of the slide.
+  `:ellipse`, `:line` or `:arrow`. A rectangle and an ellipse can hold a
+  short text. Each length is a CSS length, and a percentage is a part of the
+  slide's width or height. The point `["0%", "0%"]` is the top left corner of
+  the slide.
 
-  A shape shows nothing in the place where the deck writes it. The renderer
-  puts the shapes of a slide into one layer over the whole slide, in the
-  order of the deck, so a shape can point at each part of the slide.
-  `of_slide/1` returns them. A shape takes the overlay options, so it can show
-  at a step, move or get the state `alert`.
+  A shape shows nothing in the place where the user writes it in the deck.
+  The renderer puts the shapes of a slide into one layer over the whole
+  slide, in the order of the deck. Therefore a shape can point at any part of
+  the slide. `of_slide/1` returns the shapes of a slide. A shape takes the
+  overlay options, so it can show at a step, move or get the state `alert`.
 
-  The shape draws with `currentColor`, and the theme gives it the color
+  A shape uses `currentColor`, and the theme gives it the color
   `--shape-color`, which is `--accent` by default. `set: [color: ...]` of an
   `on` entity changes it, and the state `dim` dims it, as for text.
   """

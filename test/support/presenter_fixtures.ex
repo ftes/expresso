@@ -1,6 +1,6 @@
 defmodule Expresso.Test.PresenterFixtures do
   @moduledoc """
-  Makes the fixtures of the TypeScript tests of the presenter
+  Makes the fixtures for the TypeScript tests of the presenter
 
   The TypeScript tests run the interpreter of the script, and they need the
   programs that `Expresso.Presenter.Program` makes. Node cannot run Elixir, so
@@ -13,13 +13,13 @@ defmodule Expresso.Test.PresenterFixtures do
   The file holds four keys:
 
     * `"fields"` - the fields of the state, in the order of each state array.
-    * `"help"` - the rows of the list of keys of each mode.
+    * `"help"` - the rows in the list of keys for each mode.
     * `"decks"` - the list of the steps and the program of each deck that a test
-      uses. The key of a deck is the number of steps of each slide, such as
-      `"1,3,2"`, and the kinds of its transitions after a space when it has them.
-      A deck with a hidden slide has the place of each hidden slide after the
-      word `hidden`, such as `"1,3,2 hidden 2"`. A deck with the option `loop`
-      has the word `loop` at the end.
+      uses. The key of a deck is the number of steps for each slide, such as
+      `"1,3,2"`. When the deck has transitions, the kinds of its transitions
+      follow after a space. A deck with a hidden slide has the place of each
+      hidden slide after the word `hidden`, such as `"1,3,2 hidden 2"`. A deck
+      with the option `loop` has the word `loop` at the end.
     * `"cases"` - random events on random decks, and the result of the Elixir
       interpreter after each event.
 
@@ -27,7 +27,7 @@ defmodule Expresso.Test.PresenterFixtures do
   commands]`, `["swipe", direction]`, `["hash", fragment]` and `["message",
   slide, step, fields]`. The fields of a message are an object with a value
   for each field of the option `sync`. The commands of a click are the
-  commands of the page of the overview or of the link under the click, or
+  commands for the page in the overview or for the link under the click, or
   `null`. A result is `[state, prevented, effects, transition]`.
   """
 

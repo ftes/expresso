@@ -1,17 +1,17 @@
 defmodule Expresso.Placement do
   @moduledoc """
-  The places of the elements: which element can hold which child
+  Holds the rules for the places of the elements: which element can hold which child
 
-  The DSL accepts an element in more places than these rules give, because
-  the macros of the outer entities stay in scope in each nested block. See
-  "The definitions of the elements" in `docs/architecture.md`.
+  The DSL accepts an element in more places than these rules give. This is
+  because the macros of the outer entities stay in scope in each nested block.
+  See "The definitions of the elements" in `docs/architecture.md`.
   `Expresso.PlacementTransformer` calls `slide/1` for each slide, and it refuses
   an element in a wrong place. `docs/reference/placement.md` gives the rules.
 
   A transformer adds children to two elements, and these children are in their
   place: the `Expresso.Element.Lines` of a code element and the
   `Expresso.Element.TocEntry` of a toc. `Expresso.Overlay.Check` reports a
-  `pause` inside an element, so this module accepts a pause in each place.
+  `pause` inside an element, so this module accepts a pause in any place.
   """
 
   alias Expresso.Element.{

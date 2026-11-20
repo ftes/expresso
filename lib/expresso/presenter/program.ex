@@ -8,12 +8,6 @@ defmodule Expresso.Presenter.Program do
   overview becomes `{:select_by, 3}` for a deck of 7 slides, because such a deck
   has 3 columns.
 
-  `compile/2` also puts the `each` commands of a mode in front of each binding,
-  and it makes a map from each event to its commands. A key with two bindings
-  in one mode raises an error, because the list of keys would show two
-  functions for it. `Expresso.Presenter.Verifier` refuses such a definition
-  when it compiles.
-
   A mode with the option `element` gets its `each` commands in `element`, and
   each other mode gets `nil`. The interpreter puts these commands in front of
   the commands of an element under a click.
@@ -60,6 +54,12 @@ defmodule Expresso.Presenter.Program do
 
   @doc """
   Make the program of a deck from a definition
+
+  The function puts the `each` commands of a mode in front of each binding,
+  and it makes a map from each event to its commands. The function raises an
+  error for a key with two bindings in one mode, because the list of keys then
+  shows two functions for that key. `Expresso.Presenter.Verifier` refuses such
+  a definition when the definition compiles.
 
   The first value of the field `progress` comes from the deck: the deck option
   `progress false` hides the progress bar at the start. A deck from the

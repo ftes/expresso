@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Er do
   @moduledoc """
-  The plan of an entity relationship diagram of Pele
+  Makes the plan for an entity relationship diagram of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |

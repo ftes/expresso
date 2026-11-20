@@ -1,14 +1,14 @@
 defmodule Expresso.Element.Diagram.Geometry do
   @moduledoc """
-  The box and the center of an element of an SVG file
+  Finds the box and the center of an element in an SVG file
 
   The `move_to` option of an `on` entity in a part moves the part to the
-  center of a different element of the file. This module finds the two
+  center of a different element in the file. This module finds the two
   centers from the tree of the file, with no browser. The render of the deck
   then writes the distance as `--x` and `--y`, as for `set: [x: ..., y: ...]`.
 
   The box of an element is the smallest rectangle that holds its shape, in
-  the coordinates of the `svg` element of the file. The module reads the
+  the coordinates of the `svg` element in the file. The module reads the
   `transform` attribute of the element and of each parent, so an element in a
   moved group gets the correct box. These shapes have a box:
 
@@ -25,8 +25,8 @@ defmodule Expresso.Element.Diagram.Geometry do
 
   The box of a path holds its control points, so a curve can have a box that
   is a little larger than its shape. A text has no width without its font, so
-  its box is the point where the text starts. A text with `text-anchor:
-  middle` thus has the correct horizontal center.
+  its box is the point where the text starts. Therefore a text with
+  `text-anchor: middle` has the correct horizontal center.
   """
 
   # The elements that draw nothing.

@@ -1,13 +1,12 @@
 defmodule Expresso.Element.Chart.Layers do
   @moduledoc """
-  The parts that the charts of flows share: the layers of the frames, the
+  Holds the parts that the charts of flows share: the layers of the frames, the
   numbers of the series and the colors of the nodes
 
   `Expresso.Element.Chart.Sankey`, `Expresso.Element.Chart.ParallelSets` and
   `Expresso.Element.Chart.Chord` each make one layout for each frame. Then
-  `render/3` writes the label of the frame, the titles of the columns, and
-  the drawing of each layout. A chart with one frame has one drawing. A chart
-  with frames has one layer for each frame, and the channel `--k<n>` of
+  `render/3` draws the layouts. A chart with one frame has one drawing. A
+  chart with frames has one layer for each frame. The channel `--k<n>` of
   `Expresso.Element.Chart.Motion` sets the opacity of layer `n`, so the
   layers change from one frame to the next.
   """

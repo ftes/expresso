@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Timeline do
   @moduledoc """
-  The plan of a timeline of Pele
+  Makes the plan for a timeline of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |
@@ -8,7 +8,7 @@ defmodule Expresso.Element.Diagram.Pele.Timeline do
   | A period, with its line and its dot | `2025` | `2025` |
   | An event of a period | none | `2025/1`, `2025/2` and on, in the order of the source |
 
-  A timeline draws no line between two periods, so it has no edges. A period
+  A timeline has no line between two periods, so it has no edges. A period
   is a container: it holds its events, and it has its section as its parent.
   Pele draws each event with no `data-id`, in the order of the periods and of
   their events.

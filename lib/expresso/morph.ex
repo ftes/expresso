@@ -1,16 +1,16 @@
 defmodule Expresso.Morph do
   @moduledoc """
-  Gives each element that the auto morph uses a signature of its kind and its
-  content
+  Makes a signature for each element that the auto morph uses, from its kind
+  and its content
 
-  The auto morph pairs an element of one slide with an element of the next
-  slide when the two have the same kind and the same content.
-  `Expresso.Renderer` calls `sign/1` before the render, and
-  `Expresso.Overlay.Render.attributes/1` writes the signature of an element
-  as `data-morph-signature`. The script in `assets/src/morph.ts` compares the
-  signatures, so it does not read the content from the page.
+  The auto morph pairs an element of a slide with an element of the next slide
+  when both have the same kind and content. `Expresso.Renderer` calls
+  `sign/1` before the render, and `Expresso.Overlay.Render.attributes/1`
+  writes the signature of an element as `data-morph-signature`. The script in
+  `assets/src/morph.ts` compares the signatures, so it does not read the
+  content from the page.
 
-  `Expresso.Element.kinds/0` gives the content of each kind:
+  `Expresso.Element.kinds/0` returns the content of each kind:
 
     * `:text` - the text of the rendered element, with one space for each
       run of white space. The text of a `<style>` in an inline icon is not
@@ -19,18 +19,18 @@ defmodule Expresso.Morph do
     * `:file` - the file of a video or of a sound.
     * `:drawing` - the SVG of the element before the render gives it the
       ids of its copy, or the SVG of the rendered element.
-    * `:svg` - the SVG of the file of a diagram, before the render gives it
+    * `:svg` - the SVG in the file of a diagram, before the render gives it
       the ids of its copy. Two files with the same SVG have the same content.
     * `:shape` - the kind of a shape and its text.
     * `:language` - the language of a code element.
     * `:label` - the label of a stat.
 
   A kind without a content gets no signature. An element with an empty
-  `:text`, `:drawing` or `:svg` content, such as a text area without a text
-  or a diagram with an empty `svg` element, gets no signature, because two
-  such elements are not the same element. A code without a language and a
-  stat without a label still get a signature. An element with the `morph` option gets no signature either,
-  because its key gives its partner.
+  `:text`, `:drawing` or `:svg` content gets no signature, because two such
+  elements are not the same element. Examples are a text area without a text
+  and a diagram with an empty `svg` element. A code without a language and a
+  stat without a label still get a signature. An element with the `morph`
+  option gets no signature either, because its key gives its partner.
   """
 
   alias Expresso.Element.Tree

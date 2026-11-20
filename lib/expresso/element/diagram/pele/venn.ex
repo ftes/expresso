@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Venn do
   @moduledoc """
-  The plan of a Venn diagram of Pele
+  Makes the plan for a Venn diagram of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |
@@ -10,7 +10,7 @@ defmodule Expresso.Element.Diagram.Pele.Venn do
 
   A Venn diagram has no edges. A set, an intersection and a text are nodes.
   Pele draws a set as a `circle`, so `Expresso.Element.Diagram.Pele.name/1`
-  puts it into a group with its marks, and the label of the set gets the same
+  puts it into a group with its marks. The label of the set gets the same
   name. An intersection has no shape of its own, so its part shows its label.
   """
 

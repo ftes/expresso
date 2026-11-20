@@ -1,12 +1,12 @@
 defmodule Expresso.Element.Hierarchy.Steps do
   @moduledoc """
-  The steps of a tree: the groups of `reveal`, the dim, the steps of each
-  box, and the moves of `reflow`
+  Calculates the steps of a tree: the groups of `reveal`, the dim, the steps
+  of each box, and the moves of `reflow`
 
-  A box of a tree is not inside the box of its parent in the HTML, so the
-  overlay contract cannot hide the boxes under a node with the node. This
-  module gives each box the steps of its node, or of the nearest node above
-  it with steps. The line to a node takes the steps of the node.
+  In the HTML, a box of a tree is not inside the box of its parent. Thus the
+  overlay contract cannot hide the boxes under a node with the node, and this
+  module calculates the steps of each box. The line to a node takes the steps
+  of the node.
 
   `Expresso.Overlay.Expand` calls `groups/2` before the counter walk and
   `dim/1` after the expansion, as it does for the `reveal` and the `dim`

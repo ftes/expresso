@@ -1,35 +1,30 @@
 defmodule Expresso.Element.Diagram.Pele.Plan do
   @moduledoc """
-  The plan of a diagram type of Pele, and the functions that each plan uses
+  Defines the plan for a diagram type of Pele, and holds the functions that each plan uses
 
   A plan takes the model of `parse()` and returns a function. That function
-  takes the `data-id` and the classes of an element of the SVG, and it returns
+  takes the `data-id` and the classes of an element in the SVG, and it returns
   the name of the element and its marks for `Expresso.Element.Diagram.Outline`.
-  `Expresso.Element.Diagram.Pele.name/1` gives the first element of each name
-  its marks, and each later element of the name only its `id`.
+  `Expresso.Element.Diagram.Pele.name/1` puts the marks on the first element
+  with each name. It puts only the `id` on each later element with that name.
 
-  Some types give more than one part the same `data-id`, such as two edges
-  of an architecture diagram between the same services. The function of such
-  a plan takes a third argument: the number of earlier elements with the same
-  `data-id` and the same classes.
+  In some types, more than one part has the same `data-id`, such as two edges
+  of an architecture diagram between the same services. The plan of such a
+  type returns a function with three arguments, which `t:t/0` describes.
 
   A plan with three arguments also gets each node, edge, series and label
-  that has no `data-id`, such as a line of a mindmap, with `nil` as its
-  `data-id`. The classes `pele-node`, `pele-edge`, `pele-series` and
-  `pele-label` give these four kinds. The count of such an element is the
-  number of earlier elements of its kind with no `data-id`, whatever their
-  other classes. A label is different: its count is the number of earlier
-  labels in a group with the same classes, and the plan gets the classes of
-  that group after the classes of the label, such as `pele-point-labels`. The
-  plan returns the name `nil` for an element that keeps no name.
+  that has no `data-id`, such as a line of a mindmap. The plan gets `nil` as
+  the `data-id` of such an element. The classes `pele-node`, `pele-edge`,
+  `pele-series` and `pele-label` identify these four kinds. The count of such
+  an element is the number of earlier elements that have its kind and no
+  `data-id`, whatever other classes they have.
 
-  The functions of this module make the marks:
+  A label is different: its count is the number of earlier labels in a group
+  with the same classes. The plan also gets the classes of that group after
+  the classes of the label, such as `pele-point-labels`. The plan returns the
+  name `nil` for an element that keeps no name.
 
-  | Function | Marks |
-  | --- | --- |
-  | `node/1` | `data-graph-kind="node"`, and `data-graph-parent` |
-  | `container/1` | `data-graph-kind="container"`, and `data-graph-parent` |
-  | `edges/1` | `data-graph-kind="edge"`, `data-graph-from`, `data-graph-to`, `data-graph-arrow` and `data-graph-label` |
+  `node/1`, `container/1` and `edges/1` make the marks.
   """
 
   @typedoc "The name of an element and its marks"
@@ -60,11 +55,19 @@ defmodule Expresso.Element.Diagram.Pele.Plan do
   @doc "Make the function of a plan from the model of a diagram"
   @callback plan(model :: map()) :: t()
 
-  @doc "The marks of a node, with its parent or `nil`"
+  @doc """
+  The marks of a node, with its parent or `nil`
+
+  The marks are `data-graph-kind="node"` and `data-graph-parent`.
+  """
   @spec node(String.t() | nil) :: [{String.t(), String.t()}]
   def node(parent \\ nil), do: [{"data-graph-kind", "node"} | parent(parent)]
 
-  @doc "The marks of a container, with its parent or `nil`"
+  @doc """
+  The marks of a container, with its parent or `nil`
+
+  The marks are `data-graph-kind="container"` and `data-graph-parent`.
+  """
   @spec container(String.t() | nil) :: [{String.t(), String.t()}]
   def container(parent \\ nil), do: [{"data-graph-kind", "container"} | parent(parent)]
 

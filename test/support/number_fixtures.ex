@@ -14,7 +14,7 @@ defmodule Expresso.Test.NumberFixtures do
 
   The file holds two keys:
 
-    * `"charts"` - the numbers of the frames of a chart, the decimals that the
+    * `"charts"` - the numbers in the frames of a chart, the decimals that the
       renderer writes in `data-decimals`, and the label of each number.
     * `"stats"` - a value of a stat, its decimals, its `group` option, and its
       text.

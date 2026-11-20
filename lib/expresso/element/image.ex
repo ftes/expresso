@@ -1,10 +1,10 @@
 defmodule Expresso.Element.Image do
   @moduledoc """
-  An element that shows an image
+  Defines the element that shows an image
 
-  The `src` option gives the path of the image file, and the path is relative
-  to the working directory of the command, or to the `root` option of the
-  deck through `Expresso.PathTransformer`. `Expresso.Image` reads the file at
+  The `src` option gives the path of the image file. The path is relative to
+  the working directory of the command, or to the `root` option of the deck
+  through `Expresso.PathTransformer`. `Expresso.Image` reads the file at
   render time and makes a data URI, so the document of the deck stays one file.
 
   With `external true`, the render keeps a copy of the file next to the
@@ -27,14 +27,14 @@ defmodule Expresso.Element.Image do
   too small.
 
   Use a length, such as `"900px"`, or a percentage, such as `"60%"`. A
-  percentage is a part of the width of the slide.
+  percentage is a part of the slide's width.
 
   The render function writes a percentage as a viewport unit, so `"60%"`
   becomes `60vw`. CSS resolves a percentage against the container of the
   image, and that container takes the natural width of the image. Therefore a
   percentage in CSS makes an image smaller only, and `100%` changes nothing. A
   slide takes the full width of the screen and of the page, so a viewport unit
-  gives the meaning that an author expects.
+  has the meaning that the user expects.
 
   `Expresso.Element.viewport_unit/1` changes a value that is one number and a
   percent sign only. The number takes each form that CSS permits, so `"60%"`,

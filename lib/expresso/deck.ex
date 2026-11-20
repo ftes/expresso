@@ -1,6 +1,6 @@
 defmodule Expresso.Deck do
   @moduledoc """
-  A slide deck
+  Defines the struct of a slide deck
 
   The metadata of a deck can hold `:progress`. The value `false` hides the
   progress bar of the present view at the start, and the key `g` can still
@@ -16,9 +16,10 @@ defmodule Expresso.Deck do
   title slide. A deck without the key shows no number. The numbers count only
   the slides of the talk, so a hidden slide shows no number.
 
-  The metadata can also hold `:background`, a struct of `Expresso.Background`:
-  the image, the color or the gradient behind the content of each slide that
-  has no `background` of its own. A deck without the key has no background.
+  The metadata can also hold `:background`, a struct of `Expresso.Background`.
+  It is the image, the color or the gradient behind the content of each slide
+  that has no `background` of its own. A deck without the key has no
+  background.
 
   The metadata can also hold `:external`. The value `true` keeps the file of
   each `image`, `video` and `audio` element next to the document, unless the
@@ -30,10 +31,13 @@ defmodule Expresso.Deck do
   for each. A deck without a key has no such element.
   `docs/document-tags.md` gives the rules.
 
-  The metadata can also hold `:url`, `:card`, `:favicon` and `:robots`: the
-  address of the deck on its host, the picture of the preview of a link, the
-  icon of the tab, and the directives for a search engine.
-  `Expresso.LinkPreview` gives the rules.
+  The metadata can also hold these keys. `Expresso.LinkPreview` gives the
+  rules.
+
+  - `:url`, the address of the deck on its host.
+  - `:card`, the picture of a link preview.
+  - `:favicon`, the icon of the tab.
+  - `:robots`, the directives for a search engine.
 
   The metadata can also hold `:handout_hidden`. The value `true` shows each
   hidden slide in the handout view and on paper, in its place. A deck without
@@ -45,11 +49,11 @@ defmodule Expresso.Deck do
   key, or with `nil`, shows neither.
 
   The metadata can also hold `:transition`, the transition from one slide to
-  the next in the present view: `:fade`, `:slide`, `:zoom`, `:none` or a
-  transition of the CSS of the deck. The metadata of a slide can hold
-  `:transition` too, and it replaces the value of the deck for the move into
-  that slide. A deck without the key fades. The DSL makes sure that a
-  transition has a rule, and a struct of this module does not.
+  the next in the present view. The value is `:fade`, `:slide`, `:zoom`,
+  `:none` or a transition in the CSS of the deck. The metadata of a slide can
+  hold `:transition` too, and it replaces the value of the deck for the move
+  into that slide. A deck without the key uses `:fade`. The DSL makes sure
+  that a transition has a rule, and a struct of this module does not.
 
   The metadata can also hold `:morph`, how the elements of two neighbor
   slides move from one slide to the next: `:auto`, `:named` or `:off`. The
@@ -57,7 +61,7 @@ defmodule Expresso.Deck do
   deck for the move into that slide. A deck without the key uses `:auto`.
   `docs/reference/morph-option.md` gives the rules.
 
-  The metadata can also hold `:lang`, the language of the text of the deck as
+  The metadata can also hold `:lang`, the language of the text in the deck as
   a language tag, such as `"de"`. The renderer writes it into the `lang`
   attribute of the `html` element. A deck without the key is English.
 
@@ -78,7 +82,8 @@ defmodule Expresso.Deck do
   The metadata can also hold `:effect`, the way in which an element with steps
   shows and hides, such as `:grow`. The metadata of a slide and the `effect`
   field of an element can hold it too, and the nearest value applies. A deck
-  without the key fades. `Expresso.Overlay.Render.identify/1` gives the rules.
+  without the key uses `:fade`. `Expresso.Overlay.Render.identify/1` gives the
+  rules.
 
   The metadata can also hold `:speed` and `:easing`, the time and the easing
   of each animation in a slide. The speed is `:fast`, `:normal`, `:slow` or a

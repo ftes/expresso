@@ -1,6 +1,6 @@
 defmodule Expresso.Example do
   @moduledoc """
-  An example deck that uses the DSL
+  Defines an example deck that uses the DSL
   """
 
   use Expresso

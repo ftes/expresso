@@ -1,16 +1,17 @@
 defmodule Expresso.Element.QrCode do
   @moduledoc """
-  An element that shows a QR code of a text, such as the address of the slides
+  Shows a QR code of a text, such as the address of the slides
 
   The `qr_code` entity takes the text as its first argument. `EQRCode` makes
-  the matrix of the code at render time, and the render function writes it as
-  one SVG `path`, with one square for each dark module. The SVG goes into the
-  document, so the code needs no file and no script, and it prints.
+  the matrix of the code at render time. The render function writes the
+  matrix as one SVG `path`, with one square for each dark module. The SVG goes
+  into the document, so the code needs no file and no script, and it shows in
+  a printed copy.
 
-  A scanner reads a dark code on a light ground best. Therefore the theme
+  A scanner reads a dark code on a light background best. Therefore the theme
   gives the code the colors `--qr-color` and `--qr-background`, and not the
   colors of the slide. The defaults are black and white in each theme. The
-  code has a quiet zone of four modules around it, as the standard asks.
+  code has a quiet zone of four modules around it, as in the standard.
 
   The `size` option gives the width and the height of the code, as the
   `width` option of an image does. The render function writes it into the

@@ -1,18 +1,15 @@
 defmodule Expresso.Test.CSS do
   @moduledoc """
-  Generators of CSS values for the property tests
+  Generates CSS values for the property tests
 
   The generators follow CSS Values and Units 4, CSS Box Sizing 3 and 4, and CSS
-  Cascade 5. Each value from `width/0` is a value that the `width` property
-  permits. A generator makes the text of the value, because the DSL holds a
+  Cascade 5. A generator makes the text of the value, because the DSL holds a
   width as a string.
 
-  `percentage/0` makes one number and a percent sign. This is the form that
-  `Expresso.Element.Image` rewrites, and `other_width/0` makes each other form.
-  The `width` property takes a value that is not less than zero, so a number
-  from `number/0` has no minus sign.
+  `percentage/0` makes the form that `Expresso.Element.Image` rewrites, and
+  `other_width/0` makes each other form.
 
-  The generators make no `attr()` and no `anchor-size()`. The browser of the
+  The generators make no `attr()` and no `anchor-size()`. A browser at the
   floor of this project does not support these functions.
   """
 
@@ -67,6 +64,9 @@ defmodule Expresso.Test.CSS do
 
   @doc """
   A CSS number, with an optional decimal part and an optional exponent
+
+  The `width` property takes a value that is not less than zero, so a number
+  from this generator has no minus sign.
   """
   @spec number() :: StreamData.t(String.t())
   def number do

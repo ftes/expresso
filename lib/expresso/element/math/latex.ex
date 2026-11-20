@@ -1,13 +1,13 @@
 defmodule Expresso.Element.Math.Latex do
   @moduledoc """
-  A parser of the LaTeX of a formula into a tree of atoms
+  Reads the LaTeX of a formula into a tree of atoms
 
   A `rewrite` entity of a derivation makes the LaTeX of a new line from the
-  LaTeX of an old line, so it must find the parts, the symbols and the groups
-  of the old line. `parse/1` reads LaTeX into a list of atoms, and `write/1`
-  writes the list back. `write(parse(tex))` returns `tex`, except for the
-  white space between a command and its brace groups. `docs/line-rewrites.md`
-  gives the design.
+  LaTeX of an old line. For this reason, the entity must find the parts, the
+  symbols and the groups of the old line. `parse/1` reads LaTeX into a list of
+  atoms, and `write/1` writes the list back. `write(parse(tex))` returns `tex`,
+  except for the white space between a command and its brace groups.
+  `docs/line-rewrites.md` gives the design.
 
   An atom is one of these tuples:
 

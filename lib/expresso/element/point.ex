@@ -1,12 +1,13 @@
 defmodule Expresso.Element.Point do
   @moduledoc """
-  A point of a scatter plot: its name and its values
+  Holds a point of a scatter plot: its name and its values
 
   The `point` entity takes the name as its argument, and the options `x` and
   `y` give its place. The options `symbol`, `color` and `size` give the
-  symbol, the color and the size of its mark. The name is the label of the mark. A point is a child of
-  its group, so it takes the overlay options. `Expresso.Element.Chart.Scatter`
-  checks it and draws it.
+  symbol, the color and the size of its mark. The name is the label of the
+  mark. A point is a child of its group, so it takes the overlay options.
+  `Expresso.Element.Chart.Scatter` makes sure that the point is correct, and
+  it draws the point.
   """
 
   @typedoc "The struct of a point"

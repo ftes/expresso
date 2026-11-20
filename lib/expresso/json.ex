@@ -1,13 +1,17 @@
 defmodule Expresso.Json do
   @moduledoc """
-  The JSON of a `script` element of the document
+  Writes the JSON for a `script` element of the document
 
   The document holds data for the presenter in `script` elements of the type
-  `application/json`: the list of the steps, the program of the presenter,
-  and the sources of the embeds, the videos and the sounds. A text of the
-  deck can hold `</script>`, and that text would close the element. Therefore
-  `for_script/1` writes each `<` as `\\u003c`, which JSON reads as the same
-  character.
+  `application/json`:
+
+  - the list of the steps;
+  - the program of the presenter;
+  - the sources of the embeds, the videos and the sounds.
+
+  A text of the deck can hold `</script>`, and that text can close the
+  element. Therefore `for_script/1` writes each `<` as `\\u003c`, which a JSON
+  parser reads as the same character.
   """
 
   @doc """

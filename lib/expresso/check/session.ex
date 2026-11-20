@@ -3,9 +3,9 @@ defmodule Expresso.Check.Session do
   Runs `--check=browser`: the checks of the page in Playwright, and the keys of the presenter
 
   `--check=browser` runs each check of `--check=a11y`, and then it uses the
-  presenter as the presenter does, with real key presses. It needs Node, the
-  npm packages `playwright` and `axe-core`, the Chromium of Playwright, and
-  the Hex package `playwright_ex`. `find/2` finds them.
+  presenter script as the presenter does, with real key presses. It needs
+  Node, the npm packages `playwright` and `axe-core`, the Chromium of
+  Playwright, and the Hex package `playwright_ex`. `find/2` finds them.
 
   `run/4` writes a copy of the document with axe-core to a temporary
   directory, and opens it in a page of 1920 × 1080:
@@ -14,16 +14,16 @@ defmodule Expresso.Check.Session do
      `assets/src/check.ts` gives the rules.
   2. With no query, the session presses the key of the next step from the
      first step to the last step. After each key, the slide and the step that
-     show must be the next entry of the list of the steps.
+     show must be the next entry in the list of the steps.
   3. The session opens the menu, the list of keys, the overview and the
      handout view with their keys. Each view must open. The menu and the list
      of keys must take the focus, and `Escape` must close them and give the
      focus back.
-  4. Each error of the script of the page, and each `console.error`, during
+  4. Each error of the script in the page, and each `console.error`, during
      the steps 2 and 3 is a problem too.
 
   The keys come from the program of `Expresso.Presenter.Default`, so the
-  check presses the keys that the list of keys of the deck shows.
+  check presses the keys that the list of keys shows in the deck.
   """
 
   # `playwright_ex` is an optional dependency. A project that uses Expresso

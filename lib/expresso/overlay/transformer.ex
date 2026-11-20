@@ -1,6 +1,6 @@
 defmodule Expresso.Overlay.Transformer do
   @moduledoc """
-  The Spark transformer for overlays
+  Expands the overlays of the slides, as a Spark transformer
 
   It runs one time for each deck module at compile time. It calls
   `Expresso.Overlay.Expand.slide/1` for each slide, and it writes the result

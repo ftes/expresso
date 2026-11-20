@@ -1,25 +1,24 @@
 defmodule Expresso.Element.Diagram do
   @moduledoc """
-  An element that shows an SVG file as a diagram
+  Defines the element that shows an SVG file as a diagram
 
-  The `src` option gives the path of the SVG file, and the path is relative to
-  the working directory of the command or to the `root` option of the deck, as
-  for an image. The render function
-  puts the SVG into the document as an element, and not as a data URI as
-  `Expresso.Element.Image` does. Therefore the rules of the theme reach the
-  parts of the diagram, and a part can show at a step.
+  The `src` option gives the path of the SVG file. As for an image, the path
+  is relative to the working directory of the command or to the `root` option
+  of the deck. The render function puts the SVG into the document as an
+  element, and not as a data URI as `Expresso.Element.Image` does. Therefore
+  the rules of the theme apply to the parts of the diagram, and a part can
+  show at a step.
 
   A `part` entity names an element of the file by its `id`, and the `at`
   option and the `on` entities of the part give the steps. The parts are the
-  children of the diagram, so the transformer gives each part its steps, and
-  the verifier checks each part against the diagram. The render function
-  writes the overlay attributes of a part on the element of the file that has
-  its `id`. A file without that `id` stops the render with a message that
-  names the id and the path.
+  children of the diagram. Therefore the transformer gives each part its
+  steps, and the verifier makes sure that each part agrees with the diagram.
+  The render function writes the overlay attributes of a part on the element
+  of the file that has its `id`.
 
-  A part with an `on` entity, or with an effect that moves or grows it, goes
-  into a wrapper, a `g` element with the class `diagram-part`, and the wrapper
-  gets the overlay attributes. The theme moves,
+  The render function puts a part with an `on` entity, or with an effect that
+  moves or grows it, into a wrapper. The wrapper is a `g` element with the
+  class `diagram-part`, and it gets the overlay attributes. The theme moves,
   turns and outlines the wrapper, so the part keeps its own `transform`
   attribute, and a turn goes around the center of the part. A `g` element is
   valid only in an `svg`, a `g` or an `a` element. A part in a different
@@ -27,14 +26,14 @@ defmodule Expresso.Element.Diagram do
   fade, dim and change its color.
 
   The `width` option gives the width of the diagram, as the option of an image
-  does, and a percentage is a part of the width of the slide. A diagram
-  without the option takes the width that the file gives.
+  does. A percentage is relative to the width of the slide. A diagram without
+  the option takes the width that the file gives.
 
-  The file goes into the document as it is, with one change. The document
-  holds one copy of the file for the present view, one for each page of the
-  handout view and one in the menu. A browser resolves a reference such as
-  `url(#fill)` to the first element of the document with that `id`, and a
-  `<style>` element applies to the whole document. Therefore
+  The render function puts the file into the document as it is, with one
+  change. The document holds one copy of the file for the present view, one
+  for each page of the handout view and one in the menu. A browser resolves a
+  reference such as `url(#fill)` to the first element of the document with
+  that `id`. A `<style>` element applies to the whole document. Therefore
   `Expresso.SvgCopy.number/2` gives each copy its own ids, its own references
   and its own style rules. `Expresso.Copies` gives the number.
 
@@ -43,20 +42,19 @@ defmodule Expresso.Element.Diagram do
   attribute, so an id such as `step.1` or `a:b` works.
 
   A `.dot` or a `.gv` file is the source of a graph in the language of
-  Graphviz, and a `.d2` file is the source of a graph in the language of D2.
+  Graphviz. A `.d2` file is the source of a graph in the language of D2.
   `draw/1` runs the tool before the render, and it keeps the SVG and the
   names of the graph in the struct. `Expresso.Element.Diagram.Graphviz` and
   `Expresso.Element.Diagram.D2` give each element of the graph a name from the
-  source, so a part names it in the words of the source. The `layout` option
-  gives the layout engine of the tool. With the `edges` option `:follow`, the
-  default, `draw/1` gives each edge without its own part the steps where both
-  of its ends show. `docs/graph-diagrams.md` gives the plan.
+  source, so a part names the element as the source names it. The `layout`
+  option gives the layout engine of the tool. `docs/graph-diagrams.md` gives
+  the plan.
 
   A `.mmd` file is the source of a diagram in the language of Mermaid, and
   `Expresso.Element.Diagram.Pele` draws it with Pele in Node. The `source`
   option gives the text of a diagram in the deck in place of a file, and the
-  `lang` option names its language, such as `:mermaid`. A diagram takes `src`
-  or `source`, and not both. `docs/mermaid-diagrams.md` gives the plan.
+  `lang` option names its language, such as `:mermaid`.
+  `docs/mermaid-diagrams.md` gives the plan.
 
   `Expresso.Deck.render/1` writes the document with Floki, which writes each
   name of the SVG in lowercase. A browser reads `viewbox` as `viewBox` and
@@ -154,7 +152,8 @@ defmodule Expresso.Element.Diagram do
   `Expresso.Overlay.Render.attributes/1`, and, with the `alt` option, the
   role `img` and the name of the diagram. The key `svg` holds the SVG with
   the attributes of each part on its element. The function raises for a file
-  that it cannot read, and for an `id` that the file does not hold.
+  that it cannot read, and for an `id` that the file does not hold. The
+  message for an `id` names the id and the path.
   """
   @spec get_assigns(t()) :: map()
   @impl Expresso.Element
@@ -374,7 +373,9 @@ defmodule Expresso.Element.Diagram do
   Run the tool of each graph of a deck, and keep the SVG and the names
 
   `Expresso.Renderer` calls this function before `place/1`, so a render runs
-  each tool one time. A diagram of an SVG file does not change.
+  each tool one time. A diagram of an SVG file does not change. With the
+  `edges` option `:follow`, the default, the function gives each edge without
+  its own part the steps where both of its ends show.
   """
   @spec draw(Expresso.Deck.t()) :: Expresso.Deck.t()
   def draw(%Expresso.Deck{} = deck),

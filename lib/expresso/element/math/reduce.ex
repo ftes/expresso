@@ -1,21 +1,21 @@
 defmodule Expresso.Element.Math.Reduce do
   @moduledoc """
-  The lines of a derivation that one β-reduction makes
+  Makes a rewrite from a β-reduction of a derivation
 
   A `reduce` entity names a redex of the line before it, or of the line that
   `from` names. `prepare/3` reads the old line with
-  `Expresso.Element.Math.Lambda`, finds the redex and its parts, and gives the
-  old line these parts, where `k` is the number of the new line:
+  `Expresso.Element.Math.Lambda` and finds the redex and its parts. It gives
+  the old line these parts, where `k` is the number of the new line:
 
     * `lam-k`, the λ with its variable, its dot and the parenthesis before it,
     * `close-k`, the parenthesis after the body,
     * `body-k` and `arg-k`, the body and the argument,
     * `bound-k`, each bound variable.
 
-  It returns a `rewrite` of `Expresso.Element.Math.Rewrite` that replaces each
-  bound variable with a copy of the argument and drops the λ, the
-  parenthesis and the argument. A redex with no bound variable becomes its
-  body. `docs/beta-reductions.md` gives the design.
+  It returns a `rewrite` of `Expresso.Element.Math.Rewrite`. The rewrite
+  replaces each bound variable with a copy of the argument, and it drops the
+  λ, the parenthesis and the argument. A redex with no bound variable becomes
+  its body. `docs/beta-reductions.md` gives the design.
   """
 
   alias Expresso.Element.{MathLine, MathReduce, MathRewrite}

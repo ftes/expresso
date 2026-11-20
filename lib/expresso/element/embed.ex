@@ -1,14 +1,15 @@
 defmodule Expresso.Element.Embed do
   @moduledoc """
-  An element that shows a web page in a slide
+  Defines the element that shows a web page in a slide
 
   The `embed` entity takes the source of the page as its first argument:
 
     * An address that starts with `https://` or `http://`. The browser loads
       the page from the network.
     * The path of a local HTML file, relative to the working directory of the
-      command or to the `root` option of the deck. `sources/1` reads the file, and the document holds its text.
-      The deck then stays one file, and the page works with no network.
+      command or to the `root` option of the deck. `sources/1` reads the file,
+      and the document holds its text. The deck then stays one file, and the
+      page works with no network.
 
   The `title` option names the page for a screen reader, and it is required.
   The `fallback` option gives the path of an image, which shows on paper, in
@@ -17,13 +18,13 @@ defmodule Expresso.Element.Embed do
   The document holds a copy of each slide for the present view and one for
   each page of the handout view. A page in each copy would load the page many
   times, so no copy holds the source. The `iframe` element holds only
-  `data-embed`, the number of the element in the deck, and the renderer
-  writes the sources one time into the element `expresso-embeds`. The
-  presenter loads a page when its slide shows in the present view, and the
-  page then stays loaded.
+  `data-embed`, the number of the element in the deck. The renderer writes
+  the sources one time into the element `expresso-embeds`. The presenter
+  loads a page when its slide shows in the present view, and the page then
+  stays loaded.
 
-  By default the page does not take a click or the focus, so the keys and the
-  clicks of the presenter still work on the slide. With `interactive true`,
+  By default, the page does not take a click or the focus. Thus the keys and
+  the clicks of the presenter still work on the slide. With `interactive true`,
   the page takes the clicks, and a key goes to the page after a click on it.
   `docs/reference/embed-element.md` gives the rules.
   """

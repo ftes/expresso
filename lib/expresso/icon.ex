@@ -1,17 +1,14 @@
 defmodule Expresso.Icon do
   @moduledoc """
-  The icons of a deck: the Lucide icons, and the SVG files that a deck names
+  Makes the SVG of each icon that a deck uses: a Lucide icon, or an SVG file that the deck names
 
-  `priv/icons/lucide.json` holds the Lucide icons (ISC license, see
-  `priv/icons/LICENSE` and `priv/icons/SOURCE`). This module reads the file at
-  compile time, so the document gets the SVG of each icon that a deck uses,
-  and needs no network.
+  `priv/icons/lucide.json` holds the Lucide icons. Their license is ISC: see
+  `priv/icons/LICENSE` and `priv/icons/SOURCE`. This module reads the file at
+  compile time. Therefore the document gets the SVG of each icon that a deck
+  uses, and it needs no network.
 
   The `icons` option of a deck gives names of its own, such as
-  `icons logo: "assets/logo.svg"`. A name of the deck wins over a Lucide name.
-  `svg_file/1` replaces each color of the fill and of the stroke of such a file
-  with `currentColor`, so the icon takes the color of its text, as a Lucide
-  icon does.
+  `icons logo: "assets/logo.svg"`.
 
   `Expresso.IconTransformer` puts the SVG into each `icon` element, and it
   replaces each `:icon:name:` in the text of a text area and of an item.
@@ -100,7 +97,8 @@ defmodule Expresso.Icon do
   declaration, a doctype, the comments, and the `width`, the `height` and the
   `class` of the `svg` element, so the style sheet gives the size. It replaces
   each color of a `fill` or a `stroke`, in an attribute or in a `style`, with
-  `currentColor`. The values `none` and `currentColor` stay.
+  `currentColor`. Thus the icon takes the color of its text, as a Lucide icon
+  does. The values `none` and `currentColor` stay.
 
       iex> Expresso.Icon.svg_file(~s(<?xml version="1.0"?><svg width="10" viewBox="0 0 10 10"><path fill="#f00" stroke="none" d="M0 0h10"/></svg>))
       {:ok, ~s(<svg viewBox="0 0 10 10"><path fill="currentColor" stroke="none" d="M0 0h10"/></svg>)}

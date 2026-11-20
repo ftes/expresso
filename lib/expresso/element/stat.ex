@@ -1,20 +1,18 @@
 defmodule Expresso.Element.Stat do
   @moduledoc """
-  A big number with a label, such as "1,250 orders"
+  An element that shows a big number with a label, such as "1,250 orders"
 
-  The value is a number, so the `count` option can count from `from` to the
-  value when the stat shows. The `prefix` and the `suffix` go before and after
-  the number, such as `"$"` and `"k"`. The number has `decimals` digits after
-  the point, and a comma between each group of three digits unless `group` is
-  false.
+  The value is a number, so the `count` option can change the number from
+  `from` to the value when the stat shows. The `prefix` and the `suffix` go
+  before and after the number, such as `"$"` and `"k"`. The number has
+  `decimals` digits after the point, and a comma between each group of three
+  digits unless `group` is false.
 
   The count reads the registered property `--chart-n`, as the numbers of a
-  chart with frames do, and `assets/src/chart.ts` writes its value as the text
-  of the number at each frame of the browser. At the end of the count, the
-  script writes a text from the attribute `data-texts`, so the number shows
-  each digit of the value. A screen reader reads the value
-  from a text that the eye does not see, so it never reads a number in the
-  middle of the count.
+  chart with frames do. At each frame of the browser, `assets/src/chart.ts`
+  writes the value of `--chart-n` as the text of the number. At the end of the
+  count, the script writes a text from the attribute `data-texts`, so the
+  number shows each digit of the value.
   """
 
   use Expresso.Element
@@ -154,7 +152,8 @@ defmodule Expresso.Element.Stat do
 
   The figure holds the number and its label. The number that the eye sees is
   hidden from a screen reader, and a hidden text holds the whole value for a
-  screen reader. With `count`, the number has the class `stat-count`.
+  screen reader. Thus a screen reader never reads a number in the middle of
+  the count. With `count`, the number has the class `stat-count`.
   """
   @spec render(map()) :: Phoenix.HTML.safe()
   @impl Expresso.Element

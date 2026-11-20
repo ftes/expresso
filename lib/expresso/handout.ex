@@ -1,12 +1,12 @@
 defmodule Expresso.Handout do
   @moduledoc """
-  The steps of a slide that the handout view shows and that a printer prints
+  Selects the steps of a slide that the handout view shows and that a printer prints
 
   The `handout` option of a slide takes `:all`, `:last`, or the steps of the
-  slide in the forms of an overlay specification, such as `3`, `2..4`,
-  `[2, 5]` or `[from: 3]`. A list can also hold `:last`, such as `[2, :last]`,
-  so an author can name the last step without its number. A `:next` has no
-  meaning here, because no counter runs for this option.
+  slide. The steps have the forms of an overlay specification, such as `3`,
+  `2..4`, `[2, 5]` or `[from: 3]`. A list can also hold `:last`, such as
+  `[2, :last]`, so the user can name the last step without its number. A
+  `:next` has no meaning here, because no counter runs for this option.
 
   The `handout` option of the deck takes `:all` or `:last`, and it gives the
   value for each slide without the option. The default is `:all`.

@@ -1,6 +1,6 @@
 defmodule Expresso.Overlay.Inline do
   @moduledoc """
-  The steps of a part of a text: a tag with the attribute `at`
+  Makes the steps for a part of a text from the attribute `at` of its tag
 
   The text of a text area and of an item is HTML. A tag of that text takes
   the attribute `at` with the steps of the part, and the attribute `state`
@@ -14,13 +14,12 @@ defmodule Expresso.Overlay.Inline do
   | `at="2-"` | The part shows at step 2 and at each step after it. |
   | `at="3" state="alert"` | The part shows at each step, and it has the state `alert` at step 3. |
 
-  The value of `at` is a step specification in text. `spec/1` gives its forms.
+  The value of `at` is a step specification in text. The doc of `spec/1` lists
+  its forms.
 
-  `extract/1` runs before the expansion of the overlays. It makes an
-  `Expresso.Element.TextPart` for each such tag, in the `elements` of the text
-  element, and it changes the attributes of the tag into `data-text-part`
-  with the number of the part. `render/2` writes the attributes of the
-  overlay contract into the tag. `docs/inline-steps.md` gives the design.
+  `extract/1` runs before the expansion of the overlays. `render/2` writes the
+  attributes of the overlay contract into the tag. `docs/inline-steps.md`
+  gives the design.
   """
 
   alias Expresso.Element.{Item, On, TextArea, TextPart, Tree}
@@ -43,7 +42,10 @@ defmodule Expresso.Overlay.Inline do
   Make the parts of each text of a list of elements
 
   The function changes each text area and each item whose text holds a tag
-  with `at`. An element with parts from an earlier call stays as it is.
+  with `at`. It makes an `Expresso.Element.TextPart` for each such tag, in the
+  `elements` of the text element. It changes the attributes of the tag into
+  `data-text-part` with the number of the part. An element with parts from an
+  earlier call stays as it is.
   """
   @spec extract([struct()]) :: {:ok, [struct()]} | {:error, String.t()}
   def extract(elements), do: Tree.map_ok(elements, &own/1)

@@ -14,18 +14,13 @@ defmodule Expresso.Presenter.Interpreter do
     2. It finds the commands of the event in that mode.
     3. It applies the commands to the state, one after the other.
 
-  The result holds the new state and the built-in functions to call, such as
-  `:open_speaker`. `prevented?/3` tells if the browser must not use the event:
-  that is true when the state changes or a built-in function runs. A key that
-  changes nothing goes to the browser, so the arrow keys still scroll the pages
-  of the handout view.
+  A change of the step sets each field in the option `reset` of the presenter
+  to its first value. Thus the key `d`, which turns off the dimming of code,
+  has an effect only on the step where the presenter pressed it.
 
-  A change of the step gives each field of the option `reset` of the
-  presenter its first value. Thus the key `d`, which turns off the dimming of
-  code, holds only for the step where the presenter pressed it.
-
-  The fragment of the address and the messages between the two windows do not
-  go through the modes. They go to a slide and a step of the deck directly.
+  The interpreter does not apply the modes to the fragment of the address or
+  to the messages between the two windows. These two events go to a slide and
+  a step of the deck directly.
   """
 
   alias Expresso.Presenter.Program
@@ -64,8 +59,8 @@ defmodule Expresso.Presenter.Interpreter do
   @doc """
   Apply one event to a state
 
-  Returns the new state and the built-in functions that the event calls, in
-  sequence.
+  Returns the new state and the built-in functions that the event calls, such
+  as `:open_speaker`, in sequence.
   """
   @spec run(Program.t(), state(), event()) :: {state(), [atom()]}
   def run(program, state, {:hash, fragment}) do
@@ -117,7 +112,8 @@ defmodule Expresso.Presenter.Interpreter do
   Tell if the browser must not use an event
 
   The result is true when the state changed or the event called a built-in
-  function.
+  function. A key that changes nothing goes to the browser, so the arrow keys
+  still scroll the pages of the handout view.
   """
   @spec prevented?(state(), state(), [atom()]) :: boolean()
   def prevented?(before, after_event, effects), do: after_event != before or effects != []

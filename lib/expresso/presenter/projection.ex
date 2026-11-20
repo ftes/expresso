@@ -11,9 +11,10 @@ defmodule Expresso.Presenter.Projection do
       `body`. `attribute :view, "data-view"` writes `data-view="present"`. With
       `flag: true`, the attribute is `"true"` while the field is true, and the
       script removes it while the field is false.
-    * `property` - writes a value of the current entry of the list of the steps
-      into a custom property of the `body`. `property "--fraction", :fraction`
-      writes `--fraction: 0.5` at the middle of the deck.
+    * `property` - writes a value from the current entry in the list of the
+      steps into a custom property of the `body`.
+      `property "--fraction", :fraction` writes `--fraction: 0.5` at the middle
+      of the deck.
     * `mark` - writes an attribute on each element that a selector finds, when
       a number of the element agrees with a field of the state.
       `mark "data-selected", ".handout-page[data-thumbnail]", :slide,
@@ -30,7 +31,7 @@ defmodule Expresso.Presenter.Projection do
   alias Expresso.Presenter.Schema.Record
 
   defmodule Attribute do
-    @moduledoc "The target of the `attribute` entity of the presenter DSL"
+    @moduledoc "Defines the target struct of an `attribute` entity in the presenter DSL"
 
     @typedoc "A field of the state in an attribute of the `body`"
     @type t :: %__MODULE__{field: atom(), name: String.t(), flag: boolean()}
@@ -39,7 +40,7 @@ defmodule Expresso.Presenter.Projection do
   end
 
   defmodule Property do
-    @moduledoc "The target of the `property` entity of the presenter DSL"
+    @moduledoc "Defines the target struct of a `property` entity in the presenter DSL"
 
     @typedoc "A value of the current entry in a custom property of the `body`"
     @type t :: %__MODULE__{name: String.t(), entry: :fraction | :done}
@@ -48,7 +49,7 @@ defmodule Expresso.Presenter.Projection do
   end
 
   defmodule Mark do
-    @moduledoc "The target of the `mark` entity of the presenter DSL"
+    @moduledoc "Defines the target struct of a `mark` entity in the presenter DSL"
 
     @typedoc """
     An attribute on the elements whose number agrees with a field of the state

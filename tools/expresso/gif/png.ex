@@ -1,6 +1,6 @@
 defmodule Expresso.Gif.Png do
   @moduledoc """
-  Reads the size and the filtered rows of a PNG image of 8-bit RGB
+  Reads the size and the filtered rows of a PNG image in 8-bit RGB
 
   Chromium writes each screenshot in this format. `:zlib` inflates the data.
   `Expresso.Gif.Nif.unfilter/3` then removes the filter of each row.

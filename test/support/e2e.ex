@@ -1,18 +1,18 @@
 defmodule Expresso.E2E do
   @moduledoc """
-  The case template of the browser tests
+  Defines the case template of the browser tests
 
   A browser test renders a deck to an HTML file, opens the file in Chromium
-  with Playwright, and operates the presenter as a person does. `use
+  with Playwright, and operates the presenter as the user does. `use
   Expresso.E2E` tags each test of the module with `:e2e`. `test_helper.exs`
   excludes that tag, so `mix test` does not start a browser. `mix test --only
   e2e` runs these tests. `docs/development/browser-tests.md` gives the setup.
 
   Each module starts one Playwright connection and one browser. Each test gets
   a new browser context and a new page, so no state goes from one test to the
-  next. The context asks for reduced motion, and the theme then sets each
-  duration to zero. Therefore a test can read a style right after a key. A
-  test with motion makes its own context, and it reads a change with
+  next. The context emulates reduced motion, and the theme then sets each
+  duration to zero. Therefore a test can read a style immediately after a key
+  press. A test with motion makes its own context, and it reads a change with
   `slow_motion/2`, `pause_animations/3` and `finish_animations/2`.
 
   The environment variable `EXPRESSO_CHROMIUM` gives the path of a Chromium

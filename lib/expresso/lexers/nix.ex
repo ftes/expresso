@@ -1,10 +1,10 @@
 defmodule Expresso.Lexers.Nix do
   @moduledoc """
-  The Makeup lexer of the Nix language
+  Splits a text of Nix into Makeup tokens
 
   An attribute before `=` is an attribute, and a path such as
   `./default.nix` or `<nixpkgs>`, or an address, is a string. An
-  interpolation `${...}` stays in its string.
+  interpolation `${...}` is a part of its string.
   """
 
   use Expresso.Lexer, language: :nix

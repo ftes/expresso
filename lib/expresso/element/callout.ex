@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Callout do
   @moduledoc """
-  A box with a kind, a title and other elements, such as a note or a warning
+  Defines the callout, a box with a kind, a title and other elements, such as a note or a warning
 
   A callout holds the elements that a text box holds. Its header shows an icon
   and the name of its kind, such as "Warning", in the color of the kind. The

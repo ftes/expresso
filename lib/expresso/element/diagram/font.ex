@@ -1,10 +1,10 @@
 defmodule Expresso.Element.Diagram.Font do
   @moduledoc """
-  The font that a tool gets for the text of a graph
+  Supplies the font that a tool gets for the text of a graph
 
   Each tool measures a text with the font that it gets, and it calculates the
-  size of each box from that measure. Therefore the render gives the font of
-  the slide to the tool, and the browser shows the text in the same font.
+  size of each box from that measurement. Therefore the render gives the font
+  of the slide to the tool, and the browser shows the text in the same font.
 
   The built-in theme uses Atkinson Hyperlegible. The document holds that font
   as WOFF2 files, and the tools read TTF files, so `assets/fonts/` also holds
@@ -13,9 +13,7 @@ defmodule Expresso.Element.Diagram.Font do
   `assets/` directory.
 
   The `font` option of a diagram gives a directory with the TTF files of a
-  different font. `read!/1` takes the family and the style of each file from
-  the `name` table of the file. A style that the directory does not have takes
-  the regular file.
+  different font. `read!/1` reads that directory.
   """
 
   @typedoc "A font: its family, and the bytes of the TTF file of each style"
@@ -44,6 +42,10 @@ defmodule Expresso.Element.Diagram.Font do
 
   @doc """
   Read the TTF files of a directory
+
+  The function takes the family and the style of each file from the `name`
+  table of the file. For a style that the directory does not have, the
+  function uses the regular file.
 
   The function raises an `ArgumentError` for a directory without a TTF file
   with the style Regular, and for files of more than one family.

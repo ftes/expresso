@@ -1,13 +1,13 @@
 defmodule Expresso.Overlay.EffectVerifier do
   @moduledoc """
-  The check of the `css` option and of the effects
+  Makes sure that the `css` option and each effect of a deck are valid
 
   `Expresso.VerifierTransformer` runs it one time for each deck module at
   compile time, so an error stops the compile. It reads the names
   of the `css` option from `Expresso.Dsl.css_names/1`, and a file that
   `Expresso.CssTransformer` cannot read is an error. It then makes sure that
   each effect of the deck, of a slide and of an element has a rule. The theme
-  gives the rules of the effects of this project, and the CSS of the deck can
+  gives the rules for the effects of this project, and the CSS of the deck can
   give more, such as `[data-effect="spin"]` for `effect :spin`. The fade needs
   no rule.
   """

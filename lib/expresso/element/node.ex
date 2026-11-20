@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Node do
   @moduledoc """
-  A node of a chart of flows, or a node of a tree
+  Holds a node in a chart of flows, or a node in a tree
 
   The `node` entity takes the name of the node as its argument, such as
   `node "Losses", column: 3`.
@@ -14,9 +14,9 @@ defmodule Expresso.Element.Node do
   its box. The node holds the nodes under it in `elements`.
   `Expresso.Element.Hierarchy` reads it. The `image`, `icon`, `fields`,
   `color` and `value` options add to the box, and the `layout` option sets
-  how the nodes under it go. `Expresso.PathTransformer` joins the path of
-  the image to the root of the deck, and `Expresso.IconTransformer` puts the
-  SVG of the icon into `svg`.
+  the layout of the nodes under it. `Expresso.PathTransformer` joins the path
+  of the image to the root of the deck, and `Expresso.IconTransformer` puts
+  the SVG of the icon into `svg`.
 
   The two parents share one entity, so `Expresso.Builder` has one function
   `node/2`. Each parent refuses the options of the other parent:

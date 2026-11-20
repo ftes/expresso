@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Eventmodeling do
   @moduledoc """
-  The plan of an event model of Pele
+  Makes the plan for an event model of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |

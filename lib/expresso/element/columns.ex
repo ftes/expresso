@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Columns do
   @moduledoc """
-  An element that puts its columns side by side
+  Defines an element that puts its columns side by side
 
   A `columns` element holds `column` entities, and a column holds the same
   elements as a text box. The theme makes the element a flex row. A column

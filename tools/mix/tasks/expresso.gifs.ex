@@ -8,13 +8,15 @@ defmodule Mix.Tasks.Expresso.Gifs do
   `Expresso.Recorder` then opens each HTML file in Chromium, does the actions
   of the example, and returns the frames. The task writes one GIF for each
   example into the output directory, with `Expresso.Gif`, or one PNG for a
-  still. The default output directory is `_build/gifs`. A list of names
-  records only those examples.
+  still. The default output directory is `_build/gifs`. With a list of names,
+  the task records only those examples.
 
-  The decks of `examples/animations/` give the GIFs of the guides of `docs/`.
-  The decks of `examples/presenter/` give the GIFs and the stills of
-  `docs/reference/presenter.md` and `docs/how-to/present-a-deck.md`. The deck of `examples/themes/` gives one still for each built-in
-  theme, which `docs/reference/theme-option.md` shows.
+  The task makes the GIFs for the guides in `docs/` from the decks of
+  `examples/animations/`. It makes the GIFs and the stills for
+  `docs/reference/presenter.md` and `docs/how-to/present-a-deck.md` from the
+  decks of `examples/presenter/`. It makes one still for each built-in theme
+  from the deck of `examples/themes/`, and `docs/reference/theme-option.md`
+  shows these stills.
 
   The task is in `tools/`, so it is available in dev and in test only. The
   recorder needs the Playwright driver of `npm install` and Chromium. The

@@ -1,11 +1,11 @@
 defmodule Expresso.Element.Quotation do
   @moduledoc """
-  An element that shows a quotation
+  Shows a quotation
 
   The `quotation` entity takes its text as its first argument, and the `by`
   option gives the name of the source. The entity is not named `quote`,
-  because `Kernel.SpecialForms.quote/2` has that name, and a call of the DSL
-  would be ambiguous.
+  because `Kernel.SpecialForms.quote/2` has that name, and that name makes a
+  call of the DSL ambiguous.
   """
 
   use Expresso.Element

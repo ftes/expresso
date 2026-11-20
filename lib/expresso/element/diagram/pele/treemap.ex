@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Treemap do
   @moduledoc """
-  The plan of a treemap of Pele
+  Makes the plan for a treemap of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |

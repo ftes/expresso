@@ -1,13 +1,10 @@
 defmodule Expresso.Check.Tools do
   @moduledoc """
-  Installs the tools of the browser levels of `--check` into a directory of the user
+  Installs the tools for the browser levels of `--check` into a directory of the user
 
   `mix expresso --install-check-tools` and `expresso --install-check-tools`
-  call `install/2`. The function installs the npm packages `playwright` and
-  `axe-core` into `directory/1`, and the Chromium and the headless shell of
-  Playwright into the cache of Playwright. The check then finds each tool
-  there, so a project with no `node_modules` can run each level. The
-  installation needs Node and npm on the `PATH`.
+  call `install/2`. The check then finds each tool in `directory/1` and in the
+  cache of Playwright, so a project with no `node_modules` can run each level.
 
   `--check=browser` in a Mix project also needs the Hex package
   `playwright_ex` in the deps of the project. The binary holds it.
@@ -57,6 +54,8 @@ defmodule Expresso.Check.Tools do
      versions of `packages/0`.
   2. `node <directory>/node_modules/playwright/cli.js install chromium`,
      which installs the Chromium and the headless shell of Playwright.
+
+  The installation needs Node and npm on the `PATH`.
 
   `run` runs one command with its arguments, and returns its exit status.
   The default writes the output of the command to the standard output.

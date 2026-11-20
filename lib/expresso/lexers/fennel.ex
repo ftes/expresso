@@ -1,11 +1,11 @@
 defmodule Expresso.Lexers.Fennel do
   @moduledoc """
-  The Makeup lexer of Fennel
+  Splits a text of Fennel into Makeup tokens
 
-  A special form or a macro, such as `fn` or `local`, is a keyword, and a
-  common function of Lua, such as `print`, is a built-in. A multiple value
-  of a hash function, such as `$1`, is a variable. See
-  `Expresso.Lexers.Lisp` for the rules that the Lisps share.
+  A special form or a macro, such as `fn` or `local`, is a keyword. A common
+  function of Lua, such as `print`, is a built-in. A multiple value of a hash
+  function, such as `$1`, is a variable. See `Expresso.Lexers.Lisp` for the
+  rules that the Lisps share.
   """
 
   use Expresso.Lexer, language: :fennel

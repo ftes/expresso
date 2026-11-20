@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Math.Font do
   @moduledoc """
-  The math font of a deck, and the style sheet of Temml for it
+  Defines the math font of a deck, and makes the style sheet of Temml for it
 
   The deck option `math_font` takes one of `names/0`. `Expresso.Renderer` writes
   `css/1` into a `style` element of a document with a `math` element, so a

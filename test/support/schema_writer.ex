@@ -10,10 +10,10 @@ defmodule Expresso.Test.SchemaWriter do
       `decodeWrittenProgram`.
 
   A form of a record, such as `written_entry`, also gets the type of the
-  object without the prefix `Written`, such as `Entry`, and a converter from
-  the array to the object, such as `fromWrittenEntry`. A form of one record
-  also gets a converter back to the array, such as `toWrittenEntry`, for the
-  tests of the script.
+  object without the prefix `Written`, such as `Entry`. The form also gets a
+  converter from the array to the object, such as `fromWrittenEntry`. A form
+  of one record also gets a converter back to the array, such as
+  `toWrittenEntry`, for the tests of the script.
 
   After the forms, the file holds each constant of `Schema.constants/0`, such
   as `ELEMENT_KINDS`, with its type.
@@ -24,7 +24,7 @@ defmodule Expresso.Test.SchemaWriter do
       EXPRESSO_SCHEMA=write mix test test/expresso/presenter/schema_test.exs
 
   Prettier does not format the file, because this module writes it. Each call
-  of a function of `decode.ts` has the annotation `@__PURE__`, so esbuild keeps
+  to a function of `decode.ts` has the annotation `@__PURE__`, so esbuild keeps
   in the bundle only the decoders that the script uses.
   """
 

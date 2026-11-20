@@ -1,8 +1,8 @@
 defmodule Expresso.Lexers.Yaml do
   @moduledoc """
-  The Makeup lexer of YAML
+  Splits a text of YAML into Makeup tokens
 
-  A key before `: ` is a tag, an anchor such as `&base` and an alias such as
+  A key before `: ` is a tag. An anchor such as `&base` and an alias such as
   `*base` are a label, and a tag such as `!!str` is a type. A marker of a
   document, `---` or `...`, is a keyword. A comment starts at `#` only at the
   start of a line or after white space, so the `#` of `C#` or of a URL is

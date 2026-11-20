@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Railroad do
   @moduledoc """
-  The plan of a railroad diagram of Pele
+  Makes the plan for a railroad diagram of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |
@@ -9,7 +9,7 @@ defmodule Expresso.Element.Diagram.Pele.Railroad do
 
   A railroad diagram has no edges. A rule is a container, and each reference
   in its track has it as its parent. Pele gives a reference the name of the
-  rule as its `data-id`, so the plan counts the references to each rule, and
+  rule as its `data-id`. Thus the plan counts the references to each rule, and
   the function of the plan takes the number of earlier references with the
   same `data-id`. A terminal, such as `"#"`, has no part of its own.
   """

@@ -1,9 +1,9 @@
 defmodule Expresso.Lexers.Dhall do
   @moduledoc """
-  The Makeup lexer of Dhall
+  Splits a text of Dhall into Makeup tokens
 
-  A field before `=` or `:` is an attribute, a built-in type such as
-  `Natural` is a type, and a built-in function such as `List/length` is a
+  A field before `=` or `:` is an attribute, and a built-in type such as
+  `Natural` is a type. A built-in function such as `List/length` is a
   built-in. An import, such as `./types.dhall`, `env:HOME` or an address, is
   a string.
   """

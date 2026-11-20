@@ -3,10 +3,9 @@ defmodule Expresso.Gif.Container do
   Writes the parts of a GIF89a file around the encoded frames
 
   Each frame is a rectangle of the logical screen, with its own color table
-  and its own delay. A frame with a transparent index lets the pixels of the
-  frame before it show through, because each frame keeps the disposal method
-  "do not dispose". The NETSCAPE2.0 extension makes the GIF repeat with no
-  end.
+  and its own delay. Each frame keeps the disposal method "do not dispose".
+  Thus where a frame has a transparent pixel, the pixel of the frame before it
+  stays visible. The NETSCAPE2.0 extension makes the GIF repeat with no end.
   """
 
   import Bitwise

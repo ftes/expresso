@@ -1,22 +1,20 @@
 defmodule Expresso.Element.Tree do
   @moduledoc """
-  The walks over a tree of elements
+  Holds the walks over a tree of elements
 
   A container, such as a text box, a column or a list, holds its children
   under the key `:elements`. Each function of this module reads the children
   of an element with `children/1`, so each walk reads them in the same way.
-  An element without the key, such as a `pause`, has no children, and `nil`
-  is an empty list.
 
   Each function visits the elements in document order: an element comes
   before its children, and its children come before the next element. A
   function that changes the elements calls the function of the caller on an
-  element first, and then it walks the children of the result.
+  element first, and then it visits the children of the result.
 
   The overlay expansion, the overlay check, `Expresso.Overlay.Render.identify/1`
-  and `Expresso.Placement` keep their own walks, because they carry the
-  context of the parent or they have their own rules. The first three read
-  the children with `children/1` too. `Expresso.Placement` also reads the
+  and `Expresso.Placement` keep their own walks. They keep these walks because
+  they use the context of the parent or have their own rules. The first three
+  read the children with `children/1` too. `Expresso.Placement` also reads the
   key `:timeline` of a chart.
   """
 
@@ -28,8 +26,8 @@ defmodule Expresso.Element.Tree do
   @doc """
   Return the children of an element
 
-  The function returns `[]` for an element without the key `:elements`, and
-  for the value `nil`.
+  The function returns `[]` for an element without the key `:elements`, such
+  as a `pause`, and for the value `nil`.
 
       iex> Expresso.Element.Tree.children(%{elements: [%{text: "a"}]})
       [%{text: "a"}]

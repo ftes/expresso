@@ -1,6 +1,6 @@
 defmodule Expresso.Lexers.Latex do
   @moduledoc """
-  The Makeup lexer of LaTeX
+  Splits a text of LaTeX into Makeup tokens
 
   A command, such as `\\section` or `\\textbf`, is a function, and
   `\\begin`, `\\end` and the commands of a document's structure are

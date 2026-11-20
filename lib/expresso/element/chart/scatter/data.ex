@@ -1,10 +1,10 @@
 defmodule Expresso.Element.Chart.Scatter.Data do
   @moduledoc """
-  The points of a scatter plot from the rows of a CSV file
+  Reads the points of a scatter plot from the rows of a CSV file
 
   The first row holds the headings, and each other row is one point. The
   options `label`, `x`, `y`, `symbol`, `color` and `size` of the chart name
-  the column of each value, so a deck can show different columns of one
+  the column of each value. Thus a deck can show different columns of one
   file:
 
   | Option | The column | The default |
@@ -15,14 +15,12 @@ defmodule Expresso.Element.Chart.Scatter.Data do
   | `symbol` | A category of the symbol | No symbol |
   | `color` | A category of the color | No color |
   | `size` | The size, a number more than zero | No size |
-  | `frames` | The label of the frame of the row | No frames |
+  | `frames` | The label of the frame for the row | No frames |
 
-  An empty cell of the symbol or of the color gives the point no category. A
-  column of the color with a number in each cell that is not empty gives
-  each point a color from a number, on the scale of the `color_scale`
-  option.
-  With `frames`, each row is a point in one frame, and the function returns
-  each point with the label of its frame.
+  An empty cell of the symbol or of the color gives the point no category.
+  When a column of the color has a number in each cell that is not empty,
+  each point has a color from a number. That color is on the scale of the
+  `color_scale` option.
   """
 
   alias Expresso.Element.Chart.Csv
@@ -34,6 +32,9 @@ defmodule Expresso.Element.Chart.Scatter.Data do
   `rows` are the rows of `Expresso.Element.Chart.Csv.rows/3`, with the
   headings first. `columns` holds the options of the chart that name the
   columns.
+
+  With `frames`, each row is a point in one frame, and the function returns
+  each point with the label of its frame.
 
       iex> rows = [{1, ["service", "cost", "load"]}, {2, ["api", "1200", "840"]}]
       iex> {:ok, [point]} = Expresso.Element.Chart.Scatter.Data.points(rows, "a.csv", x: "cost", y: "load")

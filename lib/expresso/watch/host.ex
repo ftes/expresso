@@ -12,8 +12,7 @@ defmodule Expresso.Watch.Host do
 
   Each such request still has the page's host name in its `Host` header. This
   module passes a request only when that header is `127.0.0.1` or
-  `localhost`, with any port. The server answers each other request, and a
-  request with no `Host` header, with the status 403.
+  `localhost`.
 
   `Expresso.Watch.Server` puts this module first in the `:httpd` module list,
   and `:httpd` calls `do/1` for each request.

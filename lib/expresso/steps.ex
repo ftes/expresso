@@ -1,6 +1,6 @@
 defmodule Expresso.Steps do
   @moduledoc """
-  Makes the list of each step of a deck for the presenter
+  Makes the list of each step in a deck for the presenter
 
   The renderer writes the list into the document as JSON, in the element
   `script#expresso-deck`. The presenter script reads it at load. The script
@@ -15,17 +15,14 @@ defmodule Expresso.Steps do
     * `"slides"` - one object for each slide, in sequence. `slides/1` tells
       what each key is.
     * `"duration_ms"` - the length of the talk in milliseconds, or `null`.
-      `duration/1` gives it.
+      `duration/1` returns it.
 
   A slide with the option `hidden true` is not a part of the talk. The list
-  holds its steps, because the presenter can go to it. The talk skips it:
-  `previous` and `next` of an entry go around each hidden slide, and
-  `fraction`, `done` and the numbers of the slides count only the slides of
-  the talk. `docs/hidden-slides.md` gives the design.
+  holds its steps, because the presenter can go to it. The talk skips it.
+  `docs/hidden-slides.md` gives the design.
 
-  The `advance` option of a slide or of the deck gives each step a time, and
-  the `loop` option of the deck makes the first step of the talk the step
-  after the last one. `docs/timed-advance.md` gives the design.
+  `docs/timed-advance.md` gives the design for the `advance` option and the
+  `loop` option.
 
   `docs/research/elixir-presenter-report.md` gives the reason for the list.
   """

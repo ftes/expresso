@@ -1,11 +1,11 @@
 defmodule Expresso.CodeVerifier do
   @moduledoc """
-  The Spark verifier of the language of each code element
+  Gives a warning for each code element with a language that no lexer registers
 
-  It runs one time for each deck module at compile time. A code element with
-  a language that no lexer registers shows its lines with no colors, so a
-  misspelled name, such as `"elixr"`, gives no visible error. The verifier
-  gives a warning for such a language, with the list of the languages that
+  This Spark verifier runs one time for each deck module at compile time. A
+  code element with a language that no lexer registers shows its lines with
+  no colors. Thus a misspelled name, such as `"elixr"`, causes no visible
+  error. The warning holds the list of the languages that
   `Expresso.Highlight.languages/0` returns. The deck still compiles, and the
   element shows plain text. A code element with no language gets no warning.
   """

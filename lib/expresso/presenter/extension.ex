@@ -1,12 +1,12 @@
 defmodule Expresso.Presenter.Extension do
   @moduledoc """
-  The Spark DSL extension of the presenter definition
+  Defines the Spark DSL extension for the presenter definition
 
-  It gives the options `state`, `sync` and `reset`, the `mode` entity, and the `key` and
-  `event` entities of a mode. The entities `attribute`, `property` and `mark`
-  give the projections of `Expresso.Presenter.Projection`. It imports
-  `Expresso.Presenter.Commands`, so a binding can write `step(1)` in place of
-  `{:step, 1}`.
+  It declares the options `state`, `sync` and `reset`, the `mode` entity, and
+  the `key` and `event` entities of a mode. The entities `attribute`,
+  `property` and `mark` declare the projections of
+  `Expresso.Presenter.Projection`. It imports `Expresso.Presenter.Commands`, so
+  the definition can write `step(1)` in place of `{:step, 1}` in a binding.
   `Expresso.Presenter.Verifier` runs when a module that uses the DSL compiles.
 
   Only `Expresso.Presenter.Default` uses the DSL. A deck cannot change the

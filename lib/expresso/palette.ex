@@ -3,11 +3,11 @@ defmodule Expresso.Palette do
   Holds the colors of a theme, and makes sure that they meet the minimums of WCAG and APCA
 
   A palette has the 16 colors of a base16 scheme, `base00` to `base0F`. The
-  scheme gives each color a purpose: `base00` is the background, `base05` the
-  text, `base03` the comments, and `base08` to `base0F` the accents. `new/4`
-  makes a palette, and it gives each **role** of the theme one of the colors.
-  A role is a color that the style sheet reads as a custom property, such as
-  `--text` or `--code-keyword`. `roles/0` lists them.
+  scheme gives each color a purpose. `base00` is the background, `base05` is
+  the text, `base03` is the comments, and `base08` to `base0F` are the
+  accents. `new/4` makes a palette, and it assigns one of the colors to each
+  **role** of the theme. A role is a color that the style sheet reads as a
+  custom property, such as `--text` or `--code-keyword`. `roles/0` lists them.
 
   `problems/1` returns each role that does not meet a minimum. Each minimum has
   two measures: the contrast ratio of WCAG 2.2, and the lightness contrast `Lc`
@@ -17,28 +17,29 @@ defmodule Expresso.Palette do
     * Each role of text, on its background: 4.5:1 and Lc 60. 4.5:1 is the
       minimum of WCAG 2.2 for normal text, criterion 1.4.3. Lc 60 is the
       minimum of APCA for the text of content. A slide shows large text, but a
-      projector and the light of a room lower the contrast, so a theme does not
-      use the smaller minimums of large text.
+      projector and the light of a room lower the contrast. Thus a theme does
+      not use the smaller minimums of large text.
     * Each role of text with the dim opacity of the palette, on its
       background: 3:1 and Lc 30. 3:1 is the minimum of criterion 1.4.11 for a
       part that the reader must see. Lc 30 is the minimum of APCA for any
-      text that the reader must be able to read, such as a text that the
-      presenter does not talk about now. A dimmed element is less important, and it
-      must stay readable. The dimming applies to each color of the element,
-      such as a comment of a dimmed line of code, so the role with the lowest
-      contrast sets the opacity. 3:1 is also the minimum of WCAG for large
-      text, and not for normal text. The `dim_contrast` option of a deck raises
-      it, such as to 4.5:1 for criterion 1.4.3. See `with_dim_contrast/2`.
+      text that the reader must be able to read. An example is a text that
+      the presenter does not talk about now.
+
+      A dimmed element is less important, and it must stay readable. The
+      dimming applies to each color of the element, such as a comment in a
+      dimmed line of code. Thus the role with the lowest contrast sets the
+      opacity. 3:1 is also the minimum of WCAG for large text, and not for
+      normal text. The `dim_contrast` option of a deck raises it, such as to
+      4.5:1 for criterion 1.4.3. See `with_dim_contrast/2`.
 
   `docs/architecture.md` gives the formulas, and it tells why the dimming of a
   theme is small.
 
   The accent also colors the progress bar and the frame of the selected page
-  in the overview, and 4.5:1 is more than the 3:1 that criterion 1.4.11 gives
-  for them. `adjust/1` changes only the lightness of each role that fails,
-  until it meets the minimum, and it never changes a background.
-  `Expresso.Palette.Builtin` adjusts each built-in theme, and
-  `Expresso.ThemeVerifier` gives a warning for a palette of a deck that fails.
+  in the overview. For these two parts, 4.5:1 is more than the 3:1 that
+  criterion 1.4.11 gives. `Expresso.Palette.Builtin` adjusts each built-in
+  theme, and `Expresso.ThemeVerifier` gives a warning for a palette of a deck
+  that fails.
   """
 
   alias Expresso.Color
@@ -301,7 +302,8 @@ defmodule Expresso.Palette do
   @doc """
   Change the lightness of each role that fails, until each role meets its minimum
 
-  The function keeps the hue of each color and each background. It returns
+  The function keeps the hue of each color and each background. It changes
+  only the lightness of a role, and it never changes a background. It returns
   `:error` when no lightness gives a role its minimum.
   """
   @spec adjust(t()) :: {:ok, t()} | :error

@@ -1,6 +1,6 @@
 defmodule Expresso.Slide do
   @moduledoc """
-  A slide
+  Holds one slide of a deck as a struct
   """
 
   @type t :: %__MODULE__{

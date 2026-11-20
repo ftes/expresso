@@ -1,49 +1,54 @@
 defmodule Expresso.Element.Chart do
   @moduledoc """
-  An element that draws a bar chart, a line chart, a pie chart, a treemap, a
-  sunburst, a sankey, an alluvial chart, a parallel sets chart, a chord chart,
-  a scatter plot or a waterfall chart
+  Draws a chart as an element of a slide
+
+  The element draws a bar chart, a line chart, a pie chart, a treemap, a
+  sunburst or a sankey. It also draws an alluvial chart, a parallel sets
+  chart, a chord chart, a scatter plot or a waterfall chart.
 
   The `chart` entity takes the kind as its first argument: `:bar`, `:line`,
   `:pie`, `:treemap`, `:sunburst`, `:sankey`, `:alluvial`, `:parallel_sets` or
-  `:chord`. A slash in a category of a treemap or a
-  sunburst names a part of a group, and `Expresso.Element.Chart.Hierarchy`
-  draws them. The `categories` option gives the names of the categories, and each
-  `series` entity gives a name and one value for each category. The `src`
-  option gives a CSV file in place of the two: the first row holds the names
-  of the series, and each other row holds a category and its values.
+  `:chord`. A slash in a category of a treemap or a sunburst names a part of a
+  group, and `Expresso.Element.Chart.Hierarchy` draws them. The `categories`
+  option gives the names of the categories, and each `series` entity gives a
+  name and one value for each category. The `src` option gives a CSV file in
+  place of the two.
 
   The render function draws the chart as SVG in the document, so the chart
-  needs no script and no file, and it prints. The colors of the series are
-  `--chart-1` to `--chart-8` of the theme, in a fixed order. A chart with two
-  or more series has a legend, a bar shows its value, the end of a line shows
-  its name and its last value, and the legend of a pie shows each part in
-  percent. A table with the values goes into the document for a screen
-  reader.
+  needs no script and no file, and it shows on paper. The colors of the
+  series are `--chart-1` to `--chart-8` of the theme, in a fixed order. A
+  chart with two or more series has a legend. A bar shows its value, and the
+  end of a line shows its name and its last value. The legend of a pie shows
+  each part in percent.
 
-  A series is a child of the chart, so `reveal true` shows each series at its
-  own step, and `dim true` dims each series when a later series shows. The
-  `highlight` option shows each series at each step, and it puts one group of
-  series or of categories in focus at each step: the rest of the chart dims.
-  `check/1` makes an `Expresso.Element.Focus` for each group, and `rules/1`
-  writes the rules that dim the series and the marks.
+  A series is a child of the chart. Thus `reveal true` shows each series at
+  its own step, and `dim true` dims each series when a later series shows.
+  The `highlight` option shows each series at each step. It puts one group of
+  series or of categories in focus at each step, and the rest of the chart
+  dims. `check/1` makes an `Expresso.Element.Focus` for each group, and
+  `rules/1` writes the rules that dim the series and the marks.
 
   A `frame` entity holds the series at one point in time, and each frame
-  after the first takes one step. A chart with frames, or with the effect
-  `:grow`, moves its marks: `Expresso.Element.Chart.Motion` draws them.
-  `docs/reference/chart-element.md` gives the rules.
+  after the first takes one step. `docs/reference/chart-element.md` gives the
+  rules.
 
   A category of a sankey is a path of nodes. The `flow` entities give the
   same data in a shorter form. `Expresso.Element.Chart.Sankey` draws a
-  sankey. With `reveal true`, the check makes one series for each step: a
-  source column of the links in a sankey or an alluvial chart, a node of the
-  first column in a parallel sets chart, and a source in a chord chart. An
-  alluvial chart is a sankey with one node for each name in each column. The
-  place of a name in its path sets its column. A parallel sets chart has the
-  nodes of an alluvial chart. `Expresso.Element.Chart.ParallelSets` draws
-  each of its categories as one ribbon through the columns. A chord chart
-  takes the flows of a sankey. `Expresso.Element.Chart.Chord` draws its
-  nodes as arcs of a ring.
+  sankey.
+
+  With `reveal true`, the check makes one series for each step:
+
+  - a source column of the links, in a sankey or an alluvial chart;
+  - a node of the first column, in a parallel sets chart;
+  - a source, in a chord chart.
+
+  An alluvial chart is a sankey with one node for each name in each column.
+  The place of a name in its path sets its column. A parallel sets chart has
+  the nodes of an alluvial chart. `Expresso.Element.Chart.ParallelSets` draws
+  each of its categories as one ribbon through the columns.
+
+  A chord chart takes the flows of a sankey. `Expresso.Element.Chart.Chord`
+  draws its nodes as arcs of a ring.
 
   A scatter plot holds `point` entities in place of categories and series.
   `Expresso.Element.Chart.Scatter` checks it and draws it, and

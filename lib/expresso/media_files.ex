@@ -1,30 +1,30 @@
 defmodule Expresso.MediaFiles do
   @moduledoc """
-  The files of a deck that the render keeps next to the document
+  Keeps the files of a deck next to the document
 
   An `image`, a `video` or an `audio` element with `external true` does not go
-  into the document as a data URI. The render makes a copy of its file for a directory
-  next to the document, such as `talk_files/` for `talk.html`, and the
+  into the document as a data URI. The render makes a copy of its file for a
+  directory next to the document, such as `talk_files/` for `talk.html`. The
   document holds the relative address of the copy. The browser then gets the
   file only when its slide plays, and it can keep the file in its cache.
   `docs/external-media.md` gives the design.
 
-  The picture of the `card` option of the deck is such a file too, because
-  the tag `og:image` holds an address. `Expresso.LinkPreview` gives the rules.
+  The picture that the `card` option of the deck names is such a file too,
+  because the tag `og:image` holds an address. `Expresso.LinkPreview` gives
+  the rules.
 
-  The name of a copy holds the first eight digits of the SHA-256 of its
-  content, such as `run-3f2a1c9e.webm`. A changed file thus gets a new name,
-  and two elements with the same file get the same copy.
+  `name/2` puts a hash of the content in the name of a copy. Thus a changed
+  file gets a new name, and two elements with the same file get the same copy.
 
   The code that renders a deck calls `collect/2` with the name of the
-  directory. That function returns each copy that the render made, and
-  `write/2` then writes them next to a document. `collect/2` keeps the copies
-  in the process dictionary, as `Expresso.DeckFile.track/1` keeps its paths.
-  Two renders in two processes therefore keep their copies apart.
+  directory. Then it calls `write/2` with the copies that `collect/2` returns.
+  `collect/2` keeps the copies in the process dictionary, as
+  `Expresso.DeckFile.track/1` keeps its paths. Two renders in two processes
+  therefore keep their copies separate.
 
-  A render with no directory has no place for a copy: the standard output,
-  and `Expresso.Deck.render/1` with no `collect/2`. `put/3` then raises an
-  error that names the `external` option.
+  A render to the standard output has no directory for a copy. A call to
+  `Expresso.Deck.render/1` with no `collect/2` has no directory too. `put/3`
+  then raises an error.
   """
 
   @key {__MODULE__, :files}

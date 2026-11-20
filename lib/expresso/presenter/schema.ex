@@ -6,15 +6,15 @@ defmodule Expresso.Presenter.Schema do
 
     * the program that `Expresso.Presenter.Program` makes;
     * the list of the steps that `Expresso.Steps` makes;
-    * the commands of a page of the overview and of a row of the menu;
+    * the commands of a page in the overview and of a row in the menu;
     * the commands of the links that `Expresso.Goto` makes;
     * the sources of the embeds that `Expresso.Element.Embed` makes;
     * the sources of the videos that `Expresso.Element.Video` makes;
     * the sources of the sounds that `Expresso.Element.Audio` makes.
 
-  The two windows of the presenter also send a
-  message to each other. This module describes the JSON form of each value.
-  It is the one source of these forms:
+  The two windows of the presenter also send a message to each other. This
+  module describes the JSON form of each value. It is the one source of these
+  forms:
 
     * `Expresso.Presenter.Verifier` reads the fields of the state, the views,
       the built-in functions and the kind of each value from it.
@@ -25,8 +25,7 @@ defmodule Expresso.Presenter.Schema do
       The verifier uses it for the values of a definition, and the tests use
       it for each value that the renderer writes.
 
-  `types/0` returns the forms in order. A form can name an earlier form only.
-  `t:type/0` describes the terms of a form.
+  `types/0` returns the forms. `t:type/0` describes the terms of a form.
 
   `constants/0` returns the constants of the script, such as the kinds of
   element and the selectors of the elements that hold commands.

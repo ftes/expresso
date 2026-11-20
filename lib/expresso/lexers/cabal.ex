@@ -1,6 +1,6 @@
 defmodule Expresso.Lexers.Cabal do
   @moduledoc """
-  The Makeup lexer of a Cabal package file
+  Splits a Cabal package file into Makeup tokens
 
   A field before `:` is an attribute, and the word of a section, such as
   `library` or `executable`, is a keyword. A comment starts a line with

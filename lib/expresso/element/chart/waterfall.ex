@@ -1,39 +1,38 @@
 defmodule Expresso.Element.Chart.Waterfall do
   @moduledoc """
-  A waterfall chart: a start value, the changes to it, and the totals between
-  them
+  Defines a waterfall chart: a start value, the changes to it, and the totals
+  between them
 
-  `Expresso.Element.Chart` sends each function of a chart of the family
-  `:waterfall` to this module: the check, the assigns, the layout, the marks
-  and the table. `docs/waterfall-charts.md` gives the design.
+  `Expresso.Element.Chart` calls the functions of this module for a chart in
+  the family `:waterfall`: the check, the assigns, the layout, the marks and
+  the table. `docs/waterfall-charts.md` gives the design.
 
-  The chart has one series. Its first value is the start, and it draws as a
-  total. Each other number is a change, and it draws as a floating column
-  from the running total before it. The atom `:total` marks a total column,
-  and `{:total, value}` also gives the value that the author expects.
+  The first value of the series is the start, and the chart draws it as a
+  total. Each other number is a change, and the chart draws it as a floating
+  column from the running total before it. The atom `:total` marks a total
+  column, and `{:total, value}` also gives the value that the user expects.
   `columns/1` calculates the base, the end and the running total of each
   column.
 
-  With `reveal true`, the check puts the columns into groups:
-  `members/2` gives the group of each column. Group 0 holds the start and the
-  totals of `totals :grow`, and the chart draws it outside the groups, so it
-  shows with the chart and does not dim. Each change is a group, and a total
-  of `totals :complete` goes into the group of the column before it. Each
-  group is a copy of the series with the indexes of its columns in `columns`,
-  and it is a child of the chart, so it takes its step from `reveal`.
+  With `reveal true`, the check puts the columns into groups, and `members/2`
+  returns the group of each column. The chart draws group 0 outside the
+  groups, so group 0 shows with the chart and does not dim. Each group is a
+  copy of the series with the indexes of its columns in `columns`. Each group
+  is also a child of the chart, so it takes its step from `reveal`.
 
-  A state is one set of values of the channels: one state for each group
-  that shows, from group 0. A total of `totals :grow` holds in each state
-  the running total of the changes that show, so it grows or shrinks at the
-  step of each change, and its value counts. A chart with frames has one
-  more state for each later frame, after the states of `reveal` in the first
-  frame. `rules/1` writes the channels of each state at its steps.
+  A chart with `reveal` has one state for each group that shows, from
+  group 0. A total of `totals :grow` holds in each state the running total of
+  the changes that show. Therefore, the total grows or shrinks at the step of
+  each change, and its value counts. A chart with frames has one more state
+  for each later frame, after the states of `reveal` in the first frame.
+  `rules/1` writes the channels of each state at its steps.
 
   Each column has its place in the channels of
-  `Expresso.Element.Chart.Motion`: `--u<i>` and `--v<i>` for the corner at the
-  top left of column `i`, and `--w<i>` and `--h<i>` for its size. The style
-  attribute of the column reads the channels with the value of the first
-  state as the fallback, so a chart of one state needs no rule.
+  `Expresso.Element.Chart.Motion`. The channels `--u<i>` and `--v<i>` hold
+  the corner at the top left of column `i`, and `--w<i>` and `--h<i>` hold
+  its size. The style attribute of a column reads the channels, with the
+  value of the first state as the fallback. Therefore, a chart of one state
+  needs no rule.
   """
 
   import Temple

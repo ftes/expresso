@@ -1,22 +1,25 @@
 defmodule Expresso.Element.Chart.Encoding do
   @moduledoc """
-  The symbol, the color and the size of a mark of a scatter plot
+  Sets the symbol, the color and the size of a mark in a scatter plot
 
   A point gives each of the three as a category, such as `"EU"`, or as a
-  value: a symbol by its name, such as `:square`, a color by a role of the
-  theme, such as `:chart_3` or `:accent`, and a size as a number. A category
-  of the symbol takes the symbols in the order of `symbols/0`, and a category
-  of the color takes `--chart-1` to `--chart-8`, each in the order of the
-  first point of the category.
+  value. It gives a value in one of these forms:
 
-  Each symbol is a path of radius 1 at the origin. The symbols have
-  approximately the area of a circle of radius 1, so a mark of one size looks
-  as large with each symbol. The size of a point gives the area of its mark,
-  so a size two times larger gives two times the area.
+  - a symbol by its name, such as `:square`;
+  - a color by a role of the theme, such as `:chart_3` or `:accent`;
+  - a size as a number.
+
+  The categories of the color take `--chart-1` to `--chart-8`, in the order
+  of their first points.
+
+  The symbols have approximately the area of a circle with radius 1, so a
+  mark of one size looks as large with each symbol. The size of a point sets
+  the area of its mark, so a mark with two times the size has two times the
+  area.
 
   A number as the color takes a place on the scale of the `color_scale`
-  option: `scale/1` gives the color of the scale, and `scale_place/4` the
-  place of a number on it.
+  option. `scale/1` returns the color of the scale, and `scale_place/4`
+  returns the place of a number on it.
   """
 
   alias Expresso.Element.Chart.Plot

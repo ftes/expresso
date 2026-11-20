@@ -2,7 +2,7 @@ defmodule Expresso.Element.Spacer do
   @moduledoc """
   An element that takes the free space of its container
 
-  A spacer has no content. The theme gives it `flex-grow: 1`, so it pushes the
+  A spacer has no content. The theme gives it `flex-grow: 1`, so it moves the
   elements after it to the end of the container. Two spacers around an element
   put the element in the middle.
   """

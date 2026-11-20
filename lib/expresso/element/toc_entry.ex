@@ -1,7 +1,7 @@
 defmodule Expresso.Element.TocEntry do
   @moduledoc """
-  An entry of a table of contents: the title of a section and a link to its
-  first slide
+  Holds an entry of a table of contents: the title of a section and a link to
+  its first slide
 
   `Expresso.SectionTransformer` makes the entries of each
   `Expresso.Element.Toc`. An entry is a child of the toc, so it takes the

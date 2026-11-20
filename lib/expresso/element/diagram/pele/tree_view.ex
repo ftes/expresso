@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.TreeView do
   @moduledoc """
-  The plan of a tree view of Pele
+  Makes the plan for a tree view of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |

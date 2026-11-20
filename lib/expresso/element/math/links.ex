@@ -1,19 +1,18 @@
 defmodule Expresso.Element.Math.Links do
   @moduledoc """
-  The links between the lines of a derivation
+  Makes the copies that show the links between the lines of a derivation
 
   `\\from{name}{…}` in the LaTeX of a line marks a sub-term that comes from the
   part `name` of an earlier line. Temml writes the attribute `data-from` on
   the MathML of the sub-term. `place/1` gives each link a copy of its source,
-  with the copies of `Expresso.Element.Copy`. The copy has the steps of the
-  line of the link, and it moves from its source to the linked sub-term.
+  with the copies of `Expresso.Element.Copy`.
 
   The source of a link is each element with the name in the nearest earlier
   line that has the name. An element belongs to the line of its nearest
   ancestor with the name of a line. `docs/line-links.md` gives the design.
 
-  A link with the name of a set of `Expresso.Element.Math.Each` takes one
-  occurrence of the set: the link number `k` with that name and that source
+  A link with the name of an `Expresso.Element.Math.Each` set takes one
+  occurrence of the set. The link number `k` with that name and that source
   line takes the occurrence `k` of the set in that line.
   `docs/each-occurrence.md` gives the design.
   """

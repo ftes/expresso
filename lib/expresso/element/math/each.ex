@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Math.Each do
   @moduledoc """
-  The parts of a formula that name each occurrence of a symbol
+  Makes the parts of a formula that name each occurrence of a symbol
 
   A `part` entity with `each: "x"` names each occurrence of `x`. An occurrence
   is a token element of the MathML, `mi`, `mn` or `mo`, with the text `x`. The
@@ -9,10 +9,8 @@ defmodule Expresso.Element.Math.Each do
   symbol with an index, such as the `x` of `x_1`, is not an occurrence.
   `docs/each-occurrence.md` gives the design.
 
-  The occurrence `n` of a set also gets the class `set-n`. A copy to a set
-  thus becomes one copy for each occurrence, and
-  `Expresso.Element.Math.Links` can take one occurrence as the source of a
-  link.
+  With the class `set-n` of the occurrence `n`, `Expresso.Element.Math.Links`
+  can take one occurrence as the source of a link.
   """
 
   alias Expresso.Element.Part

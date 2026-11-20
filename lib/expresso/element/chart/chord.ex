@@ -16,10 +16,8 @@ defmodule Expresso.Element.Chart.Chord do
   2. One scale sets the angles in all the frames. Thus a smaller total in a
      later frame leaves an empty part at the end of the ring.
   3. A flow is a chord between the arcs of its two nodes. It has the width of
-     its value at each end. Two quadratic Bézier curves join the two ends,
-     with their control point at the center of the ring. At its source, a
-     chord is in the part of the arc for the flows out. At its target, it is
-     in the part for the flows in.
+     its value at each end. At its source, a chord is in the part of the arc
+     for the flows out. At its target, it is in the part for the flows in.
   4. A chord has the color of its source.
 
   `render/1` draws each series as a group with its chords. The arcs and their

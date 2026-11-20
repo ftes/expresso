@@ -1,16 +1,12 @@
 defmodule Expresso.Image do
   @moduledoc """
-  The data URI of an image file
+  Makes the data URI of an image file
 
   The document of a deck is one file, so an image cannot be a second file. This
   module reads an image at render time and makes a data URI from the bytes.
   The `img` element of `Expresso.Element.Image` then holds the image.
 
-  An `image` element with `external true` is the exception: `source!/2` then
-  returns the address of a copy of the file next to the document.
-
-  `media_type/1` gives the media type of a path, and `data_uri/1` gives the
-  full URI. The extension of the path gives the media type.
+  An `image` element with `external true` is the exception. See `source!/2`.
   """
 
   @media_types %{

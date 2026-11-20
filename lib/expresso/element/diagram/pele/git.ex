@@ -1,6 +1,6 @@
 defmodule Expresso.Element.Diagram.Pele.Git do
   @moduledoc """
-  The plan of a git graph of Pele
+  Makes the plan for a git graph of Pele
 
   | Part | `data-id` | Name |
   | --- | --- | --- |
@@ -13,10 +13,10 @@ defmodule Expresso.Element.Diagram.Pele.Git do
   the source gets the id of Mermaid, such as `0-a1b2c3d`.
 
   Pele draws the lines with no `data-id`. It takes the commits in the order of
-  the source, and for each commit the line from each of its parents: first
-  each line between two branches, then each line on one branch. The plan
-  names the line at the index `n` from 0 by the line at that index in the same
-  order. A line has no head, so its arrow is `--`.
+  the source, and for each commit the line from each of its parents. It takes
+  each line between two branches first, and then each line on one branch. The
+  plan names the line at the index `n` from 0 by the line at that index in the
+  same order. A line has no head, so its arrow is `--`.
   """
 
   @behaviour Expresso.Element.Diagram.Pele.Plan

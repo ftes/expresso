@@ -1,6 +1,6 @@
 defmodule Expresso.Lexers.Elisp do
   @moduledoc """
-  The Makeup lexer of Emacs Lisp
+  Splits a text of Emacs Lisp into Makeup tokens
 
   A special form or a macro, such as `defun` or `let`, is a keyword, and a
   common function, such as `mapcar`, is a built-in. A character, such as

@@ -1,12 +1,12 @@
 defmodule Expresso.TransitionVerifier do
   @moduledoc """
-  The check of the transitions between slides
+  Makes sure that each transition between slides has a rule
 
-  `Expresso.VerifierTransformer` runs it one time for each deck module at
-  compile time, so an error stops the compile. It makes sure that
-  the `transition` option of the deck and of each slide has a rule. The theme
-  gives the rules of `:slide` and `:zoom`, and the fade and `:none` need no
-  rule. The CSS of the deck can give more, such as
+  `Expresso.VerifierTransformer` runs this module one time for each deck
+  module at compile time, so an error stops the compile. The module reads the
+  `transition` option of the deck and of each slide. The theme contains the
+  rules of `:slide` and `:zoom`, and the fade and `:none` need no rule. The
+  CSS of the deck can give more, such as
   `html[data-transition="wipe-down"]::view-transition-new(slide)` for
   `transition :wipe_down`.
 
