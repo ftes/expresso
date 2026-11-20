@@ -1,8 +1,8 @@
 # Render a deck in your project
 
-This guide shows how to keep a deck in your own project, give its paths from the project,
-render it with `mix expresso` or with the binary, and give an AI agent the rules of the
-DSL. For each value of the option, see
+This guide shows how to keep a deck in your own project and how to give its paths from the
+project. It shows how to render the deck with `mix expresso` or with the binary, and how to
+give an AI agent the rules of the DSL. For each value of the option, see
 [The root option](../reference/root-option.md).
 
 ## Give each path from your project
@@ -43,7 +43,7 @@ The deck then renders from any directory.
    end
    ```
 
-2. Fetch the dependencies:
+2. Get the dependencies:
 
    ```sh
    mix deps.get
@@ -58,12 +58,13 @@ The deck then renders from any directory.
    mix expresso talk/deck.exs talk/deck.html
    ```
 
-4. To render the deck again after each change, add `--watch`, and open
-   `http://127.0.0.1:4100/`:
+4. To render the deck again after each change, add `--watch`:
 
    ```sh
    mix expresso talk/deck.exs --watch
    ```
+
+   Then open `http://127.0.0.1:4100/`.
 
 Your project does not start Expresso, and a release of your project does not hold it.
 
@@ -98,7 +99,7 @@ agent reads, such as `AGENTS.md` or `CLAUDE.md`.
    end
    ```
 
-3. Fetch the dependencies, and write the file:
+3. Get the dependencies. Then write the file:
 
    ```sh
    mix deps.get
@@ -107,15 +108,16 @@ agent reads, such as `AGENTS.md` or `CLAUDE.md`.
 
 `AGENTS.md` then holds the rules between two comments. Run `mix usage_rules.sync` again
 after an update of Expresso. To keep `AGENTS.md` short, give
-`usage_rules: [{:expresso, link: :markdown}]`, and the file holds a link to
+`usage_rules: [{:expresso, link: :markdown}]`. The file then holds a link to
 `deps/expresso/usage-rules.md`.
 
 ## Render the deck with the binary
 
 The binary needs no Elixir, so a computer with no Elixir can render the deck.
 
-1. Make the binary, as [Make a binary](https://github.com/rellen/expresso/blob/main/docs/development/release.md#make-a-binary) tells, and copy it
-   to a directory on your path.
+1. Make the binary, as
+   [Make a binary](https://github.com/rellen/expresso/blob/main/docs/development/release.md#make-a-binary)
+   tells. Copy it to a directory on your path.
 2. Render the deck:
 
    ```sh

@@ -1,12 +1,12 @@
 # Show code on a slide
 
-This guide shows how to put source code on a slide: from the deck, or from a file of your
-project, with the numbers of its lines and with groups of lines that show one after the
-other. For each option, see [The code element](../reference/code-element.md).
+This guide shows how to put source code on a slide, from the deck or from a file of your
+project. The slide can show the numbers of the lines, and it can show groups of lines one after
+the other. For each option, see [The code element](../reference/code-element.md).
 
 ## Show a short example
 
-Write the code in the `text` option, and give the language as the first argument:
+Write the code in the `text` option. Give the language as the first argument:
 
 ```elixir
 slide "hello" do
@@ -42,14 +42,14 @@ file, and a change to the file changes the slide.
    end
    ```
 
-3. Render the deck from the directory of the project, because the path is relative to the
-   working directory of the command. With the `root` option, the path starts from the
-   directory of the option. See
+3. Render the deck from the project directory, because the path is relative to the working
+   directory of the command. With the `root` option, the path starts from the directory of
+   the option. See
    [Show code from the project of the deck](#show-code-from-the-project-of-the-deck).
 
 Without `lines`, the slide shows each line of the file.
 
-In the watch mode, a change to the file renders the deck again. With a range of line
+The watch mode renders the deck again after a change to the file. With a range of line
 numbers, a change above the lines moves them, so the slide then shows different lines. To
 keep the same lines, find them by their text.
 
@@ -58,7 +58,7 @@ keep the same lines, find them by their text.
 1. Find a text that starts the first line, such as `def handle_call(`. The text must be in
    the file one time only.
 2. Give the text in `lines`, with `to: :block`. The excerpt then ends at the end of the
-   block of the first line, such as its `end` or its `}`:
+   block that the first line opens, such as its `end` or its `}`:
 
    ```elixir
    code "elixir" do
@@ -72,15 +72,14 @@ To end the excerpt at another line, give a text of that line in `to`, such as
 The groups of `reveal` and `highlight` take `to: :block` too.
 
 The compiler gives an error when a text is not in the file, and when the `from` text is in
-it more than one time. Give a longer text, such as `"def handle_call(:next"`, to make it
-one time. A change above the excerpt then does not move it. The example in
+it more than one time. Give a longer text, such as `"def handle_call(:next"`, that is in the
+file one time only. A change above the excerpt then does not move it. The example in
 [Show the whole code first](#show-the-whole-code-first) uses this option.
 
 ## Show code from the project of the deck
 
 A relative path starts from the working directory of the command. Give the deck the `root`
-option, and each path then starts from your project, so the deck renders from any
-directory:
+option. Each path then starts from your project, so the deck renders from any directory:
 
 ```elixir
 defmodule MyTalk.Deck do
@@ -104,7 +103,7 @@ project, see [Render a deck in your project](render-a-deck-in-your-project.md).
 ## Show the numbers of the lines
 
 Write `line_numbers true`. With `src`, the numbers are the numbers of the file, so they
-agree with your editor:
+agree with the numbers in your editor:
 
 ```elixir
 code "elixir" do
@@ -134,7 +133,7 @@ For the steps of a slide, see [Animate elements in a slide](animate-elements.md)
 ## Point at lines one group at a time
 
 Write `highlight` with a range for each group. Each line shows at each step. At the step
-of a group, its lines show in full with a bar at the left, and the other lines dim:
+of a group, its lines show in full color with a bar at the left, and the other lines dim:
 
 ```elixir
 code "elixir" do
@@ -145,15 +144,15 @@ code "elixir" do
 end
 ```
 
-Use `reveal` to show new lines at each step, and `highlight` to point at lines that the
+Use `reveal` to show new lines at each step. Use `highlight` to put in focus the lines that the
 audience already sees. A code element takes one of the two options.
 
 ## Keep the groups on their lines
 
 A number of `reveal` or `highlight` is the number of a line in the file. A change above the
 excerpt moves the lines, and each group then shows other lines with no error. Give each
-group by its text, in the form of `lines`. The group runs from the line of `from` to the
-line of `to`, inside the excerpt. A group with only `from` is one line:
+group by its text, in the form of `lines`. The group starts at the line of `from` and ends at
+the line of `to`, inside the excerpt. A group with only `from` is one line:
 
 ```elixir
 defmodule Examples.CodeTextGroups do
@@ -178,8 +177,8 @@ Examples.CodeTextGroups
 
 ![The first line of the function is in focus, then the two lines that count and reply](https://raw.githubusercontent.com/rellen/expresso/media/code-text-groups.gif)
 
-Each text must be in the excerpt one time, or the compiler gives an error. A group can mix
-with numbers, such as `[1, [from: "next = "]]`.
+Each text must be in the excerpt one time, or the compiler gives an error. One option can
+hold groups by their text and groups by their numbers, such as `[1, [from: "next = "]]`.
 
 To keep the numbers, but count them from the excerpt, give `relative true`. Then `1` is the
 first line of the excerpt, whatever its number in the file:
@@ -225,7 +224,7 @@ end
 Examples.CodeWholeFirst
 ```
 
-![The whole function shows at step 1, then line 13 and line 14 come into focus](https://raw.githubusercontent.com/rellen/expresso/media/code-whole-first.gif)
+![The whole function shows at step 1, then line 13 and line 14 are in focus](https://raw.githubusercontent.com/rellen/expresso/media/code-whole-first.gif)
 
 ## Show each line during a question
 
@@ -235,12 +234,13 @@ change:
 
 1. Press `d`. The dimmed lines of code show in full color.
 2. Answer the question.
-3. Press `j` to go on. The next step dims the lines again, so you do not press `d` again.
+3. Press `j` to continue. The next step dims the lines again, so you do not press `d` again.
 
 `d` changes code only, so a list with `dim true` stays dimmed. The bar of `highlight` stays
 on the group in focus, and the handout view keeps the dimming of each step.
 
-In this deck, line 14 dims at the first step. The recording presses `d`, then `j`:
+In this deck, line 14 dims at the first step. In the recording, the presenter presses `d`,
+then `j`:
 
 ```elixir
 defmodule Examples.CodeUndim do
@@ -265,8 +265,8 @@ Examples.CodeUndim
 
 ## Show a configuration file
 
-Give the name of the language of the file, such as `"toml"`, `"yaml"` or `"nix"`. Expresso
-has lexers for many such languages, as well as the languages of programs. For each name, see
+Give the name of the file's language, such as `"toml"`, `"yaml"` or `"nix"`. Expresso has
+lexers for many such languages, and for the languages of programs. For each name, see
 [the languages](../reference/code-element.md#the-languages).
 
 A document in Org, reStructuredText, LaTeX or Typst works in the same way. Its lexer colors
@@ -307,9 +307,10 @@ Examples.CodeConfig
 
 ## Put the code into a window
 
-Give the deck the `window` option, and each code element goes into a frame that looks like a
-window of macOS. The bar shows the name of the file of `src`. A code element can give its
-own `window` style and its own `window_title`. `:terminal` suits the output of a command:
+Give the deck the `window` option. Each code element then goes into a frame that looks like a
+window of macOS. The bar shows the name of the file that `src` gives. A code element can give
+its own `window` style and its own `window_title`. Use `:terminal` for the output of a
+command:
 
 ```elixir
 defmodule Examples.CodeWindow do
@@ -357,15 +358,15 @@ the next. An image and an embed take the same options. See
 ## Make sure that the lines fit
 
 A long line breaks on the slide, and the reader then sees two lines with one number. Open
-the document with `?check` at the end of the address, and the report gives each code
+the document with `?check` at the end of the address. The report then gives each code
 element with a line that breaks. See [Check that a deck fits the screen](check-the-layout.md).
 
 ## Show the long lines of real code
 
 The lines of a real file are often longer than a slide, and many end with a comment. Give
-`trailing_comments false` to remove a comment at the end of a line of code. A line that is
-only a comment stays. Give `wrap true` to break each line that is still too long, with its
-next parts indented under its start:
+`trailing_comments false` to remove a comment at the end of a line that has code before it. A
+line that is only a comment stays. Give `wrap true` to break each line that is still too
+long, with its next parts indented under its start:
 
 ```elixir
 defmodule Examples.CodeLongLines do
@@ -398,6 +399,6 @@ Examples.CodeLongLines
 
 ![A function with no comments at the ends of its lines, and a long line that breaks with its second part indented](https://raw.githubusercontent.com/rellen/expresso/media/code-long-lines.png)
 
-`?check` does not report a line of a code element with `wrap`, because the line breaks on
-purpose. Give a smaller font with [the class option](../reference/class-option.md) when
+`?check` does not report a line of a code element with `wrap`, because the line breaks
+intentionally. Give a smaller font with [the class option](../reference/class-option.md) when
 the lines must not break.

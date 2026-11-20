@@ -1,7 +1,7 @@
 # Run a deck by time
 
-This guide shows how to make a deck go to the next step after a time, for a talk with a
-fixed time for each slide and for a deck on a screen at a stand.
+This guide shows how to make a deck go to the next step after a time. Two uses are a talk
+with a fixed time for each slide and a deck on a screen at a stand.
 
 ## Give each step a time
 
@@ -70,7 +70,7 @@ one minute.
 
 1. Press `a` in the present view or in the speaker view. The clock stops, and the step
    waits.
-2. Answer the question. The keys `j` and `k` still move.
+2. Answer the question. The keys `j` and `k` still change the step.
 3. Press `a` again. The step continues its time.
 
 A black screen from the key `b` also stops the clock until the slide shows again.

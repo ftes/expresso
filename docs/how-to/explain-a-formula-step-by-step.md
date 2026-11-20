@@ -1,8 +1,9 @@
 # Explain a formula step by step
 
-This guide shows how to write a formula in LaTeX, give a name to its parts, and color, show
-or outline each part at its own step. It also shows a derivation with a line at each step.
-For each option, see [the math element](../reference/math-element.md).
+This guide shows how to write a formula in LaTeX and how to give a name to its parts. It shows
+how to color each part, show it or put an outline around it at its own step. It also shows a
+derivation with a line at each step. For each option, see
+[the math element](../reference/math-element.md).
 
 ![The discriminant of the quadratic formula gets a color, and an outline goes around the denominator](https://raw.githubusercontent.com/rellen/expresso/media/math-parts.gif)
 
@@ -25,7 +26,7 @@ package of npm.
 
 1. Give a name to each sub-term that changes, with `\part{name}{...}`.
 2. Put the LaTeX in a `tex` call inside the block of the `math` element.
-3. Add a `part` entity with that name, and give it `at`, `effect` or `on` entities.
+3. Add a `part` entity with that name. Give it `at`, `effect` or `on` entities.
 
 ```elixir
 defmodule Examples.MathParts do
@@ -86,8 +87,8 @@ Examples.MathLines
 ![The derivation of a quadratic equation, one line at each step](https://raw.githubusercontent.com/rellen/expresso/media/math-lines.gif)
 
 The lines align on their relations, and the reasons are in a column at the right. Each line
-is a part with the name `line1`, `line2` and so on, so a `part` entity with that name can
-give it an `on` entity.
+is a part with the name `line1`, `line2` and so on. Thus a `part` entity with that name can
+give the line an `on` entity.
 
 ## Mark the parts of a step of a proof
 
@@ -156,7 +157,7 @@ Examples.MathRedex
 
 ## Move the argument into each hole
 
-`move_to` moves a part to the place of a different part of the same formula. In this deck,
+`move_to` moves a part to the place of a different part in the same formula. In this deck,
 each copy of the argument starts on the argument and then moves into its hole.
 
 ```elixir
@@ -362,7 +363,7 @@ index, such as the `x` of `x_1`. See
 ## Build the next line from the line before
 
 `\from{name}{…}` in a line marks a sub-term that comes from the part `name` of an earlier
-line. At the step of the line, a copy of that part moves to its place, so the audience sees
+line. At the step of the line, a copy of that part moves to its place. Thus the audience sees
 where each sub-term of the new line comes from.
 
 ```elixir
@@ -408,8 +409,8 @@ Examples.MathLink
 
 1. At step 1, the redex shows, with the binder, the bound variables and the argument in
    their colors.
-2. At step 2, a copy of `g` moves into each hole of the second line, and a copy of `(` and
-   of `x)` moves down from the body.
+2. At step 2, a copy of `g` moves into each hole of the second line. A copy of `(` and of
+   `x)` moves down from the body.
 3. At step 3, the relation and the reason of the second line show, because the line has
    `steps: 2`.
 
@@ -461,7 +462,7 @@ Each rewrite takes three steps:
 
 1. The match of the rule, or each occurrence of `x`, gets the accent color.
 2. Each kept symbol of the old line moves down to its place in the new line.
-3. A copy of each part of the match moves into its place, the new content fades in, and the
+3. A copy of each part in the match moves into its place, the new content fades in, and the
    relation and the reason show.
 
 The rule binds `a` to `k`, `b` to `x` and `c` to `h`, so a copy of `k` goes to two places.
@@ -518,16 +519,19 @@ Each reduction takes four steps:
    the reason show.
 
 `:leftmost` takes the leftmost outermost redex. To reduce a different redex, give it a name
-with `\part` and give the name to `reduce`. The option `steps` puts phases together, so the
-second reduction takes three steps. The first result is a λ with a term after it, so it keeps
-its parentheses. See [reduce a λ-term](../reference/math-element.md#reduce-a-λ-term).
+with `\part`. Then give the name to `reduce`.
+
+The option `steps` puts phases together, so the second reduction takes three steps. The first
+result is a λ with a term after it, so it keeps its parentheses. See
+[reduce a λ-term](../reference/math-element.md#reduce-a-λ-term).
 `examples/animations/math_reduce.exs` holds the deck.
 
 ## Make a wide formula fit
 
-A formula is larger than the text of the slide. When the layout check reports that a formula
-goes past an edge, give it a class and a smaller size of text, as the deck above does with
-`class "small"` and the `css` option. See [Check that a deck fits the screen](check-the-layout.md).
+A formula is larger than the text of the slide. The layout check can report that a formula
+goes past an edge. Then give the formula a class and a smaller size of text. The deck above
+does this with `class "small"` and the `css` option. See
+[Check that a deck fits the screen](check-the-layout.md).
 
 ## Choose a math font
 

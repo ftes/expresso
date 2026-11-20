@@ -1,8 +1,8 @@
 # Check a deck before the talk
 
-This guide shows how to check a deck with one command, on your computer or in a continuous
-integration job. `mix expresso deck.exs --check` renders the deck, writes a report, and
-exits with the status 1 for a problem. For each value of the report, see
+This guide shows how to run the checks of a deck with one command, on your computer or in a
+continuous integration job. `mix expresso deck.exs --check` renders the deck, writes a report,
+and exits with the status 1 for a problem. For each value of the report, see
 [The check option](../reference/check-option.md).
 
 ## Choose a level
@@ -13,12 +13,12 @@ one more tool:
 | Command | Checks | Needs |
 | --- | --- | --- |
 | `mix expresso deck.exs --check` | The render, the contrast of the theme, and the text for a screen reader | Nothing |
-| `mix expresso deck.exs --check=layout` | Each element in the window, each line of code on one line, and the text of each chart and diagram at 1/60 of the window height or more, at each step at 1920 × 1080 | Chrome or Chromium |
+| `mix expresso deck.exs --check=layout` | Each element in the window, and each line of code on one line. The text of each chart and diagram at 1/60 of the window height or more. The check measures each step at 1920 × 1080. | Chrome or Chromium |
 | `mix expresso deck.exs --check=a11y` | The rules of axe-core at each step, and in the menu, the list of keys, the overview and the handout view | Chrome or Chromium, and axe-core |
 | `mix expresso deck.exs --check=browser` | The checks of `--check=a11y`, and the keys of the presenter: each step, each view, the focus and the errors of the script | Node, Playwright, axe-core, and the Hex package `playwright_ex` |
 
 Start with `--check`. Install the tools of a higher level when the deck is ready for the
-room. The binary takes the same options, such as `expresso deck.exs --check=a11y`.
+talk. The binary takes the same options, such as `expresso deck.exs --check=a11y`.
 
 ## Run the check with no tool
 
@@ -29,9 +29,9 @@ room. The binary takes the same options, such as `expresso deck.exs --check=a11y
    ```
 
 2. Read the report. The last line gives the number of problems.
-3. Correct each problem, and run the check again.
+3. Correct each problem. Then run the check again.
 
-The report also gives notes. A note tells of a choice that can be correct, such as an image
+The report also gives notes. A note is about a choice that can be correct, such as an image
 with no `alt` text, which a screen reader skips. A note does not change the exit status.
 
 To write the document in the same run, give the output file:
@@ -46,8 +46,7 @@ The levels `--check=layout`, `--check=a11y` and `--check=browser` need a browser
 npm packages `axe-core` and `playwright`. One command installs each of them. The deck does
 not need a `node_modules`, so a Mix project with no Node can use the tools:
 
-1. Install [Node](https://nodejs.org), and make sure that `node` and `npm` are on the
-   `PATH`.
+1. Install [Node](https://nodejs.org). Make sure that `node` and `npm` are on the `PATH`.
 2. Install the tools:
 
    ```sh
@@ -56,12 +55,14 @@ not need a `node_modules`, so a Mix project with no Node can use the tools:
 
    With the binary, run `expresso --install-check-tools`.
 
-3. In a Mix project, add the Hex package `playwright_ex` to the deps in `mix.exs`, and run
-   `mix deps.get`. Only `--check=browser` needs it, and the binary holds it:
+3. In a Mix project, add the Hex package `playwright_ex` to the deps in `mix.exs`. Only
+   `--check=browser` needs it, and the binary holds it:
 
    ```elixir
    {:playwright_ex, "~> 0.14", only: :dev, runtime: false}
    ```
+
+   Then run `mix deps.get`.
 
 4. Run the check:
 
@@ -72,7 +73,7 @@ not need a `node_modules`, so a Mix project with no Node can use the tools:
 The command puts the npm packages into `~/.cache/expresso` on Linux, or
 `~/Library/Caches/expresso` on macOS. `EXPRESSO_TOOLS` gives a different directory. The
 Chromium and the headless shell go into the cache of Playwright. Run the command again to
-get the versions of a new release of Expresso.
+get the versions of a new Expresso release.
 
 The sections below tell how to install each tool in its own way.
 
@@ -103,8 +104,8 @@ The check measures each step at 1920 × 1080. To correct a problem of the layout
 
 ## Check the screen of the room
 
-A projector can have other proportions than 16:9, such as 4:3. Give the size of each screen
-of the talk with `--size`:
+A projector can have other proportions than 16:9, such as 4:3. For each screen of the talk,
+give its size with `--size`:
 
 ```sh
 mix expresso deck.exs --check=layout --size 1920x1080 --size 1024x768
@@ -119,7 +120,7 @@ gives the same result as 1920 × 1080.
 `--check=a11y` also runs [axe-core](https://github.com/dequelabs/axe-core) at each step
 and in each view. It needs the browser of the layout check, and the npm package
 `axe-core`. `mix expresso --install-check-tools` installs it. To install it in the
-directory of the deck in place of that:
+directory of the deck in place of that, do these steps:
 
 1. Go to the directory of the deck, or to a parent directory of it.
 2. Install the package:
@@ -134,20 +135,20 @@ directory of the deck in place of that:
    mix expresso deck.exs --check=a11y
    ```
 
-The check looks for `node_modules/axe-core/axe.min.js` in the current directory, in the
-directory of the deck, then in each parent of them, and then in the directory of
+The check looks for `node_modules/axe-core/axe.min.js` in the current directory, and then in
+the directory of the deck. Then it looks in each parent of them, and then in the directory of
 `--install-check-tools`. To use a different copy, give its path in `EXPRESSO_AXE`.
 
 ## Install Playwright for the browser check
 
 `--check=browser` opens the deck in the Chromium of [Playwright](https://playwright.dev),
 and uses the presenter as you do. It presses the key of the next step from the first step
-to the last step, and it opens and closes the menu, the list of keys, the overview and the
+to the last step. It opens and closes the menu, the list of keys, the overview and the
 handout view with their keys. It also runs the checks of `--check=a11y` in the same browser,
 so it needs no other Chrome. `mix expresso --install-check-tools` installs its tools. To
-install them in the directory of the deck in place of that:
+install them in the directory of the deck in place of that, do these steps:
 
-1. Install [Node](https://nodejs.org), and make sure that `node` is on the `PATH`.
+1. Install [Node](https://nodejs.org). Make sure that `node` is on the `PATH`.
 2. Go to the directory of the deck, or to a parent directory of it.
 3. Install the npm packages and the browser:
 
@@ -156,14 +157,13 @@ install them in the directory of the deck in place of that:
    npx playwright install chromium
    ```
 
-4. In a Mix project, add the Hex package `playwright_ex` to the deps in `mix.exs`, and run
-   `mix deps.get`:
+4. In a Mix project, add the Hex package `playwright_ex` to the deps in `mix.exs`:
 
    ```elixir
    {:playwright_ex, "~> 0.14", only: :dev, runtime: false}
    ```
 
-   The binary holds this package, so the binary needs no step 4.
+   Then run `mix deps.get`. The binary holds this package, so the binary needs no step 4.
 
 5. Run the check:
 
@@ -181,7 +181,7 @@ the message of the error, such as `The script: TypeError: x is undefined`.
 
 ## Read a report
 
-This deck has a text in grey on a grey background:
+This deck has a text in gray on a gray background:
 
 ```elixir
 defmodule Examples.CheckDeck do
@@ -204,7 +204,7 @@ end
 Examples.CheckDeck
 ```
 
-![A slide with the heading "The plan", two items, and a box of grey text on a grey background that is hard to read](https://raw.githubusercontent.com/rellen/expresso/media/check-deck.png)
+![A slide with the heading "The plan", two items, and a box of gray text on a gray background that is hard to read](https://raw.githubusercontent.com/rellen/expresso/media/check-deck.png)
 
 `--check=a11y` gives the low contrast as a problem, at the first step that has it:
 
@@ -225,7 +225,7 @@ Problems:
 A problem of axe-core names the step or the view, the rule, and each element that fails.
 The name of an element is its kind and the first 40 characters of its text, as the layout
 check gives it. To correct the deck, give the class `quiet` of that text area a color with
-more contrast, or remove the class. Then run the check again, until it gives
+more contrast. As an alternative, remove the class. Then run the check again, until it gives
 `No problems.`
 
 The most frequent problem is dimmed text. To correct it, see
@@ -257,8 +257,8 @@ jobs:
 The job fails when the report has a problem. The step also writes `deck.html`, so a later
 step can publish it.
 
-For `--check=browser`, install Playwright and its Chromium in place of the step of
-axe-core, and add `playwright_ex` to the deps of the project:
+For `--check=browser`, add `playwright_ex` to the deps of the project. Also install
+Playwright and its Chromium in place of the step that installs axe-core:
 
 ```yaml
       - run: npm install --no-save playwright axe-core

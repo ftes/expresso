@@ -1,7 +1,7 @@
 # Put a deck on a web host
 
 This guide shows how to put a deck on a web host, and how to make sure that the host sends
-it fast. GitHub Pages is the example of a host. For the option that keeps a file next to
+it quickly. GitHub Pages is the example of a host. For the option that keeps a file next to
 the document, see [the external option](../reference/external-option.md).
 
 ## Render the deck into a directory
@@ -62,8 +62,8 @@ end
 
 A deck with 40 photographs of 500 KB has a document of approximately 27 MB. With the
 option, the document holds only the address of each photograph. The browser gets each
-photograph one time, and the host can keep it in its cache, so a change of the text of the
-deck does not send the photographs again.
+photograph one time, and the host can keep it in its cache. A change to the text of the deck
+then does not send the photographs again.
 
 The browser also asks for fewer files at the load. It gets the photographs of the first
 slide at the load, and the other photographs in the background after the load. See
@@ -127,7 +127,8 @@ and the `card` option.
    end
    ```
 
-2. Make the picture, and render the deck. The command needs Chrome or Chromium:
+2. Run the command that makes the picture and renders the deck. The command needs Chrome or
+   Chromium:
 
    ```sh
    mix expresso talk.exs site/index.html --card card.png
@@ -143,17 +144,16 @@ and the `card` option.
    grep -o '<meta property="og:image"[^>]*>' site/index.html
    ```
 
-4. Put each file of `site/` on the host, then paste the address of the deck into a chat
-   program. A program keeps a card for some time, so a change of the picture can show
-   late.
+4. Put each file of `site/` on the host. Then paste the address of the deck into a chat
+   program. A program keeps a card for some time, so a change of the picture can show late.
 
 After a change to the slide of the card, run the command of step 2 again. A render with
 no `--card` uses the picture that is there. When `card.png` does not exist, the render stops
 with an error that tells you to make it with `--card`.
 
 End the address of a directory with `/`, because the address of the picture is relative to
-it. To give the tab of the browser an icon, add `favicon "icon.svg"`. To keep the deck out
-of a search engine, add `robots "noindex"`. See
+it. To give the tab of the browser an icon, add `favicon "icon.svg"`. To ask a search engine
+to leave the deck out of its results, add `robots "noindex"`. See
 [the url, card, favicon and robots options](../reference/link-preview-options.md).
 
 ## Make sure that the host compresses the document
@@ -194,7 +194,7 @@ The host must answer such a range request.
 
 ## Give the files of the directory a long cache time
 
-The name of each file of `index_files/` holds a hash of its content. A file that changes
+The name of each file in `index_files/` holds a hash of its content. A file that changes
 gets a new name, so a browser can keep a file with one name for a long time. The document
 changes with each change of the deck, so its cache time must be short.
 
@@ -228,7 +228,7 @@ GitHub Pages publishes the root of a branch, or the directory `docs/` of a branc
    touch docs/.nojekyll
    ```
 
-3. Commit the directory `docs/`, and push the branch.
+3. Commit the directory `docs/`. Then push the branch.
 4. Select the branch and the directory `/docs` as the source of GitHub Pages in the
    settings of the repository.
    [Configuring a publishing source for your GitHub Pages site](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site)
@@ -244,8 +244,8 @@ GitHub Pages gave these answers on 2026-11-15:
 | Range request | `206`, so a viewer can go to a time of a video. |
 | Cache time | `Cache-Control: max-age=600` for each file. You cannot change it. |
 
-GitHub Pages has limits. A site has a soft limit of 100 GB of traffic in one month, and
-Git refuses a file that is larger than 100 MB.
+GitHub Pages has limits. The traffic of a site has a soft limit of 100 GB in one month. Git
+refuses a file that is larger than 100 MB.
 [GitHub Pages limits](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits)
 gives each limit.
 
@@ -267,5 +267,5 @@ Lighthouse measures the load of the first slide on a slow phone.
    | Cumulative Layout Shift | How much the slide moves after it shows. The correct value is 0. |
    | The total size, in the audit about network payloads | The bytes that the browser gets for the first slide. A video with `external true` is not a part of them. |
 
-Lighthouse does not measure when the deck answers a key. The presenter starts as soon as
-the browser has the slides, before it has a video file of the document.
+Lighthouse does not measure when the keys start to operate. The presenter script starts as soon
+as the browser has the slides, before it has a video file of the document.

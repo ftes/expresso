@@ -83,7 +83,7 @@ Examples.VideoAt
 
 ![Step 1 shows the text, and the video shows and plays at step 2](https://raw.githubusercontent.com/rellen/expresso/media/video-at.gif)
 
-A black screen, the menu and the overview pause the video, and it goes on from the same
+A black screen, the menu and the overview pause the video, and it continues from the same
 time after them. A move to another slide pauses it, and a move back starts it from the
 start.
 
@@ -149,9 +149,9 @@ Examples.VideoExternal
    name holds a hash of its content, such as `clip-3dc53cfe.webm`.
 3. Put the document and the directory on the web host together.
 
-The browser then asks for the video only when its slide shows, and it can go to a time of
-the video before the whole file arrives. The poster stays in the document, so the speaker
-view and the handout view show it with no file.
+The browser then asks for the video only when its slide shows. It can go to a time of the
+video before the whole file arrives. The poster stays in the document, so the speaker view
+and the handout view show it with no file.
 
 An `audio` element takes the same option. For each rule, see
 [A file next to the document](../reference/video-element.md#a-file-next-to-the-document).

@@ -59,7 +59,7 @@ the script runs, so the script can read the data from a file.
 
 `Expresso.Builder` has one function for each entity of the DSL. A function takes the
 arguments of the entity, then a keyword list with the options and the children. Make the
-slides with `Enum.map/2` or with `for`, then give them to `deck/2`:
+slides with `Enum.map/2` or with `for`. Then give them to `deck/2`:
 
 ```elixir
 import Expresso.Builder
@@ -97,13 +97,13 @@ box on each slide:
 | 1000 | 5.9 s | less than 0.1 s |
 | 2000 | 33 s | 0.1 s |
 
-For a talk of less than approximately 250 slides, the two methods take less than one
+For a deck of less than approximately 250 slides, the two methods take less than one
 second. For a larger deck, use `Expresso.Builder`.
 
 ## Read the data from a file
 
 Replace the list in the script with data from a file, such as `File.read!("topics.csv")`.
-The watch mode does not see a file that the script reads. After a change to the data, give
+The watch mode does not watch a file that the script reads. After a change to the data, give
 the script a new modification time with `touch talk.exs`. The watch mode then renders the
 deck again.
 

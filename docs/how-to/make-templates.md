@@ -1,7 +1,7 @@
 # Make templates of your own
 
-This guide shows how to put a value of each slide into the header, such as the part of the
-talk, and how to give each slide the same slide template of your own. For each option, see
+This guide shows how to put a value of each slide into the header, such as the part of the talk.
+It also shows how to give each slide the same slide template of your own. For each option, see
 [The template option](../reference/template-option.md).
 
 ## Show the part of the talk in the header

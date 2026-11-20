@@ -1,7 +1,7 @@
 # Keep backup slides for the questions
 
-This guide shows how to keep a slide in a deck that the talk does not show, and how to go
-to it when a question needs it.
+This guide shows how to keep a slide in a deck that the talk does not show. It also shows how
+to go to the slide when a question needs it.
 
 ## Hide a slide
 
@@ -52,21 +52,21 @@ supports, because the overview then shows the two slides together.
 Use one of these ways:
 
 1. Press `o` for the overview. The hidden slide has a dashed outline. Select it with the
-   arrow keys, and press `Enter`.
-2. Press `m` for the menu. Move the cursor to the hidden slide with `j` and `k`, and press
+   arrow keys. Press `Enter`.
+2. Press `m` for the menu. Move the cursor to the hidden slide with `j` and `k`. Press
    `Enter`.
 3. Click a link to the slide. The example above gives the text "See the numbers" a link
    with `goto: [slide: "numbers"]`.
 
 Give a link the name of the slide, and not a number. A link by number uses the place of the
-slide in the deck, and that place changes when you add a slide in front of it.
+slide in the deck. That place changes when you add a slide in front of it.
 
 ## Go back to the talk
 
 On a hidden slide, press `j`. After the last step of the hidden slide, `j` goes to the next
 slide of the talk. `k` goes to the slide of the talk in front of the hidden slide.
 
-To go back to a different slide, type its number and press `Enter`. The number is the
+To go back to a different slide, type its number. Then press `Enter`. The number is the
 number that the slide shows.
 
 ## Print the backup slides
@@ -82,9 +82,8 @@ Each hidden slide then prints in its place, with the pages of its `handout` opti
 
 ## Make sure of the result
 
-1. Open the deck, and press `j` to the end. Make sure that no hidden slide shows.
-2. Press `o`, and make sure that each hidden slide has a dashed outline.
-3. Press `p`, and make sure that the handout view shows only the slides that you want on
-   paper.
+1. Open the deck. Press `j` to the end. Make sure that no hidden slide shows.
+2. Press `o`. Make sure that each hidden slide has a dashed outline.
+3. Press `p`. Make sure that the handout view shows only the slides that you want on paper.
 
 See [the hidden option](../reference/hidden-option.md) for each rule of a hidden slide.

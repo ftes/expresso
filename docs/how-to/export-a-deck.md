@@ -61,8 +61,8 @@ The command writes one line:
 Wrote deck.pdf: 2 pages.
 ```
 
-The PDF has one page for each slide, and the page shows the slide as the present view
-shows its last step, with the theme of the deck. The page has the size of a window of
+The PDF has one page for each slide. The page shows the slide as the present view shows its
+last step, with the theme of the deck. The page has the size of a window that is
 1920 × 1080 pixels.
 
 - To get a page for each step, add `--pdf-steps all`. The PDF of the example then has four
@@ -73,8 +73,8 @@ shows its last step, with the theme of the deck. The page has the size of a wind
 ## Write a PDF for paper
 
 Add `--pdf-pages handout`. The PDF then holds the handout view, as the print dialog of
-the browser gives it: the notes under each page, the theme of paper and the steps of the
-`handout` option.
+the browser gives it. This view has the notes under each page, the theme of paper and the
+steps of the `handout` option.
 
 ```sh
 mix expresso deck.exs --pdf handout.pdf --pdf-pages handout
@@ -114,8 +114,8 @@ Give the option `--card` with the path of a PNG file:
 mix expresso deck.exs --card card.png
 ```
 
-The command writes `card.png`: the last step of slide 1 in a window of 1200 × 630 pixels,
-which is the usual size of the card of a link. To show a different slide, add
+The command writes `card.png`. The file shows the last step of slide 1 in a window of
+1200 × 630 pixels. That size is usual for the card of a link. To show a different slide, add
 `--card-slide`, such as `--card-slide 2`. The `card` option of a deck gives the picture to
 the document. See
 [Give a link to the deck a preview](put-a-deck-on-a-web-host.md#give-a-link-to-the-deck-a-preview).

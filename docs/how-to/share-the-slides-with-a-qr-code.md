@@ -7,8 +7,8 @@ each option, see [The QR code element](../reference/qr-code-element.md).
 ## Show a QR code
 
 Write a `qr_code` element with the address as its first argument. The `label` option
-writes the address under the code, for a person who cannot scan it. The `size` option
-gives the width of the code as a part of the width of the slide:
+writes the address under the code, for a member of the audience who cannot scan it. The `size`
+option gives the width of the code as a part of the slide width:
 
 ```elixir
 defmodule Examples.QrCode do
@@ -36,8 +36,8 @@ code on a light ground best.
 
 ## Show the code at a step
 
-A QR code takes the overlay options, as each element does. Give the code an `at` option to
-show it after the other content, such as at the end of a talk:
+A QR code takes the overlay options, as each element does. Give the code an `at` option. The
+code can then show after the other content, such as at the end of a talk:
 
 ```elixir
 defmodule Examples.QrCodeAt do
@@ -68,7 +68,7 @@ end
 Examples.QrCodeAt
 ```
 
-![The list shows at step 1, and the QR code grows in at step 2](https://raw.githubusercontent.com/rellen/expresso/media/qr-code-at.gif)
+![The list shows at step 1, and the QR code shows with the grow effect at step 2](https://raw.githubusercontent.com/rellen/expresso/media/qr-code-at.gif)
 
 ## Change the colors of the code
 

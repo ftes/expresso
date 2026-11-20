@@ -1,8 +1,8 @@
 # Move a part of a diagram to another part
 
-This guide shows how to move a part of an SVG diagram to the place of another part, such
-as a box that moves from one station of a flow to the next. For each value of the option,
-see [The overlay options](../reference/overlay-options.md).
+This guide shows how to move a part of an SVG diagram to the place of another part. An
+example is a box that moves from one station of a flow to the next. For each value of the
+option, see [The overlay options](../reference/overlay-options.md).
 
 ## Give the elements an id
 
@@ -53,8 +53,8 @@ options of the part give the time and the easing of the move.
 ## Put the part above a place, and not on it
 
 `move_to` puts the two centers on the same point, so the part can cover the text of its
-target. Add a small shape with no fill at the point where the part must stop, give it an
-`id`, and move the part to it:
+target. Add a small shape with no fill at the point where the part must stop. Give the shape
+an `id`. Then move the part to the shape:
 
 ```xml
 <rect id="above-booth" x="230" y="40" width="1" height="1" fill="none"/>
@@ -83,7 +83,7 @@ its label is a separate `text` element:
 </svg>
 ```
 
-The widget goes to the booth at step 2, to the dryer at step 3, and to the packer at
+The widget moves to the booth at step 2, to the dryer at step 3, and to the packer at
 step 4. At the packer it also grows:
 
 ```elixir

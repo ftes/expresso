@@ -104,7 +104,7 @@ Examples.AudioHandout
 The document holds each sound file as a data URI, so a long or a large file makes a large
 document. Use these steps to make a small file from a recording, such as `clip.wav`:
 
-1. Cut the sound to the part that you need, and make it one channel:
+1. Cut the sound to the part that you need. This command also makes it one channel:
 
    ```sh
    ffmpeg -i clip.wav -ss 0 -t 5 -ac 1 -c:a libvorbis -q:a 2 clip.ogg

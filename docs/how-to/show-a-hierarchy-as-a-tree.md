@@ -1,13 +1,13 @@
 # Show a hierarchy as a tree
 
-This guide shows how to draw a hierarchy as boxes and lines with the `tree` element: an org
-chart, the use of a disk by folders, and a change of a team. For each option, see
-[The tree element](../reference/tree-element.md).
+This guide shows how to draw a hierarchy as boxes and lines with the `tree` element. The
+examples are an org chart, the use of a disk by folders, and a change of a team. For each
+option, see [The tree element](../reference/tree-element.md).
 
 ## Draw an org chart and show it level by level
 
 Write a `tree` element with a `title` for a screen reader. Put one `node` entity into it,
-the root, and nest the nodes under each node. A node with nodes under it gives its options
+the root. Nest the nodes under each node. A node with nodes under it gives its options
 in its block, such as `detail "Production"`. A node at the end of a branch can give its
 options after its name.
 
@@ -59,14 +59,14 @@ Examples.TreeOrg
 
 ![An org chart shows the plant manager, then the three teams, then the people of each team, in a color for each team](https://raw.githubusercontent.com/rellen/expresso/media/tree-org.gif)
 
-The icon of a node is the name of an icon of [the icon element](../reference/icon-element.md).
+The icon of a node is the name of an icon from [the icon element](../reference/icon-element.md).
 An `image` option shows a photo in a circle in its place. To show the nodes of one branch
 at each step, write `reveal :branches`. To give a step to one node, give it the `at` option.
 
 ## Show the use of a disk from a CSV file
 
 A CSV file gives a large tree. In the path form, the file has a `path` column, and the
-other columns have the names of the options of a node:
+other columns have the names of a node's options:
 
 ```
 path,value
@@ -127,8 +127,8 @@ form for an export from a list of people. See [the data](../reference/tree-eleme
 ## Show a change of a team with frames
 
 Put a whole tree into each `frame` entity. The name of a node is its identity across the
-frames. At the step of the next frame, a box moves to its new place, a new box fades in, and
-a box with a new detail fades to that detail:
+frames. At the step of the next frame, a box moves to its new place. At that step, a new box
+fades in, and a box with a new detail fades to that detail:
 
 ```elixir
 defmodule Examples.TreeReorg do
@@ -184,8 +184,8 @@ Examples.TreeReorg
 ![A team before a change, then Di moves under Eve, Eve gets a new detail and Kim joins the team](https://raw.githubusercontent.com/rellen/expresso/media/tree-reorg.gif)
 
 The label of each frame shows under the tree. The handout view and paper show each frame as
-a small tree in a grid. A CSV file gives frames too: the `frames` option names the column of
-the frame of each row.
+a small tree in a grid. A CSV file gives frames too: the `frames` option names the column
+with the frame of each row.
 
 [Animate a supervision tree](animate-a-supervision-tree.md) uses frames to show processes
 that start, crash and start again.

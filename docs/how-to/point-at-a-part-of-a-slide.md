@@ -1,7 +1,7 @@
 # Point at a part of a slide
 
-This guide shows how to draw a circle, an arrow, a box or a line over a slide, so that the
-audience looks at the right part. For each option, see
+This guide shows how to draw a circle, an arrow, a box or a line over a slide. The audience
+then looks at the correct part. For each option, see
 [The shape element](../reference/shape-element.md).
 
 ## Circle a line and add a note
@@ -46,10 +46,10 @@ end
 Examples.Shape
 ```
 
-![At step 2, an ellipse circles a line of code, and an arrow points to it from a note](https://raw.githubusercontent.com/rellen/expresso/media/shape.gif)
+![At step 2, an ellipse is around a line of code, and an arrow points to it from a note](https://raw.githubusercontent.com/rellen/expresso/media/shape.gif)
 
-To find the place of a shape, look at the slide in the browser, and change the numbers
-until the shape covers the part.
+To find the place of a shape, look at the slide in the browser. Change the numbers until the
+shape covers the part.
 
 ## Move an arrow to the next item
 

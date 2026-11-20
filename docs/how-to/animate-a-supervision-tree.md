@@ -36,8 +36,9 @@ The label of each frame shows under the tree, so it tells the audience what occu
 
 ## The example deck
 
-The deck has one slide for the tree of the application, three slides for the strategies of
-a `Supervisor`, and one slide each for a `DynamicSupervisor` and a `PartitionSupervisor`:
+The deck has one slide for the tree of the application and three slides for the strategies
+of a `Supervisor`. It has one slide each for a `DynamicSupervisor` and a
+`PartitionSupervisor`:
 
 ```elixir
 defmodule Examples.TreeSupervision do
@@ -461,15 +462,15 @@ A `DynamicSupervisor` starts with no children. `DynamicSupervisor.start_child/2`
 child at run time, and `DynamicSupervisor.terminate_child/2` stops one. Each new node fades
 in, and the node that stops fades out:
 
-![Three sessions start one by one, session 2 crashes and starts again, then session 1 stops and its box goes away](https://raw.githubusercontent.com/rellen/expresso/media/tree-dynamic-supervisor.gif)
+![Three sessions start one by one, session 2 crashes and starts again, then session 1 stops and its box fades out](https://raw.githubusercontent.com/rellen/expresso/media/tree-dynamic-supervisor.gif)
 
 ### A PartitionSupervisor
 
-A `PartitionSupervisor` starts a number of copies of one child, and each copy is a
-partition. Here each partition is a `DynamicSupervisor`. A crash of a cache stays in its
+A `PartitionSupervisor` starts some copies of one child, and each copy is a partition. Here
+each partition is a `DynamicSupervisor`. A crash of a cache has no effect outside its
 partition. When a partition crashes, its children stop with the same exit reason. The
 `PartitionSupervisor` starts the partition again, but the dynamic children of the old
-partition do not come back:
+partition do not start again:
 
 ![Cache c crashes and partition 1 starts it again, then partition 2 crashes and starts again with no children](https://raw.githubusercontent.com/rellen/expresso/media/tree-partition-supervisor.gif)
 

@@ -1,14 +1,16 @@
 # Make a deck accessible
 
-This guide shows how to make a deck that a screen reader can read and that a keyboard can
-present. The document gives the structure itself. Your deck gives the names and the texts.
-For each part of the document, see [The accessibility of a deck](../reference/accessibility.md).
+This guide shows how to make a deck that a screen reader can read and that the presenter can
+present with a keyboard. The document gives the structure itself. Your deck gives the names
+and the texts. For each part of the document, see
+[The accessibility of a deck](../reference/accessibility.md).
 
 ## Give each slide a heading
 
 A screen reader names each slide with its number and its heading, such as "Slide 2 of 3: A
-restart". The live region reads that name at each move to the slide. Without a heading, the
-name of the slide is its `slide` name, such as "restart". The menu shows the same names.
+restart". The screen reader reads that name from the live region at each move to the slide.
+Without a heading, the name of the slide is its `slide` name, such as "restart". The menu
+shows the same names.
 
 ```elixir
 defmodule Examples.Accessible do
@@ -55,8 +57,8 @@ only a picture, gets an `h1` that only a screen reader reads. Its text is the na
 slide, or "Slide 4 of 9" for a slide with no name. A slide template that writes its title in
 an `h2` gets the hidden `h1` too.
 
-When the hidden heading adds nothing, such as on a slide between two parts of the talk,
-give `sr_heading false`:
+When the hidden heading adds no information, such as on a slide between two parts of the
+talk, give `sr_heading false`:
 
 ```elixir
 slide "pause" do
@@ -65,8 +67,9 @@ slide "pause" do
 end
 ```
 
-Give the deck a `name` too. The browser and a screen reader show it as the title of the
-document. A deck with no name takes the heading of its first slide as its title.
+Give the deck a `name` too. The browser shows it as the title of the document, and a screen
+reader reads that title. A deck with no name takes the heading of its first slide as its
+title.
 
 ## Name the steps
 
@@ -76,7 +79,7 @@ name is only "Step 2". See [Step labels](../reference/step-labels.md).
 
 ## Give each picture a text
 
-A screen reader cannot see a picture, so give each one a text:
+A screen reader cannot read a picture, so give each one a text:
 
 | Element | Option | Example |
 | --- | --- | --- |
@@ -104,7 +107,7 @@ end
 
 ## Add captions to a video
 
-Write the captions in a WebVTT file, and give its path in the `captions` option. The
+Write the captions in a WebVTT file. Give the path of the file in the `captions` option. The
 browser shows each line at its time:
 
 ```elixir
@@ -154,10 +157,10 @@ See [the lang option](../reference/lang-option.md).
 
 ## Keep dimmed text readable
 
-A dimmed element, such as a line of code out of focus, keeps a contrast of 3:1 on its
-background. A slide usually shows large text, and 3:1 is the minimum of WCAG for large
-text. For small text, such as a long listing, or for a deck that a checker must pass, give
-the `dim_contrast` option:
+A dimmed element, such as a line of code that is not in focus, keeps a contrast of 3:1 on
+its background. A slide usually shows large text, and 3:1 is the minimum of WCAG for large
+text. For small text, such as a long listing, give the `dim_contrast` option. Give this
+option too for a deck that a checker must pass:
 
 ```elixir
 defmodule Examples.DimContrast do
@@ -209,10 +212,11 @@ See [the dim_graphic_opacity option](../reference/dim-graphic-opacity-option.md)
 
 A user can ask the system for forced colors, such as the high contrast mode of Windows.
 The browser then gives each text a color of the system. A deck needs no option for this
-mode, but look at it one time, because the mode removes each color that has a meaning.
+mode. Look at the deck in this mode one time, because the mode removes each color that has a
+meaning.
 
-1. Open the deck in Chrome, and open the developer tools.
-2. Open the command menu with `Ctrl+Shift+P`, or with `Cmd+Shift+P` on macOS, and run
+1. Open the deck in Chrome. Open the developer tools.
+2. Open the command menu with `Ctrl+Shift+P`, or with `Cmd+Shift+P` on macOS. Run
    `Show Rendering`.
 3. Set `Emulate CSS media feature forced-colors` to `forced-colors: active`.
 4. Go through each step of the deck.
@@ -220,12 +224,13 @@ mode, but look at it one time, because the mode removes each color that has a me
 Look for these three things:
 
 - A text that tells its meaning only with a color. The colors of code and the color of a
-  `set` go away. Add a word, or the state `alert`. An `on` entity with the state
+  `set` do not show. Add a word, or the state `alert`. An `on` entity with the state
   `highlight` draws no mark. Only the `highlight` option of a code element draws a bar.
 - A chart, a diagram, a formula with a part or an image. Each one keeps its colors on a
   plate with the background color of the theme, so it must be readable on that color.
-- A color or a gradient as the background of a slide. It goes away, so the slide must make
-  sense with no background. An image stays, and each text gets a box behind it.
+- A color or a gradient as the background of a slide. It does not show, so the meaning of
+  the slide must be clear with no background. An image stays, and each text gets a box
+  behind it.
 
 See [Forced colors](../reference/accessibility.md#forced-colors) for each rule.
 
@@ -235,7 +240,7 @@ A user can also ask the system for more contrast. The deck then gives each text 
 more on its background, and a dimmed text keeps 7:1. A deck needs no option for this
 preference.
 
-1. Open the developer tools of Chrome, and run `Show Rendering` in the command menu.
+1. Open the developer tools of Chrome. Run `Show Rendering` in the command menu.
 2. Set `Emulate CSS media feature prefers-contrast` to `prefers-contrast: more`.
 3. Go through each step of the deck.
 
@@ -253,7 +258,7 @@ See [More contrast](../reference/accessibility.md#more-contrast) for each change
    Windows.
 2. Press `j`. The screen reader reads the name of the next slide, or the next step.
 3. Press `m`. The screen reader reads the name of the current step. Press `j` and `k` to
-   move the cursor, and listen for each name.
+   move the cursor. Listen for each name.
 4. Press `p` for the handout view. Each page has the name of its slide and its step.
 
 To find a missing text, run a checker such as [axe DevTools](https://www.deque.com/axe/)

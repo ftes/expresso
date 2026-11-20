@@ -1,15 +1,16 @@
 # Use colors of your own
 
-This guide shows how to give a deck a theme of your own colors, and how to correct each
-color that is too weak on its background. For each value of the option, see
-[The theme option](../reference/theme-option.md).
+This guide shows how to give a deck a theme of your own colors. It also shows how to
+correct each color that has too little contrast on its background. For each value of the
+option, see [The theme option](../reference/theme-option.md).
 
 ## Give the deck your colors
 
 A theme of your own is a map with a `#rrggbb` color for each slot of base16, from `:base00`
-to `:base0F`. `base00` is the background, `base01` the background of the code, `base05` the
-text, `base03` the comments, and `base08` to `base0F` the accents. The roles in
-[the theme option](../reference/theme-option.md#the-roles) give each slot its purpose.
+to `:base0F`. `base00` is the background, and `base01` is the background of the code.
+`base05` is the text, `base03` is the comments, and `base08` to `base0F` are the accents.
+The roles in [the theme option](../reference/theme-option.md#the-roles) tell the purpose of
+each slot.
 
 1. Start from a base16 scheme, or write 16 colors of your own:
 
@@ -34,8 +35,8 @@ text, `base03` the comments, and `base08` to `base0F` the accents. The roles in
    }
    ```
 
-2. Render the deck. The compiler gives a warning for each color that is too weak on its
-   background, and the deck still renders.
+2. Render the deck. The compiler gives a warning for each color that has too little
+   contrast on its background, and the deck still renders.
 
 ## Correct the colors that are too weak
 
@@ -67,7 +68,7 @@ theme colors: %{base00: "#13233a", ...}, adjust: true
 ```
 
 1. Render the deck. The document gets each color that passes, as a built-in theme does.
-2. Read the warnings. A warning tells you when a color moves more than 0.4 in lightness,
+2. Read the warnings. A warning tells you when a color changes more than 0.4 in lightness,
    because the color can then look different from your map.
 
 Your map stays as you write it, so the slides and your map can show different colors.

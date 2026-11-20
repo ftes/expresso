@@ -20,13 +20,13 @@ light room and a dark room. For each rule, see
    theme dark: %{base00: "#13233a", ...}, light: :default, adjust: true
    ```
 
-4. Render the deck. The document shows the variant of the scheme of the screen.
+4. Render the deck. The document shows the variant for the scheme of the screen.
 
 ## Change the variant during the talk
 
 1. Press `t` in the window of the audience or in the speaker view. The two windows show
    the other variant.
-2. Press `t` again to go back.
+2. Press `t` again to show the first variant.
 
 A load of the document shows the variant of the screen again. Paper gets the default theme
 with each variant.
@@ -50,9 +50,9 @@ key `s` opens the speaker view in the variant of the present view.
 
 ## Check the two variants
 
-`mix expresso deck.exs --check=a11y` checks each variant, because a color can pass in one
-variant and fail in the other. A problem of one variant only names the variant, such as
-`Slide 1 “start”, step 1 (dark): color-contrast`. See
+`mix expresso deck.exs --check=a11y` runs the checks in each variant, because a color can
+pass in one variant and fail in the other. A problem of only one variant names that variant,
+such as `Slide 1 “start”, step 1 (dark): color-contrast`. See
 [Check a deck before the talk](check-a-deck.md).
 
 ## The complete deck

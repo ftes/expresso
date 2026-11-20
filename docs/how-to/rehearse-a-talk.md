@@ -22,7 +22,7 @@ times to that point. Press `r` to set the timer to 0:00 and to start a new recor
 ## Give the times to the deck
 
 1. Click the lines under the table. One click selects each line.
-2. Copy the lines, and close the table with `Esc`.
+2. Copy the lines. Close the table with `Esc`.
 3. Put each `advance` line into the slide that the comment above it names:
 
    ```elixir
@@ -32,9 +32,9 @@ times to that point. Press `r` to set the timer to 0:00 and to start a new recor
    end
    ```
 
-4. Make the HTML document again, and open it with no `?rehearse`.
+4. Make the HTML document again. Open it with no `?rehearse`.
 
-The lines follow these rules:
+These rules apply to the lines:
 
 | Line | Meaning |
 | --- | --- |

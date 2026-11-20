@@ -1,13 +1,13 @@
 # Show a key number
 
-This guide shows how to put a big number on a slide, how to make it count up, and how to
-show several numbers in a row. For each option, see
+This guide shows how to put a big number on a slide and how to make it count up. It also shows
+how to show several numbers in a row. For each option, see
 [The stat element](../reference/stat-element.md).
 
 ## Show numbers that count up
 
-Write a `stat` element with the value and a `label`. The `prefix` and the `suffix` go
-around the number. `count true` counts from 0 to the value when the stat shows. Put the
+Write a `stat` element with the value and a `label`. The `prefix` goes before the number, and
+the `suffix` goes after it. `count true` counts from 0 to the value when the stat shows. Put the
 stats in the columns of a `columns` element to show them in a row:
 
 ```elixir

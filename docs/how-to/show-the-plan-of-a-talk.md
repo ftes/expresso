@@ -1,8 +1,8 @@
 # Show the plan of a talk
 
-This guide shows how to divide a deck into sections, how to show an agenda that builds one
-section at a time, and how to remind the audience where the talk is. For each option, see
-[The toc element](../reference/toc-element.md).
+This guide shows how to divide a deck into sections and how to show an agenda that shows its
+sections one after the other. It also shows how to show the audience the current section of the
+talk. For each option, see [The toc element](../reference/toc-element.md).
 
 ## Divide the deck into sections
 
@@ -13,7 +13,7 @@ the next slide with a `section` option, so the other slides of a section need no
 
 Write a `toc` element on the agenda slide. The toc lists each section, with a link to its
 first slide. The `reveal` option shows one entry at each step, so you can say a few words
-about each part before the next one shows:
+about each section before the next entry shows:
 
 ```elixir
 defmodule Examples.Toc do
@@ -174,6 +174,6 @@ Examples.TocProgress
 
 ## Show the section in the header of each slide
 
-A template reads the title of the section of a slide from `@metadata[:section]`. A deck
-template can thus write the section in the header of each slide, with no `meta` option on
-the slides. See [Make templates of your own](make-templates.md).
+A template reads the title of a slide's section from `@metadata[:section]`. A deck template
+can thus write the section in the header of each slide, with no `meta` option on the slides.
+See [Make templates of your own](make-templates.md).

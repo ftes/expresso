@@ -1,9 +1,9 @@
 # Check that a deck fits the screen
 
-This guide shows how to find the parts of a deck that do not fit the screen of the talk:
-an element that goes past an edge, a line of code that breaks, and a chart or a diagram
-with text that is too small to read. The layout check of the presenter finds them at each
-step. For each value of the check, see
+This guide shows how to find the parts of a deck that do not fit the screen of the talk.
+Such a part can be an element that goes past an edge, or a line of code that breaks. It can
+also be a chart or a diagram with text that is too small to read. The layout check of the
+presenter finds these parts at each step. For each value of the check, see
 [The layout check](../reference/layout-check.md).
 
 ## Check a deck in a browser
@@ -15,13 +15,13 @@ step. For each value of the check, see
    ```
 
 2. Open `deck.html?check` in the browser.
-3. Make the window the size of the screen of the talk, such as 1920 × 1080. The size of the
-   window changes the layout. A full screen with the key `f` gives the size of the screen.
+3. Make the window the same size as the screen of the talk, such as 1920 × 1080. The size of
+   the window changes the layout. A full screen with the key `f` gives the size of the screen.
 4. Reload the page. The check runs after the load.
 5. Read the report in the lower right corner. The first line gives the size of the window
    and the number of problems.
 6. Click a problem. The presenter goes to its slide and its step.
-7. Correct the deck, and do the steps again until the report gives no problems.
+7. Correct the deck. Then do the steps again until the report gives no problems.
 
 The console of the browser gets the same lines as the report.
 
@@ -61,7 +61,7 @@ The check gives one line for each problem, with the slide and the step:
 
 ![The report in the lower right corner gives a line of code that breaks on slide 1, and a text that goes 407 px past the right edge at step 2 of slide 2](https://raw.githubusercontent.com/rellen/expresso/media/layout-check.png)
 
-To correct the deck, put a line break into the code, and give the box a smaller distance,
+To correct the deck, put a line break into the code. Also give the box a smaller distance,
 such as `x: "4rem"`. The next two sections give more ways.
 
 ## Correct a line of code that breaks
@@ -93,7 +93,7 @@ column. Do one of these:
   next to the text.
 - Put fewer elements on the slide, or divide the slide into two slides.
 - Give a wide formula a smaller size of text. Give the `math` element a class, such as
-  `class "small"`, and the `css` option of the deck a rule, such as
+  `class "small"`. Give the `css` option of the deck a rule, such as
   `.small { font-size: 0.9rem; }`. A derivation with `reveal true` keeps the space of each
   line from its first step, so the check reports a long line at the first step.
 
@@ -113,10 +113,10 @@ Do one of these:
 
 ## Check a deck for a phone
 
-A window that is smaller than 1280 × 720 shows a slide at a smaller scale, so a slide that
-fits a projector usually fits a phone. Three things do not follow the scale: a length in
-pixels in the `css` option, the text of an SVG file, and an image with a small natural
-size.
+A window that is smaller than 1280 × 720 shows a slide at a smaller scale. Therefore, a slide
+that fits a projector usually fits a phone. Three things do not change with the scale. They
+are a length in pixels in the `css` option, the text of an SVG file, and an image with a small
+natural size.
 
 1. Run the check with the size of a phone in each direction:
 

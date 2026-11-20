@@ -6,9 +6,8 @@ parts of a whole in groups. For each option, see [The chart element](../referenc
 ## Draw a treemap of groups and their parts
 
 Write a `chart` element with the kind `:treemap`. Put a slash in a category to name a part
-of a group: the category `"Production/Press"` is the part "Press" of the group
-"Production". Give one series with a value for each part. A group shows the sum of its
-parts.
+of a group. The category `"Production/Press"` is the part "Press" of the group "Production".
+Give one series with a value for each part. A group shows the sum of its parts.
 
 The frames of the other charts also apply. The boxes move to the values of each frame:
 
@@ -68,7 +67,7 @@ Tools/Licenses,60
 Tools/Hardware,45
 ```
 
-A sunburst draws each level as a ring. The groups make the inner ring, and their parts make
+A sunburst shows each level as a ring. The groups make the inner ring, and their parts make
 the outer ring. The effect `:grow` opens the sunburst from the top at its step:
 
 ```elixir
@@ -94,7 +93,7 @@ Examples.ChartSunburst
 
 ![A sunburst opens clockwise from the top, with the groups inside and the items outside](https://raw.githubusercontent.com/rellen/expresso/media/chart-sunburst.gif)
 
-The legend gives each group in percent of the whole.
+The legend shows each group in percent of the whole.
 
 ## Give the levels in columns of a CSV file
 
@@ -157,10 +156,10 @@ categories [["I/O", "Disks"], ["I/O", "Network"], ["CPU"]]
 
 ## Fill a circle, a hexagon or a polygon
 
-Write a `chart` element with the kind `:voronoi`, and give it the data of a treemap. The
-`shape` option gives the container: `:rectangle`, `:circle`, `:hexagon`, or the points of a
-convex polygon in a unit box. Each part is a cell with an area in proportion to its value,
-and each group is the cell that holds its parts:
+Write a `chart` element with the kind `:voronoi`. Give it the data of a treemap. The `shape`
+option gives the container: `:rectangle`, `:circle`, `:hexagon`, or the points of a convex
+polygon in a unit box. Each part is a cell with an area in proportion to its value, and each
+group is the cell that holds its parts:
 
 ```elixir
 defmodule Examples.ChartVoronoi do
@@ -198,15 +197,15 @@ Examples.ChartVoronoi
 ![A hexagon of cells: the group Production is in focus, then the group Sales, and then its part Online](https://raw.githubusercontent.com/rellen/expresso/media/chart-voronoi.gif)
 
 A polygon must be convex, such as a triangle: `shape [{0, 0}, {1, 0}, {0.5, 1}]`. The y axis
-goes down, so this triangle has its corner at the bottom. The compiler refuses a polygon
-with a dent. A Voronoi treemap takes no frames, so use a treemap for a change over time.
+goes down, so this triangle has its corner at the bottom. The compiler refuses a concave
+polygon. A Voronoi treemap takes no frames, so use a treemap for a change over time.
 
 ## Choose the kind
 
 - Use a treemap when the parts are many, or when the reader compares the sizes of parts.
-  An eye compares the areas of rectangles better than the angles of arcs.
-- Use a sunburst when the levels are the message, such as the share of each group and of
+  The reader compares the areas of rectangles better than the angles of arcs.
+- Use a sunburst when the levels are most important, such as the share of each group and of
   its parts.
-- Use a Voronoi treemap when the chart must fill a shape, such as a circle or a hexagon, or
-  when a treemap gives small parts as thin strips. A cell has no fixed direction.
+- Use a Voronoi treemap when the chart must fill a shape, such as a circle or a hexagon. Use
+  it also when a treemap shows small parts as thin strips. A cell has no fixed direction.
 - Use a pie or a bar chart when the data has no groups.

@@ -1,8 +1,8 @@
 # Animate elements in a slide
 
-This guide shows how to animate the elements of one slide with overlays. An overlay
-divides a slide into steps, and each key moves one step forward. Each section gives a
-complete deck and a recording of it. The recording presses `j` for the next step.
+This guide shows how to animate the elements of one slide with overlays. An overlay divides a
+slide into steps, and each key moves one step forward. Each section gives a complete deck and a
+recording of it. In the recording, the presenter presses `j` for the next step.
 
 For each form of the options, see [The overlay options](../reference/overlay-options.md).
 For the design, see [Overlays](../overlays.md).
@@ -456,15 +456,17 @@ Examples.OverlayRow
 
 ## Animate a part of a diagram
 
-Give each part an `id` in the SVG file, and write a `part` entity with that `id` in the
-diagram. An `on` entity in the part moves, turns or grows it, and the other parts stay in
-place. A part turns and grows around its own center. The values of `x` and `y` are in the
-units of the SVG file.
+Give each part an `id` in the SVG file. Write a `part` entity with that `id` in the diagram. An
+`on` entity in the part moves, turns or grows it, and the other parts stay in place. A part
+turns and grows around its own center. The values of `x` and `y` are in the units of the SVG
+file.
 
-An arrow can stay on the box that it points to. Move the box, and then turn and grow the
-arrow to the new position of the box. The turn and the growth go around the center of the
-arrow, so also move the arrow by half of the move of the box. The start of the arrow then
-stays in place. A part with an `at` option, such as the box C, shows from that step.
+An arrow can stay on the box that it points to. Move the box. Then turn and grow the arrow to
+the new position of the box. The arrow turns and grows around its center. Therefore, also move
+the arrow by half of the distance that the box moves. The start of the arrow then stays in
+place.
+
+A part with an `at` option, such as the box C, shows from that step.
 
 ```elixir
 defmodule Examples.OverlayDiagram do

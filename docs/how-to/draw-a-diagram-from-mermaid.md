@@ -34,7 +34,7 @@ flowchart LR
 
 Write a `diagram` element with the path of the file. A `part` names a node by its id in the
 source, and its `at` option gives its steps. An edge without a part shows from the step where
-both of its nodes show, so the edges come with their nodes:
+both of its nodes show, so the edges show with their nodes:
 
 ```elixir
 defmodule Examples.MermaidFlowchart do
@@ -62,7 +62,7 @@ Examples.MermaidFlowchart
 ![A flowchart of a release: build, then test, then release, then Hex and the docs](https://raw.githubusercontent.com/rellen/expresso/media/mermaid-flowchart.gif)
 
 The diagram takes the colors and the font of the theme. A part of an edge has the name of its
-two ends, such as `part "test->release"`, and a part of a subgraph has its id, such as
+two ends, such as `part "test->release"`. A part of a subgraph has its id, such as
 `part "ci"`.
 
 ## Show a sequence diagram message by message
@@ -152,15 +152,16 @@ end
 ```
 
 To change one color of the theme for a diagram of Mermaid, change its custom property with
-the [css option](../reference/css-option.md), such as
+the [css option](../reference/css-option.md). An example is
 `.diagram-pele { --pele-accent: var(--chart-3); }`.
 [The colors and the font of a graph](../reference/diagram-element.md#the-colors-and-the-font-of-a-graph)
 lists the properties.
 
 ## Give the diagram the font of your theme
 
-A diagram takes the font of the built-in theme, and Pele sizes each box for that font. A deck
-with a different font gives the TTF files of that font with the `font` option:
+A diagram takes the font of the built-in theme, and Pele calculates the size of each box for
+that font. A deck with a different font gives the TTF files of that font with the `font`
+option:
 
 ```elixir
 slide "the release" do

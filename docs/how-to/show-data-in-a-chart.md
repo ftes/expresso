@@ -1,8 +1,8 @@
 # Show data in a chart
 
-This guide shows how to draw a bar chart, a line chart and a pie chart, how to show the
-series of a chart one at a time, and how to read the file of a spreadsheet. For each option, see
-[The chart element](../reference/chart-element.md).
+This guide shows how to draw a bar chart, a line chart and a pie chart. It also shows how to
+show the series of a chart one at a time, and how to read the file of a spreadsheet. For each
+option, see [The chart element](../reference/chart-element.md).
 
 ## Draw a bar chart and show each series at a step
 
@@ -29,15 +29,15 @@ end
 Examples.Chart
 ```
 
-![The bars of the orders show at step 1, and the bars of the returns join them at step 2](https://raw.githubusercontent.com/rellen/expresso/media/chart.gif)
+![The bars of the orders show at step 1, and the bars of the returns show at step 2](https://raw.githubusercontent.com/rellen/expresso/media/chart.gif)
 
 The `title` names the chart for a screen reader. The document also holds a table of the
 values for a screen reader.
 
 ## Draw a line chart from a CSV file
 
-Put the numbers into a CSV file, with the names of the series in the first row and a
-category in each other row:
+Put the numbers into a CSV file. Put the names of the series in the first row and a category
+in each other row:
 
 ```
 Month,Web,Phone,Shop
@@ -110,8 +110,8 @@ screen reader reads both names in the table of the chart.
 ## Draw a chart from a file of a spreadsheet
 
 A spreadsheet can save its table as a CSV file or as a TSV file. You can also copy the cells
-and paste them into a text file, which then has a tab between two cells. Give the name of a
-TSV file an ending of `.tsv`, and the chart reads a tab between two cells:
+and paste them into a text file, which then has a tab between two cells. Give a TSV file a name
+that ends in `.tsv`. The chart then reads a tab between two cells:
 
 ```
 Plant	Orders	Returns
@@ -121,7 +121,7 @@ York	1,420	95
 Hull	760	40
 ```
 
-The commas in a category and between the groups of three digits of a number need no change:
+The commas in a category and between the groups of three digits in a number need no change:
 
 ```elixir
 defmodule Examples.ChartTsv do
@@ -163,8 +163,8 @@ chart :bar do
 end
 ```
 
-The chart does not read a comma as a decimal mark. Change the numbers of such a file to a
-period, such as `12.5`, before you give the file to the chart.
+The chart does not read a comma as a decimal mark. Before you give such a file to the chart,
+change each decimal mark to a period, such as `12.5`.
 
 ## Draw a pie chart
 
@@ -191,11 +191,11 @@ Examples.ChartPie
 
 ![A pie of four slices, with the name and the part in percent of each slice](https://raw.githubusercontent.com/rellen/expresso/media/chart-pie.png)
 
-A pie shows parts of one whole. To compare values that are close, use a bar chart: an eye
+A pie shows parts of one whole. To compare values that are close, use a bar chart. The audience
 compares the lengths of bars better than the angles of slices.
 
-To move the bars, the lines or the slices of a chart from one point in time to the next, see
-[Show a change over time in a chart](show-a-change-over-time-in-a-chart.md).
+You can move the bars, the lines or the slices of a chart from one point in time to the next.
+See [Show a change over time in a chart](show-a-change-over-time-in-a-chart.md).
 
 To show the parts of a whole in groups, see
 [Show the parts of a whole in a treemap or a sunburst](show-parts-of-a-whole-in-a-treemap-or-a-sunburst.md).

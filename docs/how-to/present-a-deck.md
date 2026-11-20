@@ -21,11 +21,11 @@ a timer. To write the notes, see [Write notes for the speaker](write-notes-for-t
 1. Press `s` in the present view. If the browser blocks the second window, let the
    document open windows.
 2. Put the speaker window on your screen.
-3. Put the first window on the projector, and press `f` in it.
+3. Put the first window on the projector. Then press `f` in it.
 
-The keys operate in either window, and the two windows show the same step. Press `b` in
-the speaker view to give a black screen to the audience, or `w` to give a white screen in
-a light room. The next key shows the slide again.
+The keys operate in either window, and the two windows show the same step. Press `b` in the
+speaker view to give a black screen to the audience. Press `w` to give a white screen in a
+light room. The next key shows the slide again.
 
 ![The speaker view: the current step, the next step, the notes, the position, the timer and the time left](https://raw.githubusercontent.com/rellen/expresso/media/present-speaker.png)
 
@@ -44,10 +44,10 @@ The deck then goes to each next step by itself, and the key `a` stops and starts
 
 Use one of these methods:
 
-- Type the number of the slide, then press `Enter`. For example, `1` `2` `Enter` goes to
+- Type the number of the slide. Then press `Enter`. For example, `1` `2` `Enter` goes to
   slide 12.
-- Press `o` for the overview. Select a slide with the arrow keys, then press `Enter`.
-- Press `m` for the menu. Move the cursor to a step, then press `Enter`.
+- Press `o` for the overview. Select a slide with the arrow keys. Then press `Enter`.
+- Press `m` for the menu. Move the cursor to a step. Then press `Enter`.
 - On a phone or a tablet, tap the button in the top right corner for the menu. Then tap a
   step.
 
@@ -98,18 +98,18 @@ turn this off.
 1. Press `?` or `/` to open the list of keys.
 2. Type a key or a word into the search field, such as `d` or `dark`.
 3. Read the rows that agree with the text. The list opens each section that has a row.
-4. Press `Tab` to move to a closed section, and press `Enter` or the space bar to open it.
+4. Press `Tab` to move to a closed section. Press `Enter` or the space bar to open it.
 5. Press `Esc` to close the list. A click outside the list also closes it.
 
-The next open of the list shows each row again.
+When you open the list the next time, it shows each row again.
 
-![The list of keys opens, and the word dark leaves the rows of the theme key](https://raw.githubusercontent.com/rellen/expresso/media/present-help.gif)
+![The list of keys opens, and the word dark shows only the rows of the theme key](https://raw.githubusercontent.com/rellen/expresso/media/present-help.gif)
 
 ## Print a handout or make a PDF
 
 1. Press `p` for the handout view. It shows one page for each step that the `handout`
    options select.
-2. To print every step, press `a`.
+2. To print each step, press `a`.
 3. Print the page from the browser, or save it as a PDF.
 
 A browser with no window can make the PDF with no key. `?all` at the end of the address

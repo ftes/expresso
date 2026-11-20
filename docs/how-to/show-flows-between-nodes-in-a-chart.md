@@ -54,8 +54,8 @@ Use a `node` entity to change how the chart shows one node.
 
 1. Write a `node` entity with the name of the node in the flows.
 2. To change the text of its label, give `label`.
-3. To change its color or another style, give `class`, and select the class in the `css`
-   option of the deck.
+3. To change its color or another style, give `class`. Select the class in the `css` option
+   of the deck.
 4. To move it, give `column` or `order`.
 
 A funnel shows each stage and the people who leave at each stage. Each node for the people
@@ -155,7 +155,7 @@ solar in 2015. A chart with frames takes no `reveal`.
 Use a CSV file when the flows come from another tool.
 
 1. Put one flow on each row: the source, the target and the value.
-2. Give the headings of the two columns of nodes in the `levels` option.
+2. In the `levels` option, give the headings of the two columns that hold the nodes.
 
 ```
 from,to,GWh
@@ -176,7 +176,7 @@ end
 Two rows with the same source and the same target add their values. Thus a file can hold one
 row for each delivery.
 
-To give frames in the file, add a column with the label of the frame of each row. Give its
+To give frames in the file, add a column with the label of the frame for each row. Give its
 heading in the `frames` option:
 
 ```
@@ -202,7 +202,7 @@ Use an alluvial chart to show how the same records change from one column to the
 example is the answers of the same people in each year.
 
 1. Write a `chart` element with the kind `:alluvial`.
-2. Write each category as the path of a group of records, with one name for each column.
+2. For each group of records, write its path as a category, with one name for each column.
 3. Give the number of records in each group in the series.
 4. To put a title over each column, give the titles in the `levels` option.
 
@@ -266,7 +266,7 @@ end
 
 ## Show each group in a parallel sets chart
 
-Use a parallel sets chart to see the path of each group of records through all the columns.
+Use a parallel sets chart to see the path through all the columns for each group of records.
 In an alluvial chart, a ribbon from "Third" to "Adult" and a ribbon from "Adult" to "No" can
 hold different people. In a parallel sets chart, each category is one ribbon from the first
 column to the last.
@@ -364,8 +364,8 @@ entities, the `levels` option and a CSV file work as in a sankey. For the rules,
 
 ## Show a loop
 
-Use a loop to show an amount that goes back to an earlier node, such as the steel that a mill
-makes again from scrap.
+Use a loop to show an amount that goes back to an earlier node. An example is the steel that
+a mill makes again from scrap.
 
 1. Write the flows in the usual way.
 2. Put the flows from the start of the process first.

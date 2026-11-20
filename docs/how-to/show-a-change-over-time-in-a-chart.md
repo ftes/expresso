@@ -1,8 +1,8 @@
 # Show a change over time in a chart
 
 This guide shows how to move the bars, the lines and the slices of a chart from one point in
-time to the next at each step, and how to grow a chart when it shows. For each option, see
-[The chart element](../reference/chart-element.md).
+time to the next. They move at each step. The guide also shows how to grow a chart when it
+shows. For each option, see [The chart element](../reference/chart-element.md).
 
 ## Move the bars of a chart from year to year
 
@@ -48,12 +48,12 @@ Examples.ChartFrames
 ![The bars of four regions move from 2023 to 2024 and to 2025, East moves to the front, and each number counts to its new value](https://raw.githubusercontent.com/rellen/expresso/media/chart-frames.gif)
 
 Each frame holds the same series, with the same names in the same order. Only the series of
-the first frame take the overlay options, such as `at`, so `reveal true` shows each series at
-its own step before the second frame.
+the first frame take the overlay options, such as `at`. Therefore `reveal true` shows each
+series at its own step before the second frame.
 
 ## Move a line chart through the frames of a CSV file
 
-Put a column for the frame into the CSV file, and give its heading in the `frames` option. Of
+Put a column for the frame into the CSV file. Give its heading in the `frames` option. Of
 the other columns, the first holds the category, and each other column holds a series:
 
 ```
@@ -92,8 +92,8 @@ Examples.ChartFramesCsv
 
 ![The lines of the web and of the shop move from 2024 to 2025, and the web grows](https://raw.githubusercontent.com/rellen/expresso/media/chart-frames-csv.gif)
 
-The axis holds each value of each frame, so it does not change from frame to frame, and a
-change of a line is a change of its value.
+The axis holds each value of each frame, so it does not change from frame to frame. Therefore
+a change of a line is a change of its value.
 
 ## Grow a chart when it shows
 

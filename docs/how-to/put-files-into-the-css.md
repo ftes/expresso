@@ -35,7 +35,7 @@ check measures the contrast of the text on the picture. See
 
 1. Put the font file near the CSS file, such as `styles/fonts/talk.woff2`. The types
    `.woff2`, `.woff`, `.ttf` and `.otf` go into the document.
-2. Write an `@font-face` rule with the font, and use the font in a rule:
+2. Write an `@font-face` rule with the font. Use the font in a rule:
 
    ```css
    @font-face {
@@ -48,8 +48,8 @@ check measures the contrast of the text on the picture. See
    }
    ```
 
-Make sure that the license of the font lets you put the font into a document that you give
-to other people.
+Make sure that the font license lets you put the font into a document that you give to other
+people.
 
 ## The complete deck
 

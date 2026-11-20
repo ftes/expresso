@@ -1,21 +1,21 @@
 # Show how a total changes in a waterfall chart
 
-This guide shows how to explain how one number becomes another number with a waterfall
-chart: how to build the total from its changes step by step, how to compare a plan with the
-actual result, and how to move the chart from one year to the next. For each option, see
-[a waterfall chart](../reference/chart-element.md#a-waterfall-chart).
+This guide shows how to explain how one number becomes another number with a waterfall chart.
+It shows how to build the total from its changes step by step and how to compare a plan with
+the actual result. It also shows how to move the chart from one year to the next. For each
+option, see [a waterfall chart](../reference/chart-element.md#a-waterfall-chart).
 
 ## Build a total from its changes
 
 Write a `chart :waterfall` with one series. The first value is the start, each other number
 is a change, and `:total` marks a total column. The chart calculates each total, so you write
-no total two times. To make sure of the data, write `{:total, value}`: the compiler then
+no total two times. To make sure of the data, write `{:total, value}`. The compiler then
 refuses the chart when the sum before the total is different.
 
 `reveal true` shows the start and the totals at the first step, and each change at its own
 step after it. Each total grows or shrinks with each change, and its value counts. `spans
 true` draws an arrow from each total to the next total with the sum of the changes between
-them, and the effect `:grow` grows each change from its base:
+them. The effect `:grow` grows each change from its base:
 
 ```elixir
 defmodule Examples.WaterfallCash do
@@ -47,7 +47,7 @@ To show each later total only when its last change shows, write `totals :complet
 
 When the changes are small and the total is large, cut the value axis with `value_range`. A
 break mark then shows that the columns do not start at zero. `direction :horizontal` puts
-the categories down the left side, so a long name has room. `highlight` puts one change, or
+the categories down the left side, so a long name has space. `highlight` puts one change, or
 the plan and the actual result, in focus at each step:
 
 ```elixir
@@ -84,7 +84,7 @@ Examples.WaterfallBudget
 
 ## Move the chart from one year to the next
 
-Put each year into a frame. A CSV file can hold the frames: the `frames` option names the
+Put each year into a frame. A CSV file can hold the frames. The `frames` option names the
 column of the year, the next column holds the category, and the last column holds the values.
 A cell holds a change, `total`, or `total` and the value that the sum must agree with. The
 `root` option of the deck makes the path of the file relative to the deck:
@@ -131,7 +131,7 @@ totals count to their new values. Each frame has its totals at the same categori
 
 ## Change the colors
 
-A total takes `--waterfall-total`, an increase `--waterfall-up` and a decrease
+A total takes `--waterfall-total`, an increase takes `--waterfall-up` and a decrease takes
 `--waterfall-down`. Set them in [the css option](../reference/css-option.md) of the deck:
 
 ```elixir

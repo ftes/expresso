@@ -1,7 +1,7 @@
 # Show the steps of a proof
 
 This guide shows how to animate a proof one step at a time, with each step of each
-β-reduction. The example is the proof that the Y combinator gives a fix point: `Y g` is
+β-reduction. The example is the proof that the Y combinator returns a fix point: `Y g` is
 equal to `g (Y g)`.
 
 ![The proof that Y g is a fix point of g, one step at a time](https://raw.githubusercontent.com/rellen/expresso/media/y-combinator.gif)
@@ -39,14 +39,14 @@ step does.
    itself, so the rule `a\,a` with the variable `a` matches it. The right side
    `\use{Y}\,g` takes a copy of `Y` from the first line.
 
-A reduction stops the render for a capture: a λ of the body that would bind a free variable of
-the argument. Give that λ a different variable.
+A reduction stops the render for a capture: a λ of the body that binds a free variable of the
+argument. Give that λ a different variable.
 
 ## Write the steps
 
 1. Give the math element `reveal true`. The first line takes one step, a rewrite takes
-   three, and a reduction takes four. The option `steps` of each one puts its phases
-   together.
+   three, and a reduction takes four. The option `steps` of each one puts its phases into
+   groups.
 2. Dim an old line with `state: :dim` in the part of that line, such as `"line2"`.
 
 A reduction and a rewrite give their parts colors themselves, so the deck needs no color of

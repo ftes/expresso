@@ -6,8 +6,8 @@ next slide. For each value, see [The morph option](../reference/morph-option.md)
 ## Let the deck find the elements
 
 The deck finds the elements that two neighbor slides share, and it moves them. You do not
-write an option. This deck shows a total, then puts the total into a column next to its
-detail:
+write an option. This deck shows a total, and then it puts the total into a column next to
+its detail:
 
 ```elixir
 defmodule Examples.Morph do
@@ -88,9 +88,9 @@ Examples.MorphCode
 ## Give two elements a key
 
 Give two elements the same `morph` key to make them partners. Use a key when the two
-elements have a different content or a different kind, or when a slide has two elements
-with the same content. This deck moves the icon of the cover into a column of the agenda,
-and the icon gets smaller:
+elements have a different content or a different kind. Also use a key when a slide has two
+elements with the same content. This deck moves the icon of the cover into a column of the
+agenda, and the icon becomes smaller:
 
 ```elixir
 defmodule Examples.MorphKey do
@@ -132,7 +132,7 @@ end
 Examples.MorphKey
 ```
 
-![An icon moves from the center of the cover to a column of the next slide and gets smaller](https://raw.githubusercontent.com/rellen/expresso/media/morph-key.gif)
+![An icon moves from the center of the cover to a column of the next slide and becomes smaller](https://raw.githubusercontent.com/rellen/expresso/media/morph-key.gif)
 
 ## Move only the elements with a key
 

@@ -1,7 +1,7 @@
 # Show a web page in a slide
 
-This guide shows how to put a running web page into a slide, such as a demonstration of
-your project, and how to keep the talk working with no network. For each option, see
+This guide shows how to put a live web page into a slide, such as a demonstration of your
+project. It also shows how to make the talk work with no network. For each option, see
 [The embed element](../reference/embed-element.md).
 
 ## Show a page from the network
@@ -18,7 +18,7 @@ your project, and how to keep the talk working with no network. For each option,
    end
    ```
 
-3. Render the deck, and open it. The page loads when its slide shows.
+3. Render the deck. Open it. The page loads when its slide shows.
 
 The screenshot shows in the handout view and on paper, and while the page loads.
 
@@ -89,8 +89,8 @@ embed "demo/index.html" do
 end
 ```
 
-After a click on the page, the keys go to the page. Click the slide outside the page, and
-the keys `j` and `k` move the slides again.
+After a click on the page, the keys go to the page. Click the slide outside the page. The
+keys `j` and `k` then move the slides again.
 
 ## Make the page fit
 

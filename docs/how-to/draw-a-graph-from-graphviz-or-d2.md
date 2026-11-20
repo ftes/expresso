@@ -1,7 +1,7 @@
 # Draw a graph from Graphviz or D2
 
-This guide shows how to draw a graph from a source in the language of Graphviz or of D2, and
-how to show its nodes and edges step by step. For each option, see
+This guide shows how to draw a graph from a source in the language of Graphviz or of D2. It
+also shows how to show the nodes and edges of the graph step by step. For each option, see
 [The diagram element](../reference/diagram-element.md).
 
 ## Install the tool
@@ -43,7 +43,7 @@ digraph system {
 
 Write a `diagram` element with the path of the file. A `part` names a node by its name in the
 source, and its `at` option gives its steps. An edge without a part shows from the step where
-both of its nodes show, so the edges come with their nodes:
+both of its nodes show, so the edges show with their nodes:
 
 ```elixir
 defmodule Examples.GraphGraphviz do
@@ -71,8 +71,8 @@ Examples.GraphGraphviz
 ![The graph of a system: web, then api, then the database and the queue, then the worker](https://raw.githubusercontent.com/rellen/expresso/media/graph-graphviz.gif)
 
 The graph takes the colors and the font of the theme. A part of an edge has the name of its
-two ends, such as `part "api->db"`, and a part of a cluster has the name of the subgraph,
-such as `part "cluster_app"`.
+two ends, such as `part "api->db"`. A part of a cluster has the name of the subgraph, such as
+`part "cluster_app"`.
 
 ## Show a graph from D2 with a container
 
@@ -160,14 +160,16 @@ end
 ```
 
 To change one color of the theme for a graph of D2, change its custom property with the
-[css option](../reference/css-option.md), such as `.diagram-d2 { --graph-B4: var(--chart-4); }`.
+[css option](../reference/css-option.md). An example is
+`.diagram-d2 { --graph-B4: var(--chart-4); }`.
 [The colors and the font of a graph](../reference/diagram-element.md#the-colors-and-the-font-of-a-graph)
 lists the properties.
 
 ## Give the graph the font of your theme
 
-A graph takes the font of the built-in theme, and the tool sizes each box for that font. A
-deck with a different font gives the TTF files of that font with the `font` option:
+A graph takes the font of the built-in theme, and the tool calculates the size of each box for
+that font. A deck with a different font gives the TTF files of that font with the `font`
+option:
 
 ```elixir
 slide "the system" do

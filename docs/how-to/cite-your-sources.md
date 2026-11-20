@@ -1,13 +1,13 @@
 # Cite your sources
 
-This guide shows how to put a source under a slide with a footnote, and how to give the
-audience a list of the sources of the talk. For each option, see
+This guide shows how to put a source under a slide with a footnote. It also shows how to give
+the audience a list of the talk's sources. For each option, see
 [The footnote element](../reference/footnote-element.md).
 
 ## Put a source under a slide
 
 Write a `footnote` element in the slide. The renderer puts it at the bottom of the slide
-with a number. Write the same number in the text, such as `<sup>1</sup>`, to point to the
+with a number. Write the same number in the text, such as `<sup>1</sup>`, to refer to the
 footnote:
 
 ```elixir
@@ -63,9 +63,9 @@ Examples.FootnoteAt
 
 ## Give the audience a list of the sources
 
-The handout view and paper end with a page of the sources of each slide. Press `p` to see
-the handout view, or print the deck from the browser. The text of a footnote can contain
-HTML, such as `<em>` for the title of a book:
+The handout view and paper end with a page that shows the sources of each slide. Press `p` to
+see the handout view. As an alternative, print the deck from the browser. The text of a
+footnote can contain HTML, such as `<em>` for the title of a book:
 
 ```elixir
 defmodule Examples.FootnoteSources do

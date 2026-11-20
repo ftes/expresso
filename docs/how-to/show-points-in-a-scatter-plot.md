@@ -1,17 +1,17 @@
 # Show points in a scatter plot
 
-This guide shows how to compare many items on two measures in a scatter plot, how to show
-three more values with the symbol, the color and the size of each mark, and how to move the
-marks from one point in time to the next. For each option, see
+This guide shows how to compare many items on two measures in a scatter plot. It shows how to
+show three more values with the symbol, the color and the size of each mark. It also shows how
+to move the marks from one point in time to the next. For each option, see
 [a scatter plot](../reference/chart-element.md#a-scatter-plot).
 
 ## Compare items on two measures
 
 Write a `chart :scatter` with a `point` entity for each item. The options `x` and `y` give its
 place, and its name is its label. A category of the `symbol` and of the `color`, such as a
-region, gives the mark its symbol and its color, and the `size` gives the area of the mark.
-When the symbol and the color take the same category, the chart has one legend, so a reader
-who cannot tell the colors apart can tell the groups apart.
+region, gives the mark its symbol and its color. The `size` gives the area of the mark. When
+the symbol and the color take the same category, the chart has one legend. Thus a reader who
+cannot see the difference between the colors can see the difference between the groups.
 
 `reveal true` shows each category of the color at its own step, and the effect `:grow` grows
 each mark from the size 0:
@@ -48,7 +48,7 @@ Examples.ScatterServices
 ![A scatter plot of five services: the services in Europe show first, then the services in the US, then the service in Asia](https://raw.githubusercontent.com/rellen/expresso/media/scatter-services.gif)
 
 `labels :all` gives each point a label, and each label goes where it covers no other label.
-To label some points only, give their names, such as `labels ["web", "search"]`.
+To give a label to some points only, give their names, such as `labels ["web", "search"]`.
 
 ## Group the points and show a trend
 
@@ -113,7 +113,7 @@ Nigeria,2000,0.57,46.3,122,Africa
 
 The `frames` option names the column of the year, and each year takes one step. Each mark
 moves to its new place and size, and its label moves with it. `x_scale :log` gives a
-logarithmic axis, as for an income. A bubble chart needs a size for each point:
+logarithmic axis, such as for an income. A bubble chart needs a size for each point:
 
 ```elixir
 defmodule Examples.ScatterFrames do
@@ -152,9 +152,9 @@ The numbers of the file are approximations, for the example only.
 ## Color the points from a number
 
 Give a number as the color of each point, such as the growth of each service. The
-`color_scale` option gives the colors: `:sequential` from a light color to `--accent`,
-`:diverging` from `--danger` through a neutral middle to `--success`, or two roles of the
-theme:
+`color_scale` option gives the colors. `:sequential` gives the colors from a light color to
+`--accent`. `:diverging` gives the colors from `--danger` through a neutral middle to
+`--success`. The option also takes two roles of the theme:
 
 ```elixir
 slide "growth" do
@@ -174,8 +174,9 @@ The legend shows the scale with its highest and its lowest value.
 
 ## Show many marks in one place
 
-When many marks cover each other, give them an opacity, so an area with many marks looks
-darker. A jitter moves each mark by a small part of each axis, the same in each render:
+When many marks cover each other, give them an opacity, so an area with many marks is
+darker. A jitter moves each mark by a small part of each axis, and the movement is the same
+in each render:
 
 ```elixir
 slide "requests" do

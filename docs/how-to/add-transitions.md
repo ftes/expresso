@@ -2,8 +2,8 @@
 
 This guide shows how to change the transition from one slide to the next. The transition
 runs in the present view of the browser. Each section gives a complete deck and a
-recording of it. The recording presses `j` for the next slide and `k` for the slide
-before.
+recording of it. In the recording, the presenter presses `j` for the next slide and `k` for
+the slide before.
 
 For the rules of each kind, see [The transition option](../reference/transition-option.md).
 To make a kind of your own, see
@@ -42,8 +42,8 @@ Examples.TransitionFade
 
 ## Push the next slide in from the side
 
-Write `transition :slide` in the deck. The next slide comes in from the right. A move back
-brings the slide before in from the left.
+Write `transition :slide` in the deck. The next slide enters from the right. On a move back,
+the slide before enters from the left.
 
 ```elixir
 defmodule Examples.TransitionSlide do
@@ -186,8 +186,7 @@ Examples.TransitionOverride
 A transition of your own is a set of CSS rules in the `css` option of the deck. Do these
 steps:
 
-1. Choose a name, such as `wipe_down`. The style sheet writes it with hyphens:
-   `wipe-down`.
+1. Choose a name, such as `wipe_down`. In the style sheet, the name has hyphens: `wipe-down`.
 2. Write a rule for `html[data-transition="wipe-down"]::view-transition-old(slide)`. Its
    animation hides the slide that the presenter leaves.
 3. Write a rule for `html[data-transition="wipe-down"]::view-transition-new(slide)`. Its
@@ -196,8 +195,8 @@ steps:
    `[data-transition="wipe-down"]`.
 5. Write `transition :wipe_down` in the deck or in a slide.
 
-In this deck, the second slide comes in from the top, and the first slide goes out at the
-same line. A move back wipes up:
+In this deck, the second slide enters from the top, and the first slide hides at the same
+line. A move back wipes up:
 
 ```elixir
 defmodule Examples.TransitionCustom do
@@ -262,4 +261,5 @@ The compiler gives an error for a transition without a rule in the theme or in t
 the deck. The error gives the selector to write.
 
 Give each `@keyframes` rule for `clip-path` a `from` value and a `to` value. CSS cannot
-animate from `inset()` to `none`, so a rule with one value jumps at the half of the time.
+animate from `inset()` to `none`, so a rule with one value changes in one step at the half of
+the time.

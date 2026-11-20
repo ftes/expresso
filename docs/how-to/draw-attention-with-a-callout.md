@@ -1,14 +1,14 @@
 # Draw attention with a callout
 
-This guide shows how to put a note, a tip or a warning into a box of its own, and how to
-show each box at its own step. For each option, see
+This guide shows how to put a note, a tip or a warning into a box of its own. It also shows how
+to show each box at its own step. For each option, see
 [The callout element](../reference/callout-element.md).
 
 ## Put a note and a warning on a slide
 
-Write a `callout` element with a kind, and put the text into it with a `text_area`. The kind
-gives the box its color, its icon and its title. The `at` option of each callout shows it at
-a step, so the audience reads one box at a time:
+Write a `callout` element with a kind. Put the text into it with a `text_area`. The kind gives
+the box its color, its icon and its title. The `at` option of each callout shows it at a step,
+so the audience reads one box at a time:
 
 ```elixir
 defmodule Examples.Callout do
@@ -92,9 +92,9 @@ end
 
 ## Change the color of a kind
 
-Each kind reads its color from a role of the theme, so the colors follow the theme. To give
-a kind a different color, set `--callout-color` and `--callout-dim` for its class in the
-`css` option of the deck:
+Each kind takes its color from a role of the theme, so the colors change with the theme. You can
+give a kind a different color. To do this, set `--callout-color` and `--callout-dim` for its
+class in the `css` option of the deck:
 
 ```elixir
 css """
