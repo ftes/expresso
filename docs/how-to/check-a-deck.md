@@ -8,7 +8,7 @@ and exits with the status 1 for a problem. For each value of the report, see
 ## Choose a level
 
 The check has four levels. Each level runs the checks of the level before it, and it needs
-one more tool:
+more tools:
 
 | Command | Checks | Needs |
 | --- | --- | --- |
@@ -44,7 +44,7 @@ mix expresso deck.exs deck.html --check
 
 The levels `--check=layout`, `--check=a11y` and `--check=browser` need a browser and the
 npm packages `axe-core` and `playwright`. One command installs each of them. The deck does
-not need a `node_modules`, so a Mix project with no Node can use the tools:
+not need a `node_modules`, so a Mix project that has no npm packages can use the tools:
 
 1. Install [Node](https://nodejs.org). Make sure that `node` and `npm` are on the `PATH`.
 2. Install the tools:

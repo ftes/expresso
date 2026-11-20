@@ -174,6 +174,6 @@ Examples.TocProgress
 
 ## Show the section in the header of each slide
 
-A template reads the title of a slide's section from `@metadata[:section]`. A deck template
-can thus write the section in the header of each slide, with no `meta` option on the slides.
+A deck template reads the title of a slide's section from `@slide.metadata[:section]`. It can
+thus write the section in the header of each slide, with no `meta` option on the slides.
 See [Make templates of your own](make-templates.md).

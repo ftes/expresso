@@ -1,8 +1,8 @@
 # Animate elements in a slide
 
 This guide shows how to animate the elements of one slide with overlays. An overlay divides a
-slide into steps, and each key moves one step forward. Each section gives a complete deck and a
-recording of it. In the recording, the presenter presses `j` for the next step.
+slide into steps, and the key `j` goes to the next step. Each section gives a complete deck and
+a recording of it. In the recording, the presenter presses `j` for the next step.
 
 For each form of the options, see [The overlay options](../reference/overlay-options.md).
 For the design, see [Overlays](../overlays.md).

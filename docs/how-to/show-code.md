@@ -55,7 +55,7 @@ keep the same lines, find them by their text.
 
 ## Find the lines by their text
 
-1. Find a text that starts the first line, such as `def handle_call(`. The text must be in
+1. Find a text in the first line, such as `def handle_call(`. The text must be in
    the file one time only.
 2. Give the text in `lines`, with `to: :block`. The excerpt then ends at the end of the
    block that the first line opens, such as its `end` or its `}`:

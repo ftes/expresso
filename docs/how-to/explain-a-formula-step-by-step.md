@@ -529,8 +529,9 @@ result is a λ with a term after it, so it keeps its parentheses. See
 ## Make a wide formula fit
 
 A formula is larger than the text of the slide. The layout check can report that a formula
-goes past an edge. Then give the formula a class and a smaller size of text. The deck above
-does this with `class "small"` and the `css` option. See
+goes past an edge. Then give the formula a class and a smaller size of text. The deck of
+[Mark the parts of a step of a proof](#mark-the-parts-of-a-step-of-a-proof) does this with
+`class "small"` and the `css` option. See
 [Check that a deck fits the screen](check-the-layout.md).
 
 ## Choose a math font

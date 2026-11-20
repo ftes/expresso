@@ -149,8 +149,8 @@ Examples.VideoExternal
    name holds a hash of its content, such as `clip-3dc53cfe.webm`.
 3. Put the document and the directory on the web host together.
 
-The browser then asks for the video only when its slide shows. It can go to a time of the
-video before the whole file arrives. The poster stays in the document, so the speaker view
+The browser then asks for the video only when the video plays first. It can go to a time of
+the video before the whole file arrives. The poster stays in the document, so the speaker view
 and the handout view show it with no file.
 
 An `audio` element takes the same option. For each rule, see

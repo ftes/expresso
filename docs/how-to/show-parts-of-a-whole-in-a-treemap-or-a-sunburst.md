@@ -197,7 +197,7 @@ Examples.ChartVoronoi
 ![A hexagon of cells: the group Production is in focus, then the group Sales, and then its part Online](https://raw.githubusercontent.com/rellen/expresso/media/chart-voronoi.gif)
 
 A polygon must be convex, such as a triangle: `shape [{0, 0}, {1, 0}, {0.5, 1}]`. The y axis
-goes down, so this triangle has its corner at the bottom. The compiler refuses a concave
+goes down, so this triangle has one corner at the bottom. The compiler refuses a concave
 polygon. A Voronoi treemap takes no frames, so use a treemap for a change over time.
 
 ## Choose the kind

@@ -70,7 +70,8 @@ one minute.
 
 1. Press `a` in the present view or in the speaker view. The clock stops, and the step
    waits.
-2. Answer the question. The keys `j` and `k` still change the step.
+2. Do the thing that needs the time, such as an answer to a question. The keys `j` and `k`
+   still change the step.
 3. Press `a` again. The step continues its time.
 
 A black screen from the key `b` also stops the clock until the slide shows again.

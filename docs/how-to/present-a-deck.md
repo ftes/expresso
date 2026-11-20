@@ -34,7 +34,7 @@ light room. The next key shows the slide again.
 1. Write `duration 20` in the deck for a talk of 20 minutes. To give a different length
    with the same file, add `?duration=15` to the address.
 2. Look at the time left under the timer in the speaker view. Amber tells you that you are
-   more than one minute behind. Red tells you that the time is at its end.
+   more than one minute behind. Red tells you that you are after the end of the time.
 3. Press `r` to set the timer to 0:00 before the talk starts.
 
 For a talk with a fixed time for each slide, see [Run a deck by time](run-a-deck-by-time.md).
