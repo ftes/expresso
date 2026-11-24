@@ -144,7 +144,7 @@ defmodule Expresso.E2E.ExternalMediaTest do
 
     # Slide 1 shows. The video has no source, so the browser did not ask for
     # the file. 0 is NETWORK_EMPTY.
-    assert js(audience, "[#{@video}.getAttribute('src'), #{@video}.networkState]") == [nil, 0]
+    assert js(audience, "[#{@video}.getAttribute('src'), #{@video}.networkState]") == [:null, 0]
     refute File.read!(Path.join(tmp_dir, "deck.html")) =~ "data:video/"
 
     audience |> press("j")
@@ -158,12 +158,12 @@ defmodule Expresso.E2E.ExternalMediaTest do
 
     # The browser decoded the clip of the deck.
     assert js(audience, "#{@video}.videoWidth") > 0
-    assert js(audience, "#{@video}.error") == nil
+    assert js(audience, "#{@video}.error") == :null
   end
 
   test "the sound loads its file only when its slide shows", %{page: page, tmp_dir: tmp_dir} do
     audience = open(page, render(Deck, tmp_dir))
-    assert js(audience, "[#{@audio}.getAttribute('src'), #{@audio}.networkState]") == [nil, 0]
+    assert js(audience, "[#{@audio}.getAttribute('src'), #{@audio}.networkState]") == [:null, 0]
 
     audience |> press("j") |> press("j")
     wait_for(audience, "#{@audio}.readyState >= 2")
@@ -235,7 +235,7 @@ defmodule Expresso.E2E.ExternalMediaTest do
 
     test "the server gives the copy to the video", %{page: page, url: url} do
       audience = open(page, url)
-      assert js(audience, "#{@video}.getAttribute('src')") == nil
+      assert js(audience, "#{@video}.getAttribute('src')") == :null
 
       audience |> press("j")
       wait_for(audience, "#{@video}.paused === false && #{@video}.readyState >= 2")
@@ -260,7 +260,7 @@ defmodule Expresso.E2E.ExternalMediaTest do
         "#{@video}.seeking === false && Math.abs(#{@video}.currentTime - 0.6) < 0.2"
       )
 
-      assert js(audience, "#{@video}.error") == nil
+      assert js(audience, "#{@video}.error") == :null
     end
   end
 

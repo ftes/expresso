@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.MathEachCopyTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # At step 2, a copy of g goes to each x. At step 3, a copy of each a goes to
   # the b with the same number.

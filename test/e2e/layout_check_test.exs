@@ -1,8 +1,6 @@
 defmodule Expresso.E2E.LayoutCheckTest do
   use Expresso.E2E, async: false
 
-  alias PlaywrightEx.{Browser, BrowserContext}
-
   # Slide 2 holds a formula that is wider than the window. A row of MathML
   # does not break, and the text of `mtext` does. Slide 3 holds a line of code
   # that is too long for its box, and the line shows at step 2.
@@ -85,11 +83,11 @@ defmodule Expresso.E2E.LayoutCheckTest do
     assert js(page, ~s|document.getElementById("slide-1").style.display|) == "flex"
 
     js(page, ~s|document.querySelector("#layout-check li a").click()|)
-    wait_for(page, ~s|location.hash === "#2.1"|)
+    Expect.to_have_url!(page, ~r/#2\.1$/)
     assert js(page, ~s|document.getElementById("slide-2").style.display|) == "flex"
 
     js(page, ~s|document.querySelector("#layout-check button").click()|)
-    assert js(page, ~s|document.getElementById("layout-check")|) == nil
+    assert js(page, ~s|document.getElementById("layout-check")|) == :null
   end
 
   # The long line of `ProblemDeck`, with `wrap`: the line breaks on purpose.
@@ -258,24 +256,15 @@ defmodule Expresso.E2E.LayoutCheckTest do
   test "a deck without ?check gets no report", %{page: page, tmp_dir: tmp_dir} do
     page = open(page, render(ProblemDeck, tmp_dir))
 
-    assert js(page, ~s|document.getElementById("layout-check")|) == nil
+    assert js(page, ~s|document.getElementById("layout-check")|) == :null
     assert js(page, "document.body.dataset.layout") == nil
   end
 
+  @tag Test.use(viewport: %{width: 1920, height: 1080})
   test "the talk about Line 4 fits a window of 1920 × 1080", %{
-    browser: browser,
+    page: page,
     tmp_dir: tmp_dir
   } do
-    {:ok, context} =
-      Browser.new_context(browser.guid,
-        timeout: 10_000,
-        viewport: %{width: 1920, height: 1080},
-        reduced_motion: "reduce"
-      )
-
-    on_exit(fn -> BrowserContext.close(context.guid, timeout: 10_000) end)
-    {:ok, page} = BrowserContext.new_page(context.guid, timeout: 10_000)
-
     {value, _bindings} = Code.eval_file("examples/line4/line4.exs")
     result = page |> open(render(value, tmp_dir) <> "?check") |> report()
 
@@ -288,17 +277,7 @@ defmodule Expresso.E2E.LayoutCheckTest do
   @broken "examples/animations/layout_check.exs"
 
   # The size of the GIFs of the guides, of the presenter pages and of the themes.
-  test "each example deck fits a window of 1280 × 720", %{browser: browser, tmp_dir: tmp_dir} do
-    {:ok, context} =
-      Browser.new_context(browser.guid,
-        timeout: 10_000,
-        viewport: %{width: 1280, height: 720},
-        reduced_motion: "reduce"
-      )
-
-    on_exit(fn -> BrowserContext.close(context.guid, timeout: 10_000) end)
-    {:ok, page} = BrowserContext.new_page(context.guid, timeout: 10_000)
-
+  test "each example deck fits a window of 1280 × 720", %{page: page, tmp_dir: tmp_dir} do
     decks = Mix.Tasks.Expresso.Gifs.examples() |> Enum.map(& &1.deck) |> Enum.uniq()
 
     problems =

@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.HighlightStateTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # The state `highlight` from an `on` entity draws a bar at the left of the
   # element. Each element with the state gets it at step 2.
@@ -216,12 +216,10 @@ defmodule Expresso.E2E.HighlightStateTest do
   for {scheme, color} <- [light: "rgb(0, 0, 0)", dark: "rgb(255, 255, 255)"] do
     # The browser removes each `box-shadow` and gives a background the color
     # of the canvas, so the bar has the color of the text.
+    @tag Test.use(forced_colors: :active, color_scheme: scheme)
     test "the bar has the color of the text in forced colors with the #{scheme} color scheme",
-         %{browser: browser, tmp_dir: tmp_dir} do
-      page =
-        browser
-        |> new_page(forced_colors: "active", color_scheme: unquote(scheme))
-        |> open(render(Deck, tmp_dir))
+         %{page: page, tmp_dir: tmp_dir} do
+      page = open(page, render(Deck, tmp_dir))
 
       page |> bars(screen(1), 1) |> assert_bars("0", unquote(color))
 

@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.TargetSizeTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Criterion 2.5.8 of WCAG 2.2, Target Size (Minimum): a control is 24 by 24
   # CSS pixels or larger. The text of a slide becomes smaller in a small
@@ -37,9 +37,9 @@ defmodule Expresso.E2E.TargetSizeTest do
   end
 
   for {width, height} <- [{1280, 720}, {640, 360}, {320, 480}] do
+    @tag Test.use(viewport: %{width: width, height: height})
     test "each option of the menu is 24 pixels high or more in a window of #{width} by #{height}",
-         %{browser: browser, tmp_dir: tmp_dir} do
-      page = new_page(browser, viewport: %{width: unquote(width), height: unquote(height)})
+         %{page: page, tmp_dir: tmp_dir} do
       page |> open(render(Deck, tmp_dir)) |> press("m")
       wait_for(page, "document.querySelector('#menu [role=option]') !== null")
 
@@ -50,9 +50,9 @@ defmodule Expresso.E2E.TargetSizeTest do
       for [width, height] <- options, do: assert(width >= 24 and height >= 24)
     end
 
+    @tag Test.use(viewport: %{width: width, height: height})
     test "the search field of the list of keys is 24 pixels high or more in a window of #{width} by #{height}",
-         %{browser: browser, tmp_dir: tmp_dir} do
-      page = new_page(browser, viewport: %{width: unquote(width), height: unquote(height)})
+         %{page: page, tmp_dir: tmp_dir} do
       page |> open(render(Deck, tmp_dir)) |> press("Shift+Slash")
       wait_for(page, "document.querySelector('#help').open")
 

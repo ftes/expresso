@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.SpeakerTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Slide 1 has two steps and notes. Slide 2 has one step and no notes.
   defmodule Deck do
@@ -69,7 +69,7 @@ defmodule Expresso.E2E.SpeakerTest do
   } do
     speaker |> press("j")
 
-    wait_for(audience, "location.hash === '#1.2'")
+    Expect.to_have_url!(audience, ~r/#1\.2$/)
     assert position(audience) == "1.2"
   end
 
@@ -78,13 +78,13 @@ defmodule Expresso.E2E.SpeakerTest do
     speaker: speaker
   } do
     speaker |> click(1000, 360)
-    wait_for(audience, "location.hash === '#1.2'")
+    Expect.to_have_url!(audience, ~r/#1\.2$/)
 
     speaker |> swipe({900, 600}, {600, 600})
-    wait_for(audience, "location.hash === '#2.1'")
+    Expect.to_have_url!(audience, ~r/#2\.1$/)
 
     speaker |> click(100, 600)
-    wait_for(audience, "location.hash === '#1.2'")
+    Expect.to_have_url!(audience, ~r/#1\.2$/)
     assert position(audience) == "1.2"
   end
 
@@ -96,7 +96,7 @@ defmodule Expresso.E2E.SpeakerTest do
     speaker |> front() |> press("f")
 
     wait_for(speaker, "document.fullscreenElement === document.documentElement")
-    assert js(audience, "document.fullscreenElement") == nil
+    assert js(audience, "document.fullscreenElement") == :null
     assert js(audience, "location.hash") == ""
   end
 
@@ -106,7 +106,7 @@ defmodule Expresso.E2E.SpeakerTest do
   } do
     speaker |> press("b")
 
-    wait_for(audience, "document.body.dataset.blank === 'true'")
+    audience |> Page.locator("body") |> Expect.to_have_attribute!("data-blank", "true")
     assert js(audience, "getComputedStyle(document.body).backgroundColor") == "rgb(0, 0, 0)"
   end
 
@@ -126,10 +126,10 @@ defmodule Expresso.E2E.SpeakerTest do
     })()
     """)
 
-    wait_for(speaker, "location.hash === '#2.1'")
+    Expect.to_have_url!(speaker, ~r/#2\.1$/)
 
     count =
-      "window.__writes = 0; history.replaceState = ((write) => (...a) => { window.__writes++; return write(...a); })(history.replaceState.bind(history))"
+      "window.__writes = 0; history.replaceState = ((write) => (...a) => { window.__writes++; return write(...a); })(history.replaceState.bind(history)); undefined"
 
     js(audience, count)
     js(speaker, count)

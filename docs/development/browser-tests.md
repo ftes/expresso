@@ -15,9 +15,13 @@ mix test --only e2e
 browser. A test renders each example deck, and two of them draw a graph, so the browser
 tests also need Graphviz and D2. `graph-tools.md` tells how to install them. `playwright_ex` is the Elixir client, and it starts the driver of
 `node_modules/playwright`, which `package.json` pins. `Expresso.E2E` in `test/support/`
-is the case template. It starts one browser for each module and a new context for each
-test, and it gives the helpers, such as `press/2`, `position/1`, `pause_animations/3` and
-`pdf_pages/1`.
+is the case template. It uses `Playwright.Case`, the case template of the test runner of
+Playwright: each module gets a browser from the pool of the runner, and each test gets a new
+context and a new page. `config :playwright, :test` in `config/config.exs` gives the options
+of each context, such as reduced motion, and a test with other options gives them with
+`@tag Test.use(...)`. The template gives the helpers, such as `press/2`, `position/1`,
+`pause_animations/3` and `pdf_pages/1`. A failed test keeps its trace, a screenshot and
+`error-context.md` in `test-results/`. `mix playwright.cli show-trace <path>` opens a trace.
 
 With motion, a key press can return before the presenter shows the change. The presenter
 changes the slide inside `document.startViewTransition`, and the browser runs that update

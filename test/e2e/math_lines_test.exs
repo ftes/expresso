@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.MathLinesTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # The first line shows at step 1, and each later line at its own step. The
   # browser tests run in Node, so Temml can make the MathML of the lines.

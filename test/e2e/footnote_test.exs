@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.FootnoteTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Two slides with a footnote each. The footnote of slide 2 shows at step 2.
   defmodule Deck do

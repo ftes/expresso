@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.HiddenSlidesTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Four slides. Slide 2 is hidden and has two steps, so the talk has three
   # slides. The last slide has a link to the hidden slide.
@@ -97,7 +97,7 @@ defmodule Expresso.E2E.HiddenSlidesTest do
   defp fraction(page),
     do: js(page, "document.body.style.getPropertyValue('--fraction')")
 
-  # The text of the number of the slide that shows, or nil.
+  # The text of the number of the slide that shows, or `:null`.
   defp number(page) do
     js(page, """
     [...document.querySelectorAll(".screen .slide")]
@@ -149,7 +149,7 @@ defmodule Expresso.E2E.HiddenSlidesTest do
 
     js(page, "document.querySelector('.screen a.goto').click()")
     assert position(page) == "2.1"
-    assert number(page) == nil
+    assert number(page) == :null
     # The bar stays at the place of the slide of the talk before the hidden slide.
     assert fraction(page) == "0"
 

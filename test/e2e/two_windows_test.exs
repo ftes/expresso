@@ -1,7 +1,5 @@
 defmodule Expresso.E2E.TwoWindowsTest do
-  use Expresso.E2E, async: false
-
-  alias PlaywrightEx.Frame
+  use Expresso.E2E, async: true
 
   # Slide 1 has two steps. The theme has a light and a dark variant, so the
   # key t changes the variant.
@@ -50,8 +48,7 @@ defmodule Expresso.E2E.TwoWindowsTest do
   # Press a key on the element of a selector. `press/2` presses the key on the
   # `body`, which is behind the dialog of the list of keys.
   defp press_on(page, selector, key) do
-    {:ok, _result} =
-      Frame.press(page.main_frame.guid, timeout: 10_000, selector: selector, key: key)
+    page |> Page.locator(selector) |> Locator.press!(key)
 
     page
   end
@@ -79,7 +76,7 @@ defmodule Expresso.E2E.TwoWindowsTest do
     speaker = speaker(context, audience)
     speaker |> press("j")
 
-    wait_for(audience, "location.hash === '#3.1'")
+    Expect.to_have_url!(audience, ~r/#3\.1$/)
     assert js(speaker, "location.hash") == "#3.1"
   end
 
@@ -91,11 +88,11 @@ defmodule Expresso.E2E.TwoWindowsTest do
     audience = open(page, url)
     speaker = speaker(context, audience)
     audience |> press("j") |> press("b")
-    wait_for(speaker, "document.body.dataset.blank === 'true'")
+    speaker |> Page.locator("body") |> Expect.to_have_attribute!("data-blank", "true")
 
     reload(speaker)
 
-    wait_for(speaker, "document.body.dataset.blank === 'true'")
+    speaker |> Page.locator("body") |> Expect.to_have_attribute!("data-blank", "true")
     Process.sleep(300)
     assert blank(audience)
     assert js(audience, "location.hash") == "#1.2"
@@ -110,13 +107,13 @@ defmodule Expresso.E2E.TwoWindowsTest do
     audience |> press("j")
     speaker = speaker(context, audience)
     speaker |> press("t")
-    wait_for(audience, "document.documentElement.dataset.scheme === 'dark'")
+    audience |> Page.locator("html") |> Expect.to_have_attribute!("data-scheme", "dark")
     # The address of the speaker view gives no variant.
     assert js(speaker, "location.search") == "?speaker="
 
     reload(speaker)
 
-    wait_for(speaker, "document.documentElement.dataset.scheme === 'dark'")
+    speaker |> Page.locator("html") |> Expect.to_have_attribute!("data-scheme", "dark")
     Process.sleep(300)
     assert scheme(audience) == "dark"
   end
@@ -129,7 +126,7 @@ defmodule Expresso.E2E.TwoWindowsTest do
     audience = open(page, url)
     speaker = speaker(context, audience)
     audience |> press("j")
-    wait_for(speaker, "location.hash === '#1.2'")
+    Expect.to_have_url!(speaker, ~r/#1\.2$/)
     js(speaker, "window.__loaded = true")
     Process.sleep(1100)
 
@@ -153,7 +150,7 @@ defmodule Expresso.E2E.TwoWindowsTest do
     assert js(speaker, "document.getElementById('speaker-timer').textContent") == "0:00"
 
     audience |> press("j")
-    wait_for(speaker, "document.getElementById('speaker-timer').textContent === '0:01'")
+    speaker |> Page.locator("#speaker-timer") |> Expect.to_have_text!("0:01")
   end
 
   test "Tab, Enter and the space bar in the list of keys open a section, and the list stays open",

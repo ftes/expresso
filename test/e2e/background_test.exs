@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.BackgroundTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Slide 1 has an image with a dim layer and notes. Slide 2 has an image that
   # the slide contains, at the right and the bottom. Slide 3 takes the color
@@ -133,7 +133,7 @@ defmodule Expresso.E2E.BackgroundTest do
     assert style(page, "#slide-4 .slide-background-fill", "backgroundImage") =~
              ~r/^linear-gradient\(135deg, /
 
-    assert js(page, "document.querySelector('#slide-5 .slide-background')") == nil
+    assert js(page, "document.querySelector('#slide-5 .slide-background')") == :null
   end
 
   test "the handout view shows the background, and the notes have a color of their own", %{

@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.DurationTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Three slides of one step each, and a talk of 20 minutes.
   defmodule TimedDeck do
@@ -73,7 +73,7 @@ defmodule Expresso.E2E.DurationTest do
     # is up, and the time left gets the color `danger` of the default theme,
     # `#a40000`.
     speaker |> press("j")
-    wait_for(speaker, "document.getElementById('speaker-left').dataset.pace === 'over'")
+    speaker |> Page.locator("#speaker-left") |> Expect.to_have_attribute!("data-pace", "over")
 
     assert left(speaker) =~ ~r/^\+0:0\d over$/
     assert style(speaker, "color") == "rgb(164, 0, 0)"

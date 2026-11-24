@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.MathFontTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   defmodule FontDeck do
     use Expresso

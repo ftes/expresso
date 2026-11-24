@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.CodeTokensTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Each count is in focus at step 1, and line 3 at step 2.
   defmodule Deck do

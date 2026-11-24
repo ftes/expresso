@@ -1,7 +1,5 @@
 defmodule Expresso.E2E.ChartTest do
-  use Expresso.E2E, async: false
-
-  alias PlaywrightEx.{Browser, BrowserContext}
+  use Expresso.E2E, async: true
 
   # A bar chart with three frames and the count option, a line chart with two
   # frames, a bar chart with the effect grow, a bar chart that counts
@@ -184,16 +182,8 @@ defmodule Expresso.E2E.ChartTest do
   end
 
   describe "with motion" do
-    setup %{browser: browser, tmp_dir: tmp_dir} do
-      {:ok, context} =
-        Browser.new_context(browser.guid,
-          timeout: 10_000,
-          viewport: %{width: 1280, height: 720},
-          reduced_motion: "no-preference"
-        )
-
-      on_exit(fn -> BrowserContext.close(context.guid, timeout: 10_000) end)
-      {:ok, page} = BrowserContext.new_page(context.guid, timeout: 10_000)
+    @describetag Test.use(reduced_motion: :no_preference)
+    setup %{page: page, tmp_dir: tmp_dir} do
       %{slow: page, url: render(Deck, tmp_dir)}
     end
 

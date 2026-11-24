@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.OverviewTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Five slides. Slide 2 has three steps, and slide 3 has two steps. The
   # overview has three columns.
@@ -168,7 +168,7 @@ defmodule Expresso.E2E.OverviewTest do
 
     page |> press("Escape")
     # The browser fires the event `close` in a later task, so wait for it.
-    wait_for(page, "document.body.dataset.help === undefined")
+    page |> Page.locator("body") |> Expect.not_to_have_attribute!("data-help")
     assert overview?(page)
     assert position(page) == "1.1"
   end
@@ -187,7 +187,7 @@ defmodule Expresso.E2E.OverviewTest do
 
     speaker |> keys(["End", "Enter"])
 
-    wait_for(audience, "location.hash === '#5.1'")
+    Expect.to_have_url!(audience, ~r/#5\.1$/)
     refute overview?(speaker)
     refute overview?(audience)
   end

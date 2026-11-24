@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.NotesTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Slide 1 has three steps, a note for each step and a note for step 2 and
   # for step 3. Slide 2 has two steps, and the handout view shows only the
@@ -69,8 +69,7 @@ defmodule Expresso.E2E.NotesTest do
     do: js(page, "document.querySelectorAll(#{JSON.encode!(selector)}).length")
 
   defp wait_for_step(page, position),
-    do:
-      wait_for(page, "document.getElementById('speaker-position').textContent === '#{position}'")
+    do: page |> Page.locator("#speaker-position") |> Expect.to_have_text!(position)
 
   # The text of each note that shows on the page of a step, in the handout
   # view.

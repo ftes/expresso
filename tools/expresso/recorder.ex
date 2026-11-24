@@ -15,7 +15,7 @@ defmodule Expresso.Recorder do
   """
 
   alias Expresso.Recorder.{Frames, RefusedError}
-  alias PlaywrightEx.{Browser, BrowserContext, Connection, Frame, Page}
+  alias Playwright.{Browser, BrowserContext, BrowserType, Clock, Keyboard, Mouse, Page}
 
   @timeout 30_000
 
@@ -65,10 +65,7 @@ defmodule Expresso.Recorder do
   @spec start() :: t()
   def start do
     # The browser tests start Playwright before they run the task.
-    case PlaywrightEx.Supervisor.start_link(
-           timeout: @timeout,
-           executable: "node_modules/playwright/cli.js"
-         ) do
+    case Playwright.Supervisor.start_link(executable: "node_modules/playwright/cli.js") do
       {:ok, _supervisor} -> :ok
       {:error, {:already_started, _supervisor}} -> :ok
     end
@@ -81,15 +78,16 @@ defmodule Expresso.Recorder do
         path -> Keyword.put(launch, :executable_path, path)
       end
 
-    {:ok, browser} = PlaywrightEx.launch_browser(:chromium, launch)
+    browser = Playwright.instance() |> Playwright.chromium() |> BrowserType.launch!(launch)
 
-    {:ok, context} =
-      Browser.new_context(browser.guid,
-        timeout: @timeout,
+    context =
+      Browser.new_context!(browser,
         viewport: %{width: 1280, height: 720},
         device_scale_factor: 0.625,
-        reduced_motion: "no-preference"
+        reduced_motion: :no_preference
       )
+
+    BrowserContext.set_default_timeout(context, @timeout)
 
     %{browser: browser, context: context}
   end
@@ -97,8 +95,7 @@ defmodule Expresso.Recorder do
   @doc "Close the browser of the recorder"
   @spec stop(t()) :: :ok
   def stop(recorder) do
-    {:ok, _result} = Browser.close(recorder.browser.guid, timeout: @timeout)
-    :ok
+    Browser.close!(recorder.browser)
   end
 
   @doc """
@@ -152,11 +149,11 @@ defmodule Expresso.Recorder do
   end
 
   defp record_once(recorder, url, actions, height) do
-    {:ok, page} = BrowserContext.new_page(recorder.context.guid, timeout: @timeout)
+    page = BrowserContext.new_page!(recorder.context)
 
     try do
       fix_clock(recorder, @epoch)
-      {:ok, _response} = Frame.goto(page.main_frame.guid, timeout: @timeout, url: url)
+      Page.goto!(page, url)
       evaluate(page, "async () => { await document.fonts.ready; }")
       # The progress bar can move after the load. The first frame shows its end.
       finish(page)
@@ -174,7 +171,7 @@ defmodule Expresso.Recorder do
 
       [first | frames]
     after
-      Page.close(page.guid, timeout: @timeout)
+      Page.close(page)
     end
   end
 
@@ -190,28 +187,28 @@ defmodule Expresso.Recorder do
   # The window is 1280 pixels wide. Its height is 720 pixels, also for an
   # example whose picture is higher.
   defp act(_recorder, page, _height, {:point, x, y}, now) do
-    {:ok, _result} = Page.mouse_move(page.guid, timeout: @timeout, x: x * 1280, y: y * 720)
+    Mouse.move!(Page.mouse(page), x * 1280, y * 720)
     {[], now}
   end
 
   defp act(_recorder, page, _height, {:drag, [first | rest]}, now) do
-    move = fn {x, y} ->
-      {:ok, _result} = Page.mouse_move(page.guid, timeout: @timeout, x: x * 1280, y: y * 720)
-    end
+    mouse = Page.mouse(page)
+    move = fn {x, y} -> Mouse.move!(mouse, x * 1280, y * 720) end
 
     move.(first)
-    {:ok, _result} = Page.mouse_down(page.guid, timeout: @timeout)
+    Mouse.down!(mouse)
     Enum.each(rest, move)
-    {:ok, _result} = Page.mouse_up(page.guid, timeout: @timeout)
+    Mouse.up!(mouse)
     {[], now}
   end
 
   defp act(_recorder, page, height, {:alt_click, x, y}, now) do
-    send!(page, :keyboard_down, %{key: "Alt"})
-    {:ok, _result} = Page.mouse_move(page.guid, timeout: @timeout, x: x * 1280, y: y * 720)
-    {:ok, _result} = Page.mouse_down(page.guid, timeout: @timeout)
-    {:ok, _result} = Page.mouse_up(page.guid, timeout: @timeout)
-    send!(page, :keyboard_up, %{key: "Alt"})
+    mouse = Page.mouse(page)
+    Keyboard.down!(Page.keyboard(page), "Alt")
+    Mouse.move!(mouse, x * 1280, y * 720)
+    Mouse.down!(mouse)
+    Mouse.up!(mouse)
+    Keyboard.up!(Page.keyboard(page), "Alt")
     {animation(page, height), now}
   end
 
@@ -236,9 +233,8 @@ defmodule Expresso.Recorder do
   # The picture of the page, from its top.
   defp shot(page, height) do
     capture(fn ->
-      Page.screenshot(page.guid,
-        timeout: @timeout,
-        type: "png",
+      Page.screenshot(page,
+        type: :png,
         full_page: true,
         clip: %{x: 0, y: 0, width: 1280, height: height}
       )
@@ -248,16 +244,16 @@ defmodule Expresso.Recorder do
   @doc """
   Return the PNG of a screenshot
 
-  `screenshot` returns the result of `PlaywrightEx.Page.screenshot/2`. When
+  `screenshot` returns the result of `Playwright.Page.screenshot/2`. When
   Chromium refuses the screenshot with the message `Unable to capture
   screenshot`, the function raises `Expresso.Recorder.RefusedError`. A
   different error raises a `RuntimeError`.
   """
-  @spec capture((-> {:ok, String.t()} | {:error, term()})) :: binary()
+  @spec capture((-> {:ok, binary()} | {:error, term()})) :: binary()
   def capture(screenshot) do
     case screenshot.() do
       {:ok, png} ->
-        Base.decode64!(png)
+        png
 
       {:error, error} ->
         if refused?(error),
@@ -266,26 +262,15 @@ defmodule Expresso.Recorder do
     end
   end
 
-  defp refused?(%{error: %{message: message}}), do: message =~ "Unable to capture screenshot"
+  defp refused?(%{message: message}), do: message =~ "Unable to capture screenshot"
   defp refused?(_error), do: false
 
   defp press(page, key) do
-    send!(page, :keyboard_press, %{key: key})
+    Keyboard.press!(Page.keyboard(page), key)
   end
 
   defp fix_clock(recorder, now) do
-    send!(recorder.context, :clock_set_fixed_time, %{time_number: now})
-  end
-
-  # The spec of `PlaywrightEx.send/2` takes a message with no parameters, so
-  # the recorder sends the message with the connection.
-  defp send!(target, method, params) do
-    message = %{guid: target.guid, method: method, params: params}
-
-    case Connection.send(PlaywrightEx.Supervisor.Connection, message, @timeout) do
-      %{error: error} -> raise "#{method} failed: #{inspect(error)}"
-      _response -> :ok
-    end
+    Clock.set_fixed_time!(BrowserContext.clock(recorder.context), now)
   end
 
   # Wait for the animations of a key, pause them, and return the time of the
@@ -368,28 +353,10 @@ defmodule Expresso.Recorder do
     wait_for(page, "(before) => #{shown} !== before", before)
   end
 
-  defp evaluate(page, function, arg \\ nil) do
-    {:ok, value} =
-      Frame.evaluate(page.main_frame.guid,
-        timeout: @timeout,
-        expression: function,
-        is_function: true,
-        arg: arg
-      )
-
-    value
-  end
+  defp evaluate(page, function, arg \\ nil), do: Page.evaluate!(page, function, arg)
 
   defp wait_for(page, function, arg) do
-    {:ok, _result} =
-      Frame.wait_for_function(page.main_frame.guid,
-        timeout: @timeout,
-        expression: function,
-        is_function: true,
-        arg: arg,
-        polling: "raf"
-      )
-
+    Page.wait_for_function!(page, function, arg, polling: :raf)
     :ok
   end
 end

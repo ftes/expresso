@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.AssetsTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # One image on a slide of two steps: the present view, the menu and each page
   # of the handout view show it, and the document holds it one time.

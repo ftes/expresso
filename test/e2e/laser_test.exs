@@ -1,7 +1,5 @@
 defmodule Expresso.E2E.LaserTest do
-  use Expresso.E2E, async: false
-
-  alias PlaywrightEx.{Browser, BrowserContext, Page}
+  use Expresso.E2E, async: true
 
   # Slide 1 has two steps, and slide 2 has one step.
   defmodule Deck do
@@ -31,7 +29,7 @@ defmodule Expresso.E2E.LaserTest do
   end
 
   defp move(page, x, y) do
-    {:ok, _result} = Page.mouse_move(page.guid, timeout: 10_000, x: x, y: y)
+    Mouse.move!(Page.mouse(page), x, y)
     page
   end
 
@@ -47,7 +45,7 @@ defmodule Expresso.E2E.LaserTest do
   end
 
   # The center of the dot as a part of the box of the slide, with two
-  # decimal places, or nil while the dot does not show.
+  # decimal places, or `:null` while the dot does not show.
   defp dot(page, selector) do
     js(page, """
     (() => {
@@ -86,10 +84,10 @@ defmodule Expresso.E2E.LaserTest do
   } do
     speaker |> press("l")
 
-    wait_for(audience, ~s|document.body.dataset.laser === "true"|)
+    audience |> Page.locator("body") |> Expect.to_have_attribute!("data-laser", "true")
     assert js(speaker, "document.body.dataset.laser") == "true"
-    assert dot(speaker, @current) == nil
-    assert dot(audience, @screen) == nil
+    assert dot(speaker, @current) == :null
+    assert dot(audience, @screen) == :null
   end
 
   test "the dot of the speaker view moves the dot of the present view to the same part of the slide",
@@ -143,7 +141,7 @@ defmodule Expresso.E2E.LaserTest do
     speaker |> move(left + width + 40, top + height + 40)
 
     hidden(audience, @screen)
-    assert dot(speaker, @current) == nil
+    assert dot(speaker, @current) == :null
   end
 
   test "the next step turns the pointer off in the two windows", %{
@@ -154,20 +152,20 @@ defmodule Expresso.E2E.LaserTest do
     shown(audience, @screen)
 
     speaker |> press("j")
-    wait_for(audience, "location.hash === '#1.2'")
+    Expect.to_have_url!(audience, ~r/#1\.2$/)
 
     hidden(audience, @screen)
     assert js(audience, "document.body.dataset.laser") == nil
     assert js(speaker, "document.body.dataset.laser") == nil
-    assert dot(speaker, @current) == nil
+    assert dot(speaker, @current) == :null
 
     # A move of the mouse shows no dot, and a click changes the step again.
     speaker |> point(0.6, 0.6)
-    assert dot(speaker, @current) == nil
+    assert dot(speaker, @current) == :null
 
     [left, top, width, height] = box(speaker, @current)
     speaker |> click(left + width * 0.9, top + height * 0.5)
-    wait_for(audience, "location.hash === '#2.1'")
+    Expect.to_have_url!(audience, ~r/#2\.1$/)
   end
 
   test "a second l turns the pointer off", %{audience: audience, speaker: speaker} do
@@ -177,7 +175,7 @@ defmodule Expresso.E2E.LaserTest do
     speaker |> press("l")
 
     hidden(audience, @screen)
-    assert dot(speaker, @current) == nil
+    assert dot(speaker, @current) == :null
     assert position(audience) == "1.1"
   end
 
@@ -225,7 +223,7 @@ defmodule Expresso.E2E.LaserTest do
 
     for {open, close} <- [{"o", "Escape"}, {"m", "Escape"}, {"b", "b"}] do
       audience |> press(open)
-      assert dot(audience, @screen) == nil, "the dot shows after #{open}"
+      assert dot(audience, @screen) == :null, "the dot shows after #{open}"
       audience |> press(close) |> move(641, 361)
       shown(audience, @screen)
     end
@@ -243,16 +241,10 @@ defmodule Expresso.E2E.LaserTest do
   end
 
   describe "with a touch screen" do
+    # The setup of the module opens the two windows in the page, so the
+    # window with a touch screen has its own context.
     setup %{browser: browser, tmp_dir: tmp_dir} do
-      {:ok, context} =
-        Browser.new_context(browser.guid,
-          timeout: 10_000,
-          viewport: %{width: 1280, height: 720},
-          has_touch: true
-        )
-
-      on_exit(fn -> BrowserContext.close(context.guid, timeout: 10_000) end)
-      {:ok, page} = BrowserContext.new_page(context.guid, timeout: 10_000)
+      page = new_page(browser, has_touch: true)
       %{touch: open(page, render(Deck, tmp_dir))}
     end
 

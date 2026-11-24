@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.EmbedTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Slide 1 holds a local page that counts, with a fallback image. Slide 2
   # holds an address. The test makes no request to the network: it reads the
@@ -82,8 +82,8 @@ defmodule Expresso.E2E.EmbedTest do
       ~s|document.querySelector(".screen iframe[data-embed='0']").hasAttribute("srcdoc")|
     )
 
-    loaded = page |> frames() |> Enum.filter(&(&1["src"] || &1["srcdoc"]))
-    assert loaded == [%{"present" => true, "src" => nil, "srcdoc" => true}]
+    loaded = page |> frames() |> Enum.filter(&(&1["src"] != :null or &1["srcdoc"]))
+    assert loaded == [%{"present" => true, "src" => :null, "srcdoc" => true}]
 
     # The page runs its script, and the fallback hides after the load. The
     # sandbox does not let the deck read the page, so the page sends its count.
@@ -96,7 +96,7 @@ defmodule Expresso.E2E.EmbedTest do
     wait_for(page, "(window.ticks ?? 0) > 2")
 
     assert js(page, ~s|document.querySelector(".screen iframe[data-embed='0']").contentDocument|) ==
-             nil
+             :null
 
     assert js(page, ~s|document.querySelector(".screen #slide-1 .embed-fallback").hidden|) == true
 
@@ -111,7 +111,7 @@ defmodule Expresso.E2E.EmbedTest do
     assert page
            |> frames()
            |> Enum.reject(& &1["present"])
-           |> Enum.all?(&(&1["src"] == nil and not &1["srcdoc"]))
+           |> Enum.all?(&(&1["src"] == :null and not &1["srcdoc"]))
   end
 
   test "a frame that is not interactive leaves the click to the presenter", %{
@@ -153,7 +153,7 @@ defmodule Expresso.E2E.EmbedTest do
     page = open(page, render(Deck, tmp_dir) <> "?speaker")
 
     js(page, "new Promise((resolve) => setTimeout(resolve, 300))")
-    assert page |> frames() |> Enum.all?(&(&1["src"] == nil and not &1["srcdoc"]))
+    assert page |> frames() |> Enum.all?(&(&1["src"] == :null and not &1["srcdoc"]))
   end
 
   test "the handout view shows the fallback, and hides the frame", %{page: page, tmp_dir: tmp_dir} do

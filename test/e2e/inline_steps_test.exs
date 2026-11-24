@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.InlineStepsTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # A sentence with a part that shows from step 2, a part with the state
   # `alert` at step 3, and a part with the state `dim` at step 4. The item has

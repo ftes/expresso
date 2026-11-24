@@ -1,7 +1,5 @@
 defmodule Expresso.E2E.ForcedColorsTest do
-  use Expresso.E2E, async: false
-
-  alias PlaywrightEx.Page
+  use Expresso.E2E, async: true
 
   # Forced colors, such as the high contrast mode of Windows. The browser
   # replaces the colors of the page with the colors of the system. With the
@@ -209,29 +207,27 @@ defmodule Expresso.E2E.ForcedColorsTest do
     js(page, "#{@contrast}(#{JSON.encode!(selector)}, #{JSON.encode!(property)})")
   end
 
-  defp forced(browser, scheme, tmp_dir) do
-    browser
-    |> new_page(forced_colors: "active", color_scheme: scheme)
-    |> open(render(Deck, tmp_dir))
-  end
+  # The test asks for forced colors with `@tag Test.use(...)`.
+  defp forced(page, tmp_dir), do: open(page, render(Deck, tmp_dir))
 
   defp move(page, x, y) do
-    {:ok, _result} = Page.mouse_move(page.guid, timeout: 10_000, x: x, y: y)
+    Mouse.move!(Page.mouse(page), x, y)
     page
   end
 
   defp drag(page, {x1, y1}, {x2, y2}) do
     move(page, x1, y1)
-    {:ok, _result} = Page.mouse_down(page.guid, timeout: 10_000)
+    Mouse.down!(Page.mouse(page))
     move(page, x2, y2)
-    {:ok, _result} = Page.mouse_up(page.guid, timeout: 10_000)
+    Mouse.up!(Page.mouse(page))
     page
   end
 
   for scheme <- @schemes do
+    @tag Test.use(forced_colors: :active, color_scheme: scheme)
     test "the page has the forced colors of the #{scheme} color scheme",
-         %{browser: browser, tmp_dir: tmp_dir} do
-      page = forced(browser, unquote(scheme), tmp_dir)
+         %{page: page, tmp_dir: tmp_dir} do
+      page = forced(page, tmp_dir)
 
       assert js(page, "matchMedia('(forced-colors: active)').matches") == true
 
@@ -243,9 +239,10 @@ defmodule Expresso.E2E.ForcedColorsTest do
 
     # The bar is a box with only a background color, and the browser gives
     # such a box the color of the canvas.
+    @tag Test.use(forced_colors: :active, color_scheme: scheme)
     test "the progress bar shows in forced colors with the #{scheme} color scheme",
-         %{browser: browser, tmp_dir: tmp_dir} do
-      page = forced(browser, unquote(scheme), tmp_dir)
+         %{page: page, tmp_dir: tmp_dir} do
+      page = forced(page, tmp_dir)
       page |> press("j") |> wait_for_position("2.1")
 
       assert js(page, "getComputedStyle(document.querySelector('#progress')).display") == "block"
@@ -254,9 +251,10 @@ defmodule Expresso.E2E.ForcedColorsTest do
 
     # The browser removes the `box-shadow` of the dot, so a ring of the text
     # color marks its edge.
+    @tag Test.use(forced_colors: :active, color_scheme: scheme)
     test "the laser pointer shows in forced colors with the #{scheme} color scheme",
-         %{browser: browser, tmp_dir: tmp_dir} do
-      page = forced(browser, unquote(scheme), tmp_dir)
+         %{page: page, tmp_dir: tmp_dir} do
+      page = forced(page, tmp_dir)
       page |> press("l") |> move(400, 300) |> move(420, 320)
       wait_for(page, "getComputedStyle(document.querySelector('#laser')).display === 'block'")
 
@@ -267,9 +265,10 @@ defmodule Expresso.E2E.ForcedColorsTest do
                "solid"
     end
 
+    @tag Test.use(forced_colors: :active, color_scheme: scheme)
     test "a line of the pen has a contrast of 3 or more in forced colors with the #{scheme} color scheme",
-         %{browser: browser, tmp_dir: tmp_dir} do
-      page = forced(browser, unquote(scheme), tmp_dir)
+         %{page: page, tmp_dir: tmp_dir} do
+      page = forced(page, tmp_dir)
       page |> press("x") |> drag({300, 300}, {500, 380})
       wait_for(page, "document.querySelector('#drawing .drawing-pen') !== null")
 
@@ -278,9 +277,10 @@ defmodule Expresso.E2E.ForcedColorsTest do
 
     # A line of the highlighter lets the text under it show, so it has an
     # opacity. It is not the canvas color.
+    @tag Test.use(forced_colors: :active, color_scheme: scheme)
     test "a line of the highlighter shows in forced colors with the #{scheme} color scheme",
-         %{browser: browser, tmp_dir: tmp_dir} do
-      page = forced(browser, unquote(scheme), tmp_dir)
+         %{page: page, tmp_dir: tmp_dir} do
+      page = forced(page, tmp_dir)
       page |> press("x") |> press("h") |> drag({300, 300}, {500, 380})
       wait_for(page, "document.querySelector('#drawing .drawing-highlighter') !== null")
 
@@ -325,12 +325,10 @@ defmodule Expresso.E2E.ForcedColorsTest do
     for {deck, ground} <- [{ContentDeck, "rgb(255, 255, 255)"}, {DarkDeck, "rgb(40, 42, 54)"}] do
       # The browser does not change the `fill` of an SVG text, so the chart
       # keeps its colors on a plate with the background color of the theme.
+      @tag Test.use(forced_colors: :active, color_scheme: scheme)
       test "each text of a chart of #{inspect(deck)} has 4.5:1 or more on its plate with the #{scheme} color scheme",
-           %{browser: browser, tmp_dir: tmp_dir} do
-        page =
-          browser
-          |> new_page(forced_colors: "active", color_scheme: unquote(scheme))
-          |> open(render(unquote(deck), tmp_dir))
+           %{page: page, tmp_dir: tmp_dir} do
+        page = open(page, render(unquote(deck), tmp_dir))
 
         assert style(page, "#slide-1 .chart svg", "forcedColorAdjust") == "none"
         assert rgb(style(page, "#slide-1 .chart svg", "backgroundColor")) == unquote(ground)
@@ -341,12 +339,10 @@ defmodule Expresso.E2E.ForcedColorsTest do
       end
     end
 
+    @tag Test.use(forced_colors: :active, color_scheme: scheme)
     test "a diagram, an image and a formula with a part have a plate with the #{scheme} color scheme",
-         %{browser: browser, tmp_dir: tmp_dir} do
-      page =
-        browser
-        |> new_page(forced_colors: "active", color_scheme: unquote(scheme))
-        |> open(render(ContentDeck, tmp_dir))
+         %{page: page, tmp_dir: tmp_dir} do
+      page = open(page, render(ContentDeck, tmp_dir))
 
       for selector <- ["#slide-2 .diagram > svg", "#slide-4 .image img", "#slide-5 .math math"] do
         assert style(page, selector, "forcedColorAdjust") == "none", selector
@@ -363,12 +359,10 @@ defmodule Expresso.E2E.ForcedColorsTest do
     end
 
     # Each text has one color of the system, so the dim state uses the opacity.
+    @tag Test.use(forced_colors: :active, color_scheme: scheme)
     test "a dimmed line of code is different from the line in focus with the #{scheme} color scheme",
-         %{browser: browser, tmp_dir: tmp_dir} do
-      page =
-        browser
-        |> new_page(forced_colors: "active", color_scheme: unquote(scheme))
-        |> open(render(ContentDeck, tmp_dir))
+         %{page: page, tmp_dir: tmp_dir} do
+      page = open(page, render(ContentDeck, tmp_dir))
 
       page |> keys(["j", "j"]) |> wait_for_position("3.1")
 
@@ -435,8 +429,8 @@ defmodule Expresso.E2E.ForcedColorsTest do
       """)
 
     clip = %{x: x + width * 0.8, y: y + height * 0.3, width: width * 0.17, height: height * 0.4}
-    {:ok, png} = Page.screenshot(page.guid, timeout: 10_000, clip: clip)
-    js(page, "#{@ink}(#{JSON.encode!(png)})")
+    png = Page.screenshot!(page, clip: clip)
+    js(page, "#{@ink}(#{JSON.encode!(Base.encode64(png))})")
   end
 
   defp text_color(:light), do: "rgb(0, 0, 0)"
@@ -446,12 +440,10 @@ defmodule Expresso.E2E.ForcedColorsTest do
     # The bar of a line of code in focus is a `box-shadow`, and the browser
     # removes each `box-shadow`. The key `d` turns off the dimming, so the
     # bar is then the only mark of the line in focus.
+    @tag Test.use(forced_colors: :active, color_scheme: scheme)
     test "a line of code in focus has a bar with the #{scheme} color scheme",
-         %{browser: browser, tmp_dir: tmp_dir} do
-      page =
-        browser
-        |> new_page(forced_colors: "active", color_scheme: unquote(scheme))
-        |> open(render(ContentDeck, tmp_dir))
+         %{page: page, tmp_dir: tmp_dir} do
+      page = open(page, render(ContentDeck, tmp_dir))
 
       page |> keys(["j", "j", "d"]) |> wait_for_position("3.1")
 
@@ -480,12 +472,10 @@ defmodule Expresso.E2E.ForcedColorsTest do
 
     # The `highlight` option of a tree dims a box with `--dimmed`, and the
     # rule of the dim state reads `--dim`.
+    @tag Test.use(forced_colors: :active, color_scheme: scheme)
     test "a box of a tree that is not in focus has an opacity with the #{scheme} color scheme",
-         %{browser: browser, tmp_dir: tmp_dir} do
-      page =
-        browser
-        |> new_page(forced_colors: "active", color_scheme: unquote(scheme))
-        |> open(render(MarkDeck, tmp_dir))
+         %{page: page, tmp_dir: tmp_dir} do
+      page = open(page, render(MarkDeck, tmp_dir))
 
       boxes = fn ->
         js(page, """
@@ -513,16 +503,10 @@ defmodule Expresso.E2E.ForcedColorsTest do
 
     # The cursor of the typewriter effect is a `box-shadow`. Its border keeps
     # the place of each character, because a margin takes back its width.
+    @tag Test.use(forced_colors: :active, color_scheme: scheme, reduced_motion: :no_preference)
     test "the cursor of the typewriter effect shows with the #{scheme} color scheme",
-         %{browser: browser, tmp_dir: tmp_dir} do
-      page =
-        browser
-        |> new_page(
-          forced_colors: "active",
-          color_scheme: unquote(scheme),
-          reduced_motion: "no-preference"
-        )
-        |> open(render(MarkDeck, tmp_dir))
+         %{page: page, tmp_dir: tmp_dir} do
+      page = open(page, render(MarkDeck, tmp_dir))
 
       page |> keys(["j", "j", "j"]) |> wait_for_position("3.1")
       page |> press("j") |> wait_for_position("3.2")
@@ -565,12 +549,10 @@ defmodule Expresso.E2E.ForcedColorsTest do
   end
 
   for scheme <- @schemes do
+    @tag Test.use(forced_colors: :active, color_scheme: scheme)
     test "the frame of an embed has an outline with the #{scheme} color scheme",
-         %{browser: browser, tmp_dir: tmp_dir} do
-      page =
-        browser
-        |> new_page(forced_colors: "active", color_scheme: unquote(scheme))
-        |> open(render(EmbedDeck, tmp_dir))
+         %{page: page, tmp_dir: tmp_dir} do
+      page = open(page, render(EmbedDeck, tmp_dir))
 
       assert [width, "solid", color] = embed_outline(page)
       assert width == "1px"
@@ -592,12 +574,10 @@ defmodule Expresso.E2E.ForcedColorsTest do
   # the document. With the scheme of the theme, its icons had the color of the
   # canvas.
   for {deck, scheme} <- [{MarkDeck, :dark}, {DarkAudioDeck, :light}] do
+    @tag Test.use(forced_colors: :active, color_scheme: scheme)
     test "the buttons of an audio element of #{inspect(deck)} shows with the #{scheme} color scheme",
-         %{browser: browser, tmp_dir: tmp_dir} do
-      page =
-        browser
-        |> new_page(forced_colors: "active", color_scheme: unquote(scheme))
-        |> open(render(unquote(deck), tmp_dir))
+         %{page: page, tmp_dir: tmp_dir} do
+      page = open(page, render(unquote(deck), tmp_dir))
 
       {slide, keys} = if unquote(deck) == MarkDeck, do: {4, 5}, else: {2, 1}
       page |> keys(List.duplicate("j", keys)) |> wait_for_position("#{slide}.1")

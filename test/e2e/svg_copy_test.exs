@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.SvgCopyTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Each slide holds a file with ids or with a style element. The document
   # holds each slide in the present view, on each page of the handout view and

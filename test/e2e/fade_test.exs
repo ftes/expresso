@@ -1,7 +1,5 @@
 defmodule Expresso.E2E.FadeTest do
-  use Expresso.E2E, async: false
-
-  alias PlaywrightEx.{Browser, BrowserContext}
+  use Expresso.E2E, async: true, reduced_motion: :no_preference
 
   # One slide. The box and its text area show from step 2.
   defmodule Deck do
@@ -23,16 +21,7 @@ defmodule Expresso.E2E.FadeTest do
 
   # A page in a context that does not ask for reduced motion. Each fade lasts
   # 2 seconds, so the test can read the page in the middle of a fade.
-  setup %{browser: browser, tmp_dir: tmp_dir} do
-    {:ok, context} =
-      Browser.new_context(browser.guid,
-        timeout: 10_000,
-        viewport: %{width: 1280, height: 720},
-        reduced_motion: "no-preference"
-      )
-
-    on_exit(fn -> BrowserContext.close(context.guid, timeout: 10_000) end)
-    {:ok, page} = BrowserContext.new_page(context.guid, timeout: 10_000)
+  setup %{page: page, tmp_dir: tmp_dir} do
     page = open(page, render(Deck, tmp_dir))
     js(page, "document.documentElement.style.setProperty('--dur', '2s')")
     %{slow: page}

@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.DimTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # An image and a part of a diagram dim at step 2. Their colors come from
   # their files, so they dim with the shared opacity of the theme.

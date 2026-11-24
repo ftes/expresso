@@ -410,6 +410,12 @@ _Fast and extensible Markdown for Elixir_
 
 [mdex usage rules](deps/mdex/usage-rules.md)
 <!-- mdex-end -->
+<!-- playwright-start -->
+## playwright usage
+_Elixir client for Playwright: a port of the official JavaScript client._
+
+[playwright usage rules](deps/playwright/usage-rules.md)
+<!-- playwright-end -->
 <!-- shoddy-start -->
 ## shoddy usage
 _Small functions for tasks that occur frequently in Elixir code._

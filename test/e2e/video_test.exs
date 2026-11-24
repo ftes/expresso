@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.VideoTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Slide 1 plays a video at each step. Slide 2 has two steps, and its video
   # shows from step 2. Slide 3 has no video. Slide 4 plays a video one time,
@@ -66,7 +66,7 @@ defmodule Expresso.E2E.VideoTest do
       """)
 
     assert copies != []
-    assert Enum.uniq(copies) == [nil]
+    assert Enum.uniq(copies) == [:null]
   end
 
   test "the video of the present view plays, and the poster is under it", %{page: page} do
@@ -110,7 +110,7 @@ defmodule Expresso.E2E.VideoTest do
   test "a video with at plays only from its step", %{page: page} do
     page |> press("j")
     assert position(page) == "2.1"
-    assert js(page, "#{video(2)}.getAttribute('src')") == nil
+    assert js(page, "#{video(2)}.getAttribute('src')") == :null
 
     page |> press("j")
     wait_for(page, "!#{video(2)}.paused && #{video(2)}.currentTime > 0")

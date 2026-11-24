@@ -1,7 +1,5 @@
 defmodule Expresso.E2E.TypewriterTest do
-  use Expresso.E2E, async: false
-
-  alias PlaywrightEx.{Browser, BrowserContext}
+  use Expresso.E2E, async: true
 
   # The first slide has a text of ten characters that shows at step 2 only,
   # and three texts of eight characters at step 3, each with its own speed.
@@ -135,16 +133,8 @@ defmodule Expresso.E2E.TypewriterTest do
   end
 
   describe "with motion" do
-    setup %{browser: browser, tmp_dir: tmp_dir} do
-      {:ok, context} =
-        Browser.new_context(browser.guid,
-          timeout: 10_000,
-          viewport: %{width: 1280, height: 720},
-          reduced_motion: "no-preference"
-        )
-
-      on_exit(fn -> BrowserContext.close(context.guid, timeout: 10_000) end)
-      {:ok, page} = BrowserContext.new_page(context.guid, timeout: 10_000)
+    @describetag Test.use(reduced_motion: :no_preference)
+    setup %{page: page, tmp_dir: tmp_dir} do
       %{moving: open(page, render(Deck, tmp_dir))}
     end
 

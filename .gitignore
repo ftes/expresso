@@ -27,3 +27,6 @@ node_modules/
 # makes when it compiles in dev and in test
 /priv/lib/
 /tools/**/.Elixir.*.zig
+
+# the traces and the screenshots of the failed browser tests
+/test-results/

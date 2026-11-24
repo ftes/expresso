@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.ThemeTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   alias Expresso.Builder
 

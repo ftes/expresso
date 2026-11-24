@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.PropertiesTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # One slide. The box grows, turns, changes color and fades at step 2. The
   # items of the list show at step 1 and at step 2, and the first item dims at

@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.TocTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # An agenda that builds, then three sections. The first slide of the third
   # section has a recap.

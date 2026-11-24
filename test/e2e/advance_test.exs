@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.AdvanceTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Each step has 4 seconds. Slide 1 waits for a key, slide 2 has two steps,
   # and the one step of slide 3 has 2 seconds. The step after the last step
@@ -178,7 +178,7 @@ defmodule Expresso.E2E.AdvanceTest do
     wait_for(speaker, left_js("Next step in 0:03"))
 
     speaker |> press("a")
-    wait_for(audience, "document.body.dataset.paused === 'true'")
+    audience |> Page.locator("body") |> Expect.to_have_attribute!("data-paused", "true")
     wait_for(speaker, left_js("Clock stopped, 0:03 to the next step"))
 
     # The step waits while the clock is stopped.
@@ -189,7 +189,7 @@ defmodule Expresso.E2E.AdvanceTest do
 
     # The step continues its time after the start of the clock.
     audience |> press("a")
-    wait_for(speaker, "document.body.dataset.paused === undefined")
+    speaker |> Page.locator("body") |> Expect.not_to_have_attribute!("data-paused")
     wait_for(speaker, left_js("Next step in 0:03"))
 
     fix_clock(context.context, @start + 62_900)
@@ -248,7 +248,7 @@ defmodule Expresso.E2E.AdvanceTest do
     tmp_dir: tmp_dir
   } do
     audience = open(page, render(FastDeck, tmp_dir, "fast") <> "?check")
-    wait_for(audience, "document.body.dataset.check === 'done'")
+    audience |> Page.locator("body") |> Expect.to_have_attribute!("data-check", "done")
 
     fix_clock(context, @start + 60_000)
     Process.sleep(@looks)

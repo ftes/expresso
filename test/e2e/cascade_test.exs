@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.CascadeTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Each test reads the computed styles of a rule of the style sheet that a
   # later rule or a more specific rule replaced. Issue #318 gives each defect.

@@ -1,7 +1,5 @@
 defmodule Expresso.E2E.MathMoveTest do
-  use Expresso.E2E, async: false
-
-  alias PlaywrightEx.{Browser, BrowserContext}
+  use Expresso.E2E, async: true
 
   # The binder moves to the argument at step 2, and to the two cells of the
   # part "far" at step 3. The script measures each distance in the browser.
@@ -62,19 +60,11 @@ defmodule Expresso.E2E.MathMoveTest do
     assert js(page, "document.querySelectorAll('.math-measure').length") == 0
   end
 
+  @tag Test.use(viewport: %{width: 640, height: 400})
   test "the move is correct in a small window, where the slide has a different scale", %{
-    browser: browser,
+    page: page,
     tmp_dir: tmp_dir
   } do
-    {:ok, context} =
-      Browser.new_context(browser.guid,
-        timeout: 10_000,
-        viewport: %{width: 640, height: 400},
-        reduced_motion: "reduce"
-      )
-
-    on_exit(fn -> BrowserContext.close(context.guid, timeout: 10_000) end)
-    {:ok, page} = BrowserContext.new_page(context.guid, timeout: 10_000)
     page |> open(render(Deck, tmp_dir)) |> moves()
   end
 end
