@@ -227,7 +227,7 @@ defmodule Expresso.MixProject do
       {:sourceror, "~> 1.0", only: [:dev, :test], runtime: false},
       {:stream_data, "~> 1.2", only: [:dev, :test], runtime: false},
       {:lazy_html, "~> 0.1.13", only: :test},
-      {:playwright_ex, "~> 0.12", optional: true},
+      {:playwright, "~> 1.65.0-rc.4", hex: :playwright_ex, optional: true},
       {:zigler, "~> 0.16", only: [:dev, :test], runtime: false},
       {:credo, ">= 0.0.0", only: :dev, runtime: false},
       {:doctor, ">= 0.0.0", only: :dev, runtime: false},

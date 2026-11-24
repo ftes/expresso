@@ -354,7 +354,7 @@ defmodule Mix.Tasks.Expresso.Gifs do
   @impl Mix.Task
   def run(args) do
     Mix.Task.run("compile")
-    {:ok, _apps} = Application.ensure_all_started(:playwright_ex)
+    {:ok, _apps} = Application.ensure_all_started(:playwright)
     {output, names} = parse(args)
     work = Path.join(System.tmp_dir!(), "expresso-gifs-#{System.unique_integer([:positive])}")
     File.mkdir_p!(work)

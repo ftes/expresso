@@ -1,7 +1,7 @@
 defmodule Expresso.E2E.MorphTest do
   use Expresso.E2E, async: false
 
-  alias PlaywrightEx.{Browser, BrowserContext}
+  alias Playwright.{Browser, BrowserContext}
 
   # Slides 1 and 2 share a heading, a stat and a key. Slide 3 asks for the keys
   # only, and slide 4 asks for no morph. Slides 5 and 6 hold two codes. Slides
@@ -107,15 +107,14 @@ defmodule Expresso.E2E.MorphTest do
   # A page in a context that does not ask for reduced motion. The transition
   # lasts 2 seconds, so a test can read its animations.
   setup %{browser: browser, tmp_dir: tmp_dir} do
-    {:ok, context} =
-      Browser.new_context(browser.guid,
-        timeout: 10_000,
+    context =
+      Browser.new_context!(browser,
         viewport: %{width: 1280, height: 720},
-        reduced_motion: "no-preference"
+        reduced_motion: :no_preference
       )
 
-    on_exit(fn -> BrowserContext.close(context.guid, timeout: 10_000) end)
-    {:ok, moving} = BrowserContext.new_page(context.guid, timeout: 10_000)
+    on_exit(fn -> BrowserContext.close(context) end)
+    moving = BrowserContext.new_page!(context)
     moving = open(moving, render(Deck, tmp_dir))
     js(moving, "document.documentElement.style.setProperty('--transition-dur', '2s')")
     %{moving: moving}

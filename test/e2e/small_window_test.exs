@@ -356,7 +356,7 @@ defmodule Expresso.E2E.SmallWindowTest do
         viewport: %{width: 390, height: 844},
         is_mobile: true,
         has_touch: true,
-        forced_colors: "active"
+        forced_colors: :active
       )
       |> open(render(Deck, tmp_dir))
 

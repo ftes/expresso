@@ -3,7 +3,7 @@ defmodule Expresso.E2E.ThemeVariantsTest do
 
   alias Expresso.Builder
   alias Expresso.Palette.Builtin
-  alias PlaywrightEx.{Browser, BrowserContext}
+  alias Playwright.{Browser, BrowserContext}
 
   defp deck(theme) do
     Builder.deck([Builder.slide("one", heading: "Variants")], theme: theme)
@@ -11,15 +11,14 @@ defmodule Expresso.E2E.ThemeVariantsTest do
 
   # A page in a window that asks for a dark or a light scheme.
   defp page(browser, scheme) do
-    {:ok, context} =
-      Browser.new_context(browser.guid,
-        timeout: 10_000,
+    context =
+      Browser.new_context!(browser,
         viewport: %{width: 1280, height: 720},
         color_scheme: scheme
       )
 
-    on_exit(fn -> BrowserContext.close(context.guid, timeout: 10_000) end)
-    {:ok, page} = BrowserContext.new_page(context.guid, timeout: 10_000)
+    on_exit(fn -> BrowserContext.close(context) end)
+    page = BrowserContext.new_page!(context)
     page
   end
 

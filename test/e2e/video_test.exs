@@ -66,7 +66,7 @@ defmodule Expresso.E2E.VideoTest do
       """)
 
     assert copies != []
-    assert Enum.uniq(copies) == [nil]
+    assert Enum.uniq(copies) == [:null]
   end
 
   test "the video of the present view plays, and the poster is under it", %{page: page} do
@@ -110,7 +110,7 @@ defmodule Expresso.E2E.VideoTest do
   test "a video with at plays only from its step", %{page: page} do
     page |> press("j")
     assert position(page) == "2.1"
-    assert js(page, "#{video(2)}.getAttribute('src')") == nil
+    assert js(page, "#{video(2)}.getAttribute('src')") == :null
 
     page |> press("j")
     wait_for(page, "!#{video(2)}.paused && #{video(2)}.currentTime > 0")

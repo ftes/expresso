@@ -59,7 +59,7 @@ not need a `node_modules`, so a Mix project that has no npm packages can use the
    `--check=browser` needs it, and the binary holds it:
 
    ```elixir
-   {:playwright_ex, "~> 0.14", only: :dev, runtime: false}
+   {:playwright, "~> 1.65.0-rc.4", hex: :playwright_ex, only: :dev, runtime: false}
    ```
 
    Then run `mix deps.get`.
@@ -160,7 +160,7 @@ install them in the directory of the deck in place of that, do these steps:
 4. In a Mix project, add the Hex package `playwright_ex` to the deps in `mix.exs`:
 
    ```elixir
-   {:playwright_ex, "~> 0.14", only: :dev, runtime: false}
+   {:playwright, "~> 1.65.0-rc.4", hex: :playwright_ex, only: :dev, runtime: false}
    ```
 
    Then run `mix deps.get`. The binary holds this package, so the binary needs no step 4.

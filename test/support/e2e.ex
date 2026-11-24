@@ -22,11 +22,20 @@ defmodule Expresso.E2E do
 
   use ExUnit.CaseTemplate
 
-  alias PlaywrightEx.{Browser, BrowserContext, Connection, EventWaiter, Frame, Page}
+  alias Playwright.{
+    Browser,
+    BrowserContext,
+    BrowserType,
+    Clock,
+    Keyboard,
+    Mouse,
+    Page,
+    Touchscreen
+  }
 
   @timeout 10_000
 
-  # The time in milliseconds for the start of Playwright and of Chromium in
+  # The time in milliseconds for the start of Chromium in
   # `setup_all`. `mix check` runs the browser tests while the release and the
   # dependency test compile, and in one run Chromium did not end its start in
   # 10 seconds. A start usually takes less than 1 second, so this time limits
@@ -43,9 +52,7 @@ defmodule Expresso.E2E do
   end
 
   setup_all do
-    start_supervised!(
-      {PlaywrightEx.Supervisor, timeout: @start, executable: "node_modules/playwright/cli.js"}
-    )
+    start_supervised!({Playwright.Supervisor, executable: "node_modules/playwright/cli.js"})
 
     launch =
       Shoddy.Keywords.put_present(
@@ -54,20 +61,20 @@ defmodule Expresso.E2E do
         System.get_env("EXPRESSO_CHROMIUM")
       )
 
-    {:ok, browser} = PlaywrightEx.launch_browser(:chromium, launch)
+    browser = Playwright.instance() |> Playwright.chromium() |> BrowserType.launch!(launch)
     %{browser: browser}
   end
 
   setup %{browser: browser} do
-    {:ok, context} =
-      Browser.new_context(browser.guid,
-        timeout: @timeout,
+    context =
+      Browser.new_context!(browser,
         viewport: %{width: 1280, height: 720},
-        reduced_motion: "reduce"
+        reduced_motion: :reduce
       )
 
-    {:ok, page} = BrowserContext.new_page(context.guid, timeout: @timeout)
-    on_exit(fn -> BrowserContext.close(context.guid, timeout: @timeout) end)
+    BrowserContext.set_default_timeout(context, @timeout)
+    page = BrowserContext.new_page!(context)
+    on_exit(fn -> BrowserContext.close(context) end)
     %{context: context, page: page}
   end
 
@@ -76,22 +83,18 @@ defmodule Expresso.E2E do
   size or a preference of the user that is not the one of `setup`
 
   The options are the options of a context of Playwright, such as
-  `viewport: %{width: 640, height: 360}`, `forced_colors: "active"`,
-  `color_scheme: :dark` or `contrast: "more"`. The context closes at the end
+  `viewport: %{width: 640, height: 360}`, `forced_colors: :active`,
+  `color_scheme: :dark` or `contrast: :more`. The context closes at the end
   of the test.
   """
   @spec new_page(map(), keyword()) :: map()
   def new_page(browser, options) do
-    defaults = [
-      timeout: @timeout,
-      viewport: %{width: 1280, height: 720},
-      reduced_motion: "reduce"
-    ]
+    defaults = [viewport: %{width: 1280, height: 720}, reduced_motion: :reduce]
 
-    {:ok, context} = Browser.new_context(browser.guid, Keyword.merge(defaults, options))
-    ExUnit.Callbacks.on_exit(fn -> BrowserContext.close(context.guid, timeout: @timeout) end)
-    {:ok, page} = BrowserContext.new_page(context.guid, timeout: @timeout)
-    page
+    context = Browser.new_context!(browser, Keyword.merge(defaults, options))
+    BrowserContext.set_default_timeout(context, @timeout)
+    ExUnit.Callbacks.on_exit(fn -> BrowserContext.close(context) end)
+    BrowserContext.new_page!(context)
   end
 
   @doc """
@@ -116,7 +119,7 @@ defmodule Expresso.E2E do
   """
   @spec open(map(), String.t()) :: map()
   def open(page, url) do
-    {:ok, _response} = Frame.goto(page.main_frame.guid, timeout: @timeout, url: url)
+    Page.goto!(page, url)
     page
   end
 
@@ -125,9 +128,7 @@ defmodule Expresso.E2E do
   """
   @spec press(map(), String.t()) :: map()
   def press(page, key) do
-    {:ok, _result} =
-      Frame.press(page.main_frame.guid, timeout: @timeout, selector: "body", key: key)
-
+    Page.press!(page, "body", key)
     page
   end
 
@@ -145,7 +146,7 @@ defmodule Expresso.E2E do
   """
   @spec front(map()) :: map()
   def front(page) do
-    {:ok, _result} = Page.bring_to_front(page.guid, timeout: @timeout)
+    Page.bring_to_front!(page)
     page
   end
 
@@ -154,9 +155,10 @@ defmodule Expresso.E2E do
   """
   @spec click(map(), number(), number()) :: map()
   def click(page, x, y) do
-    {:ok, _result} = Page.mouse_move(page.guid, timeout: @timeout, x: x, y: y)
-    {:ok, _result} = Page.mouse_down(page.guid, timeout: @timeout)
-    {:ok, _result} = Page.mouse_up(page.guid, timeout: @timeout)
+    mouse = Page.mouse(page)
+    Mouse.move!(mouse, x, y)
+    Mouse.down!(mouse)
+    Mouse.up!(mouse)
     page
   end
 
@@ -166,9 +168,10 @@ defmodule Expresso.E2E do
   """
   @spec alt_click(map(), number(), number()) :: map()
   def alt_click(page, x, y) do
-    key(page, :keyboard_down, "Alt")
+    Keyboard.down!(Page.keyboard(page), "Alt")
     click(page, x, y)
-    key(page, :keyboard_up, "Alt")
+    Keyboard.up!(Page.keyboard(page), "Alt")
+    page
   end
 
   @doc """
@@ -178,16 +181,9 @@ defmodule Expresso.E2E do
   with the focus, such as an element in a dialog.
   """
   @spec press_focused(map(), String.t()) :: map()
-  def press_focused(page, key), do: key(page, :keyboard_press, key)
-
-  # Press or release one key of the keyboard of a page.
-  defp key(page, method, key) do
-    case PlaywrightEx.send(%{guid: page.guid, method: method, params: %{key: key}},
-           timeout: @timeout
-         ) do
-      %{error: error} -> raise "#{method} failed: #{inspect(error)}"
-      _response -> page
-    end
+  def press_focused(page, key) do
+    Keyboard.press!(Page.keyboard(page), key)
+    page
   end
 
   @doc """
@@ -199,13 +195,8 @@ defmodule Expresso.E2E do
   """
   @spec fix_clock(map(), non_neg_integer()) :: map()
   def fix_clock(context, time) do
-    case PlaywrightEx.send(
-           %{guid: context.guid, method: :clock_set_fixed_time, params: %{time_number: time}},
-           timeout: @timeout
-         ) do
-      %{error: error} -> raise "clock_set_fixed_time failed: #{inspect(error)}"
-      _response -> context
-    end
+    Clock.set_fixed_time!(BrowserContext.clock(context), time)
+    context
   end
 
   @doc """
@@ -215,13 +206,8 @@ defmodule Expresso.E2E do
   """
   @spec tap(map(), number(), number()) :: map()
   def tap(page, x, y) do
-    case PlaywrightEx.send(
-           %{guid: page.guid, method: :touchscreen_tap, params: %{x: x, y: y}},
-           timeout: @timeout
-         ) do
-      %{error: error} -> raise "touchscreen_tap failed: #{inspect(error)}"
-      _response -> page
-    end
+    Touchscreen.tap!(Page.touchscreen(page), x, y)
+    page
   end
 
   @doc """
@@ -257,37 +243,7 @@ defmodule Expresso.E2E do
   Give the value of a JavaScript expression in a page
   """
   @spec js(map(), String.t()) :: term()
-  def js(page, expression) do
-    {:ok, value} =
-      Frame.evaluate(page.main_frame.guid,
-        timeout: @timeout,
-        expression: clear_of_surrogates(expression),
-        is_function: false,
-        arg: nil
-      )
-
-    value
-  end
-
-  # `playwright_ex` 0.16.0 writes the length of a message to the driver as one
-  # UTF-32 code point. A length from 55296 to 57343 is a surrogate and not a
-  # code point, so the transport stops for a message of that size. The message
-  # holds the expression as JSON and no more than 800 bytes of other fields.
-  # The function adds spaces to an expression that can give such a length, so
-  # the message is longer than 57343 bytes.
-  @surrogates 55_296..57_343
-  @other_fields 800
-
-  defp clear_of_surrogates(expression) do
-    size = expression |> JSON.encode!() |> byte_size()
-    first.._//_ = @surrogates
-
-    if size in (first - @other_fields)..@surrogates.last//1 do
-      expression <> String.duplicate(" ", @surrogates.last + 1 - size)
-    else
-      expression
-    end
-  end
+  def js(page, expression), do: Page.evaluate!(page, expression)
 
   @doc """
   Write a computed color as `rgb(r, g, b)`
@@ -433,7 +389,7 @@ defmodule Expresso.E2E do
   """
   @spec reload(map()) :: map()
   def reload(page) do
-    {:ok, _response} = Page.reload(page.guid, timeout: @timeout)
+    Page.reload!(page)
     page
   end
 
@@ -446,32 +402,19 @@ defmodule Expresso.E2E do
   """
   @spec pdf_pages(map()) :: non_neg_integer()
   def pdf_pages(page) do
-    emulate(page, "print")
-
-    %{result: %{pdf: pdf}} =
-      PlaywrightEx.send(
-        %{guid: page.guid, method: :pdf, params: %{landscape: true}},
-        timeout: @timeout
-      )
-
-    emulate(page, "screen")
-    ~r{/Type\s*/Page\b(?!s)} |> Regex.scan(Base.decode64!(pdf)) |> length()
+    emulate(page, :print)
+    pdf = Page.pdf!(page, landscape: true)
+    emulate(page, :screen)
+    ~r{/Type\s*/Page\b(?!s)} |> Regex.scan(pdf) |> length()
   end
 
   @doc """
   Give a page the media of a printer or of a screen
   """
-  @spec emulate(map(), String.t()) :: map()
+  @spec emulate(map(), :print | :screen) :: map()
   def emulate(page, media) do
-    # The driver answers with no result for this method, and with an error
-    # when it fails.
-    case PlaywrightEx.send(
-           %{guid: page.guid, method: :emulate_media, params: %{media: media}},
-           timeout: @timeout
-         ) do
-      %{error: error} -> raise "emulate_media failed: #{inspect(error)}"
-      _response -> page
-    end
+    Page.emulate_media!(page, media: media)
+    page
   end
 
   @doc """
@@ -481,21 +424,9 @@ defmodule Expresso.E2E do
   """
   @spec popup(map(), (-> term())) :: map()
   def popup(context, action) do
-    {:ok, waiter} = EventWaiter.arm(context.guid, :page, timeout: @timeout)
-
-    try do
-      action.()
-      {:ok, %{params: %{page: %{guid: guid}}}} = EventWaiter.await(waiter)
-      initializer = Connection.initializer!(PlaywrightEx.Supervisor.Connection, guid)
-      page = %{guid: guid, main_frame: initializer.main_frame}
-
-      {:ok, _result} =
-        Frame.wait_for_load_state(page.main_frame.guid, timeout: @timeout, state: "load")
-
-      page
-    after
-      EventWaiter.cancel(waiter)
-    end
+    page = BrowserContext.expect_page!(context, action)
+    Page.wait_for_load_state!(page, :load)
+    page
   end
 
   @doc """
@@ -503,15 +434,7 @@ defmodule Expresso.E2E do
   """
   @spec wait_for(map(), String.t()) :: map()
   def wait_for(page, expression) do
-    {:ok, _result} =
-      Frame.wait_for_function(page.main_frame.guid,
-        timeout: @timeout,
-        expression: expression,
-        is_function: false,
-        arg: nil,
-        polling: 50
-      )
-
+    Page.wait_for_function!(page, expression, nil, polling: 50)
     page
   end
 end

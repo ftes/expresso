@@ -4,16 +4,13 @@ defmodule Expresso.RecorderTest do
   alias Expresso.Recorder
   alias Expresso.Recorder.RefusedError
 
-  @png Base.encode64("png")
+  @png "png"
 
-  @refused %{
-    error: %{
-      message: "Protocol error (Page.captureScreenshot): Unable to capture screenshot",
-      name: "Error"
-    }
+  @refused %Playwright.PlaywrightError{
+    message: "Protocol error (Page.captureScreenshot): Unable to capture screenshot"
   }
 
-  @timeout %{error: %{message: "Timeout 30000ms exceeded.", name: "TimeoutError"}}
+  @timeout %Playwright.TimeoutError{message: "Timeout 30000ms exceeded."}
 
   # An attempt function that does the results of a list in sequence, and a
   # wait function. The test then reads the calls of each one. A result is a

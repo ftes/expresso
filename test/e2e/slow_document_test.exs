@@ -1,7 +1,7 @@
 defmodule Expresso.E2E.SlowDocumentTest do
   use Expresso.E2E, async: false
 
-  alias PlaywrightEx.Frame
+  alias Playwright.Page
 
   # The document of a deck holds each video file as a data URI in the element
   # `expresso-videos`, which comes after the presenter script. On a slow
@@ -104,8 +104,7 @@ defmodule Expresso.E2E.SlowDocumentTest do
   # Open an address, and return when the browser started to read the
   # document. `open/2` waits for the whole document.
   defp start(page, url) do
-    {:ok, _response} =
-      Frame.goto(page.main_frame.guid, timeout: @timeout, url: url, wait_until: "commit")
+    Page.goto!(page, url, timeout: @timeout, wait_until: :commit)
 
     assert_receive {:document, server}, @timeout
     {page, server}
@@ -120,14 +119,14 @@ defmodule Expresso.E2E.SlowDocumentTest do
     # The browser still reads the document, and the list of the videos is not
     # there.
     assert js(audience, "document.readyState") == "loading"
-    assert js(audience, "document.getElementById('expresso-videos')") == nil
+    assert js(audience, "document.getElementById('expresso-videos')") == :null
     assert position(audience) == "1.1"
 
     audience |> press("j") |> wait_for_position("2.1")
 
     # The slide of the video shows, and the video waits for its file.
     assert js(audience, "document.readyState") == "loading"
-    assert js(audience, "#{video(2)}.getAttribute('src')") == nil
+    assert js(audience, "#{video(2)}.getAttribute('src')") == :null
 
     send(server, :rest)
     wait_for(audience, "document.readyState !== 'loading'")
@@ -140,7 +139,7 @@ defmodule Expresso.E2E.SlowDocumentTest do
     wait_for(audience, "#{video(1)} !== null")
 
     assert js(audience, "document.readyState") == "loading"
-    assert js(audience, "#{video(1)}.getAttribute('src')") == nil
+    assert js(audience, "#{video(1)}.getAttribute('src')") == :null
 
     send(server, :rest)
     wait_for(audience, "#{video(1)}.paused === false && #{video(1)}.readyState >= 2")

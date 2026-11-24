@@ -108,7 +108,7 @@ defmodule Expresso.E2E.SlideLayoutTest do
   test "the heading is in the center, with no style of its own", %{page: page, tmp_dir: tmp_dir} do
     page = open(page, render(Deck, tmp_dir))
 
-    assert js(page, ~s|document.querySelector(".screen h1").getAttribute("style")|) == nil
+    assert js(page, ~s|document.querySelector(".screen h1").getAttribute("style")|) == :null
 
     assert js(page, ~s|getComputedStyle(document.querySelector(".screen h1")).textAlign|) ==
              "center"

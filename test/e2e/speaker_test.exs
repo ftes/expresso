@@ -96,7 +96,7 @@ defmodule Expresso.E2E.SpeakerTest do
     speaker |> front() |> press("f")
 
     wait_for(speaker, "document.fullscreenElement === document.documentElement")
-    assert js(audience, "document.fullscreenElement") == nil
+    assert js(audience, "document.fullscreenElement") == :null
     assert js(audience, "location.hash") == ""
   end
 
@@ -129,7 +129,7 @@ defmodule Expresso.E2E.SpeakerTest do
     wait_for(speaker, "location.hash === '#2.1'")
 
     count =
-      "window.__writes = 0; history.replaceState = ((write) => (...a) => { window.__writes++; return write(...a); })(history.replaceState.bind(history))"
+      "window.__writes = 0; history.replaceState = ((write) => (...a) => { window.__writes++; return write(...a); })(history.replaceState.bind(history)); undefined"
 
     js(audience, count)
     js(speaker, count)

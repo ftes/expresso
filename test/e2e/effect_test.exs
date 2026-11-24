@@ -1,7 +1,7 @@
 defmodule Expresso.E2E.EffectTest do
   use Expresso.E2E, async: false
 
-  alias PlaywrightEx.{Browser, BrowserContext}
+  alias Playwright.{Browser, BrowserContext}
 
   # One slide. Each box shows at step 2 with its own effect.
   defmodule Deck do
@@ -92,15 +92,14 @@ defmodule Expresso.E2E.EffectTest do
     # Each change lasts 2 seconds, so the test can read the page in the middle
     # of a change.
     setup %{browser: browser, tmp_dir: tmp_dir} do
-      {:ok, context} =
-        Browser.new_context(browser.guid,
-          timeout: 10_000,
+      context =
+        Browser.new_context!(browser,
           viewport: %{width: 1280, height: 720},
-          reduced_motion: "no-preference"
+          reduced_motion: :no_preference
         )
 
-      on_exit(fn -> BrowserContext.close(context.guid, timeout: 10_000) end)
-      {:ok, page} = BrowserContext.new_page(context.guid, timeout: 10_000)
+      on_exit(fn -> BrowserContext.close(context) end)
+      page = BrowserContext.new_page!(context)
       page = open(page, render(Deck, tmp_dir))
       js(page, "document.documentElement.style.setProperty('--dur', '2s')")
       %{slow: page}

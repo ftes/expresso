@@ -133,7 +133,7 @@ defmodule Expresso.E2E.BackgroundTest do
     assert style(page, "#slide-4 .slide-background-fill", "backgroundImage") =~
              ~r/^linear-gradient\(135deg, /
 
-    assert js(page, "document.querySelector('#slide-5 .slide-background')") == nil
+    assert js(page, "document.querySelector('#slide-5 .slide-background')") == :null
   end
 
   test "the handout view shows the background, and the notes have a color of their own", %{

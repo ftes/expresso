@@ -30,11 +30,12 @@ defmodule Expresso.Check.Session do
   # adds it only for this level, so the compiler must not warn about it.
   @compile {:no_warn_undefined,
             [
-              PlaywrightEx,
-              PlaywrightEx.Browser,
-              PlaywrightEx.BrowserContext,
-              PlaywrightEx.Frame,
-              PlaywrightEx.Supervisor
+              Playwright,
+              Playwright.Browser,
+              Playwright.BrowserContext,
+              Playwright.BrowserType,
+              Playwright.Page,
+              Playwright.Supervisor
             ]}
 
   alias Expresso.Check.Browser
@@ -101,12 +102,12 @@ defmodule Expresso.Check.Session do
   end
 
   defp client do
-    if Code.ensure_loaded?(PlaywrightEx),
+    if Code.ensure_loaded?(Playwright),
       do: :ok,
       else:
         {:error,
          "--check=browser needs the Hex package playwright_ex. Add " <>
-           ~s({:playwright_ex, "~> 0.14", only: :dev, runtime: false}) <>
+           ~s({:playwright, "~> 1.65.0-rc.4", hex: :playwright_ex, only: :dev, runtime: false}) <>
            " to the deps of your project, and run `mix deps.get`. docs/how-to/check-a-deck.md tells how."}
   end
 
@@ -202,7 +203,9 @@ defmodule Expresso.Check.Session do
   end
 
   defp start(cli) do
-    case PlaywrightEx.Supervisor.start_link(timeout: @timeout, executable: cli, name: @name) do
+    {:ok, _apps} = Application.ensure_all_started(:playwright)
+
+    case Playwright.Supervisor.start_link(executable: cli, name: @name) do
       {:ok, supervisor} -> {:ok, supervisor}
       {:error, reason} -> {:error, "Playwright did not start: #{inspect(reason)}"}
     end
@@ -212,10 +215,13 @@ defmodule Expresso.Check.Session do
 
   defp launch(env) do
     options =
-      [timeout: @timeout, headless: true, connection: connection()] ++
+      [timeout: @timeout, headless: true] ++
         if path = env["EXPRESSO_CHROMIUM"], do: [executable_path: path], else: []
 
-    case PlaywrightEx.launch_browser(:chromium, options) do
+    case @name
+         |> Playwright.instance()
+         |> Playwright.chromium()
+         |> Playwright.BrowserType.launch(options) do
       {:ok, browser} ->
         {:ok, browser}
 
@@ -228,14 +234,10 @@ defmodule Expresso.Check.Session do
 
   # The first line of the message of an error of Playwright. The other lines
   # hold a box of text and the stack of the driver.
-  defp first_line(%{error: %{message: message}}),
+  defp first_line(%{message: message}),
     do: message |> String.split("\n", parts: 2) |> hd()
 
   defp first_line(reason), do: inspect(reason)
-
-  defp connection, do: PlaywrightEx.Supervisor.connection_name(@name)
-
-  defp options(extra \\ []), do: [timeout: @timeout, connection: connection()] ++ extra
 
   # Open a page for each size, run the checks of the page for each size and
   # each variant, and then press the keys in the page of the first size.
@@ -252,17 +254,15 @@ defmodule Expresso.Check.Session do
   # A page of a size, in a context of its own, with the script that keeps
   # the errors.
   defp frame(browser, {width, height}) do
-    {:ok, context} =
-      PlaywrightEx.Browser.new_context(
-        browser.guid,
-        options(viewport: %{width: width, height: height}, reduced_motion: "reduce")
+    context =
+      Playwright.Browser.new_context!(browser,
+        viewport: %{width: width, height: height},
+        reduced_motion: :reduce
       )
 
-    {:ok, _result} =
-      PlaywrightEx.BrowserContext.add_init_script(context.guid, options(source: @errors))
-
-    {:ok, page} = PlaywrightEx.BrowserContext.new_page(context.guid, options())
-    %{frame: page.main_frame.guid}
+    Playwright.BrowserContext.set_default_timeout(context, @timeout)
+    Playwright.BrowserContext.add_init_script!(context, @errors)
+    %{page: Playwright.BrowserContext.new_page!(context)}
   end
 
   defp check_runs(frames, url, runs) do
@@ -278,7 +278,7 @@ defmodule Expresso.Check.Session do
   # its result.
   defp check_page(frame, url, scheme) do
     address = Browser.scheme(url <> "?check=a11y", scheme)
-    {:ok, _response} = PlaywrightEx.Frame.goto(frame.frame, options(url: address))
+    Playwright.Page.goto!(frame.page, address)
 
     case wait(frame, "document.body.dataset.check === 'done'", @check_timeout) do
       true ->
@@ -292,7 +292,7 @@ defmodule Expresso.Check.Session do
   # Press the keys of the presenter, and return the problems. The address has
   # `?paused`, so a step with a time of the `advance` option waits for the key.
   defp keys(frame, url, deck) do
-    {:ok, _response} = PlaywrightEx.Frame.goto(frame.frame, options(url: url <> "?paused"))
+    Playwright.Page.goto!(frame.page, url <> "?paused")
     program = Program.compile(Definition.presenter(), deck)
     steps = deck |> Expresso.Steps.entries() |> Enum.map(&"#{&1.slide}.#{&1.step}")
 
@@ -324,7 +324,13 @@ defmodule Expresso.Check.Session do
   end
 
   defp shows?(frame, position), do: wait(frame, "#{@position} === #{JSON.encode!(position)}")
-  defp shown(frame), do: js(frame, @position) || "no slide"
+
+  defp shown(frame) do
+    case js(frame, @position) do
+      :null -> "no slide"
+      position -> position
+    end
+  end
 
   # Open each view with its key, and close it again. The present view shows
   # step 1 again first, because the walk ends at the last step.
@@ -440,10 +446,7 @@ defmodule Expresso.Check.Session do
   defp press(frame, key) do
     js(frame, @mark)
 
-    {:ok, _result} =
-      PlaywrightEx.Frame.press(frame.frame, options(selector: "[data-expresso-key]", key: key))
-
-    :ok
+    Playwright.Page.press!(frame.page, "[data-expresso-key]", key)
   end
 
   # Wait until a JavaScript expression is true in the page, and return
@@ -454,23 +457,9 @@ defmodule Expresso.Check.Session do
   defp wait(frame, expression, timeout \\ @wait) do
     match?(
       {:ok, _handle},
-      PlaywrightEx.Frame.wait_for_function(frame.frame,
-        timeout: timeout,
-        connection: connection(),
-        expression: expression,
-        is_function: false,
-        arg: nil
-      )
+      Playwright.Page.wait_for_function(frame.page, expression, nil, timeout: timeout)
     )
   end
 
-  defp js(frame, expression) do
-    {:ok, value} =
-      PlaywrightEx.Frame.evaluate(
-        frame.frame,
-        options(expression: expression, is_function: false, arg: nil)
-      )
-
-    value
-  end
+  defp js(frame, expression), do: Playwright.Page.evaluate!(frame.page, expression)
 end

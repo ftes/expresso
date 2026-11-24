@@ -1,7 +1,7 @@
 defmodule Expresso.E2E.MathMoveTest do
   use Expresso.E2E, async: false
 
-  alias PlaywrightEx.{Browser, BrowserContext}
+  alias Playwright.{Browser, BrowserContext}
 
   # The binder moves to the argument at step 2, and to the two cells of the
   # part "far" at step 3. The script measures each distance in the browser.
@@ -66,15 +66,14 @@ defmodule Expresso.E2E.MathMoveTest do
     browser: browser,
     tmp_dir: tmp_dir
   } do
-    {:ok, context} =
-      Browser.new_context(browser.guid,
-        timeout: 10_000,
+    context =
+      Browser.new_context!(browser,
         viewport: %{width: 640, height: 400},
-        reduced_motion: "reduce"
+        reduced_motion: :reduce
       )
 
-    on_exit(fn -> BrowserContext.close(context.guid, timeout: 10_000) end)
-    {:ok, page} = BrowserContext.new_page(context.guid, timeout: 10_000)
+    on_exit(fn -> BrowserContext.close(context) end)
+    page = BrowserContext.new_page!(context)
     page |> open(render(Deck, tmp_dir)) |> moves()
   end
 end

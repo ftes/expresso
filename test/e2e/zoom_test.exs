@@ -1,7 +1,7 @@
 defmodule Expresso.E2E.ZoomTest do
   use Expresso.E2E, async: false
 
-  alias PlaywrightEx.{Browser, BrowserContext, Page}
+  alias Playwright.{Browser, BrowserContext, Mouse, Page}
 
   # Slide 1 has two steps, with a code element and a text box. Slide 2 has
   # one step.
@@ -69,7 +69,7 @@ defmodule Expresso.E2E.ZoomTest do
   defp alt_click_at(page, {x, y}), do: alt_click(page, x, y)
   defp click_at(page, {x, y}), do: click(page, x, y)
 
-  # The scale and the move that the script wrote for the style sheet, or nil
+  # The scale and the move that the script wrote for the style sheet, or `:null`
   # for the full slide.
   defp zoom(page) do
     js(page, """
@@ -133,7 +133,7 @@ defmodule Expresso.E2E.ZoomTest do
     assert left <= 0 and top <= 0 and left + width >= 1280 and top + height >= 720
 
     # The body does not scroll to the part of the slide outside the window.
-    {:ok, _result} = Page.mouse_move(audience.guid, timeout: 10_000, x: 640, y: 360)
+    Mouse.move!(Page.mouse(audience), 640, 360)
 
     assert js(audience, """
            (() => {
@@ -179,7 +179,7 @@ defmodule Expresso.E2E.ZoomTest do
     audience |> alt_click_at({640, 360})
     wait_for(speaker, "!#{@zoomed}")
 
-    assert zoom(audience) == nil
+    assert zoom(audience) == :null
     assert scale(audience, @screen) == 1
     assert scale(speaker, @current) == 1
     assert position(audience) == "1.1"
@@ -192,7 +192,7 @@ defmodule Expresso.E2E.ZoomTest do
     audience |> press("Escape")
     wait_for(speaker, "!#{@zoomed}")
 
-    assert zoom(audience) == nil
+    assert zoom(audience) == :null
     assert scale(audience, @screen) == 1
   end
 
@@ -206,8 +206,8 @@ defmodule Expresso.E2E.ZoomTest do
     speaker |> press("j")
     wait_for(audience, "location.hash === '#1.2'")
 
-    assert zoom(audience) == nil
-    assert zoom(speaker) == nil
+    assert zoom(audience) == :null
+    assert zoom(speaker) == :null
     assert scale(audience, @screen) == 1
   end
 
@@ -352,7 +352,7 @@ defmodule Expresso.E2E.ZoomTest do
     speaker |> press("l")
 
     {x, y} = center(speaker, "#{@current} .code")
-    {:ok, _result} = Page.mouse_move(speaker.guid, timeout: 10_000, x: x, y: y)
+    Mouse.move!(Page.mouse(speaker), x, y)
     wait_for(audience, ~s|document.getElementById("laser").hasAttribute("data-shown")|)
 
     # The dot of the present view is on the center of its code element.
@@ -364,10 +364,10 @@ defmodule Expresso.E2E.ZoomTest do
 
   test "the drawing stays on its part of the slide through a zoom", %{audience: audience} do
     audience |> press("x")
-    {:ok, _result} = Page.mouse_move(audience.guid, timeout: 10_000, x: 320, y: 360)
-    {:ok, _result} = Page.mouse_down(audience.guid, timeout: 10_000)
-    {:ok, _result} = Page.mouse_move(audience.guid, timeout: 10_000, x: 960, y: 360)
-    {:ok, _result} = Page.mouse_up(audience.guid, timeout: 10_000)
+    Mouse.move!(Page.mouse(audience), 320, 360)
+    Mouse.down!(Page.mouse(audience))
+    Mouse.move!(Page.mouse(audience), 960, 360)
+    Mouse.up!(Page.mouse(audience))
     wait_for(audience, ~s|document.querySelectorAll("#drawing path").length === 1|)
 
     # A click with the Alt key draws no dot. The heading is outside each
@@ -386,15 +386,14 @@ defmodule Expresso.E2E.ZoomTest do
 
   describe "with motion" do
     setup %{browser: browser, tmp_dir: tmp_dir} do
-      {:ok, context} =
-        Browser.new_context(browser.guid,
-          timeout: 10_000,
+      context =
+        Browser.new_context!(browser,
           viewport: %{width: 1280, height: 720},
-          reduced_motion: "no-preference"
+          reduced_motion: :no_preference
         )
 
-      {:ok, page} = BrowserContext.new_page(context.guid, timeout: 10_000)
-      on_exit(fn -> BrowserContext.close(context.guid, timeout: 10_000) end)
+      page = BrowserContext.new_page!(context)
+      on_exit(fn -> BrowserContext.close(context) end)
       %{moving: open(page, render(Deck, tmp_dir, "moving"))}
     end
 
@@ -434,10 +433,10 @@ defmodule Expresso.E2E.ZoomTest do
 
     test "the drawing follows the slide to the end of the change", %{moving: moving} do
       moving |> press("x")
-      {:ok, _result} = Page.mouse_move(moving.guid, timeout: 10_000, x: 320, y: 360)
-      {:ok, _result} = Page.mouse_down(moving.guid, timeout: 10_000)
-      {:ok, _result} = Page.mouse_move(moving.guid, timeout: 10_000, x: 960, y: 360)
-      {:ok, _result} = Page.mouse_up(moving.guid, timeout: 10_000)
+      Mouse.move!(Page.mouse(moving), 320, 360)
+      Mouse.down!(Page.mouse(moving))
+      Mouse.move!(Page.mouse(moving), 960, 360)
+      Mouse.up!(Page.mouse(moving))
 
       moving |> alt_click_at(center(moving, ".screen h1"))
 

@@ -1,7 +1,7 @@
 defmodule Expresso.E2E.TwoWindowsTest do
   use Expresso.E2E, async: false
 
-  alias PlaywrightEx.Frame
+  alias Playwright.Page
 
   # Slide 1 has two steps. The theme has a light and a dark variant, so the
   # key t changes the variant.
@@ -50,8 +50,7 @@ defmodule Expresso.E2E.TwoWindowsTest do
   # Press a key on the element of a selector. `press/2` presses the key on the
   # `body`, which is behind the dialog of the list of keys.
   defp press_on(page, selector, key) do
-    {:ok, _result} =
-      Frame.press(page.main_frame.guid, timeout: 10_000, selector: selector, key: key)
+    Page.press!(page, selector, key)
 
     page
   end

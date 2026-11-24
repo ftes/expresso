@@ -4,7 +4,7 @@ defmodule Expresso.E2E.LazyImagesTest do
   import ExUnit.CaptureIO
 
   alias Expresso.MediaFiles
-  alias PlaywrightEx.BrowserContext
+  alias Playwright.BrowserContext
 
   # Each image of the deck keeps its file next to the document, because the
   # deck has the external option, so each image has `loading="lazy"`. Slide 3
@@ -72,14 +72,10 @@ defmodule Expresso.E2E.LazyImagesTest do
   # The browser of the context calls no function of `requestIdleCallback`. The
   # page keeps each function in `window.idle`, and the test calls them.
   defp hold_idle(context) do
-    {:ok, _result} =
-      BrowserContext.add_init_script(context.guid,
-        timeout: 10_000,
-        source: """
-        window.idle = [];
-        window.requestIdleCallback = (callback) => window.idle.push(callback);
-        """
-      )
+    BrowserContext.add_init_script!(context, """
+    window.idle = [];
+    window.requestIdleCallback = (callback) => window.idle.push(callback);
+    """)
 
     context
   end
@@ -137,11 +133,7 @@ defmodule Expresso.E2E.LazyImagesTest do
       page: page,
       input: input
     } do
-      {:ok, _result} =
-        BrowserContext.add_init_script(context.guid,
-          timeout: 10_000,
-          source: "window.requestIdleCallback = undefined;"
-        )
+      BrowserContext.add_init_script!(context, "window.requestIdleCallback = undefined;")
 
       audience = open_deck(page, input)
       wait_for(audience, @all_loaded)

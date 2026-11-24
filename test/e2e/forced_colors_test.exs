@@ -1,7 +1,7 @@
 defmodule Expresso.E2E.ForcedColorsTest do
   use Expresso.E2E, async: false
 
-  alias PlaywrightEx.Page
+  alias Playwright.{Mouse, Page}
 
   # Forced colors, such as the high contrast mode of Windows. The browser
   # replaces the colors of the page with the colors of the system. With the
@@ -211,20 +211,20 @@ defmodule Expresso.E2E.ForcedColorsTest do
 
   defp forced(browser, scheme, tmp_dir) do
     browser
-    |> new_page(forced_colors: "active", color_scheme: scheme)
+    |> new_page(forced_colors: :active, color_scheme: scheme)
     |> open(render(Deck, tmp_dir))
   end
 
   defp move(page, x, y) do
-    {:ok, _result} = Page.mouse_move(page.guid, timeout: 10_000, x: x, y: y)
+    Mouse.move!(Page.mouse(page), x, y)
     page
   end
 
   defp drag(page, {x1, y1}, {x2, y2}) do
     move(page, x1, y1)
-    {:ok, _result} = Page.mouse_down(page.guid, timeout: 10_000)
+    Mouse.down!(Page.mouse(page))
     move(page, x2, y2)
-    {:ok, _result} = Page.mouse_up(page.guid, timeout: 10_000)
+    Mouse.up!(Page.mouse(page))
     page
   end
 
@@ -329,7 +329,7 @@ defmodule Expresso.E2E.ForcedColorsTest do
            %{browser: browser, tmp_dir: tmp_dir} do
         page =
           browser
-          |> new_page(forced_colors: "active", color_scheme: unquote(scheme))
+          |> new_page(forced_colors: :active, color_scheme: unquote(scheme))
           |> open(render(unquote(deck), tmp_dir))
 
         assert style(page, "#slide-1 .chart svg", "forcedColorAdjust") == "none"
@@ -345,7 +345,7 @@ defmodule Expresso.E2E.ForcedColorsTest do
          %{browser: browser, tmp_dir: tmp_dir} do
       page =
         browser
-        |> new_page(forced_colors: "active", color_scheme: unquote(scheme))
+        |> new_page(forced_colors: :active, color_scheme: unquote(scheme))
         |> open(render(ContentDeck, tmp_dir))
 
       for selector <- ["#slide-2 .diagram > svg", "#slide-4 .image img", "#slide-5 .math math"] do
@@ -367,7 +367,7 @@ defmodule Expresso.E2E.ForcedColorsTest do
          %{browser: browser, tmp_dir: tmp_dir} do
       page =
         browser
-        |> new_page(forced_colors: "active", color_scheme: unquote(scheme))
+        |> new_page(forced_colors: :active, color_scheme: unquote(scheme))
         |> open(render(ContentDeck, tmp_dir))
 
       page |> keys(["j", "j"]) |> wait_for_position("3.1")
@@ -435,8 +435,8 @@ defmodule Expresso.E2E.ForcedColorsTest do
       """)
 
     clip = %{x: x + width * 0.8, y: y + height * 0.3, width: width * 0.17, height: height * 0.4}
-    {:ok, png} = Page.screenshot(page.guid, timeout: 10_000, clip: clip)
-    js(page, "#{@ink}(#{JSON.encode!(png)})")
+    png = Page.screenshot!(page, clip: clip)
+    js(page, "#{@ink}(#{JSON.encode!(Base.encode64(png))})")
   end
 
   defp text_color(:light), do: "rgb(0, 0, 0)"
@@ -450,7 +450,7 @@ defmodule Expresso.E2E.ForcedColorsTest do
          %{browser: browser, tmp_dir: tmp_dir} do
       page =
         browser
-        |> new_page(forced_colors: "active", color_scheme: unquote(scheme))
+        |> new_page(forced_colors: :active, color_scheme: unquote(scheme))
         |> open(render(ContentDeck, tmp_dir))
 
       page |> keys(["j", "j", "d"]) |> wait_for_position("3.1")
@@ -484,7 +484,7 @@ defmodule Expresso.E2E.ForcedColorsTest do
          %{browser: browser, tmp_dir: tmp_dir} do
       page =
         browser
-        |> new_page(forced_colors: "active", color_scheme: unquote(scheme))
+        |> new_page(forced_colors: :active, color_scheme: unquote(scheme))
         |> open(render(MarkDeck, tmp_dir))
 
       boxes = fn ->
@@ -518,9 +518,9 @@ defmodule Expresso.E2E.ForcedColorsTest do
       page =
         browser
         |> new_page(
-          forced_colors: "active",
+          forced_colors: :active,
           color_scheme: unquote(scheme),
-          reduced_motion: "no-preference"
+          reduced_motion: :no_preference
         )
         |> open(render(MarkDeck, tmp_dir))
 
@@ -569,7 +569,7 @@ defmodule Expresso.E2E.ForcedColorsTest do
          %{browser: browser, tmp_dir: tmp_dir} do
       page =
         browser
-        |> new_page(forced_colors: "active", color_scheme: unquote(scheme))
+        |> new_page(forced_colors: :active, color_scheme: unquote(scheme))
         |> open(render(EmbedDeck, tmp_dir))
 
       assert [width, "solid", color] = embed_outline(page)
@@ -596,7 +596,7 @@ defmodule Expresso.E2E.ForcedColorsTest do
          %{browser: browser, tmp_dir: tmp_dir} do
       page =
         browser
-        |> new_page(forced_colors: "active", color_scheme: unquote(scheme))
+        |> new_page(forced_colors: :active, color_scheme: unquote(scheme))
         |> open(render(unquote(deck), tmp_dir))
 
       {slide, keys} = if unquote(deck) == MarkDeck, do: {4, 5}, else: {2, 1}

@@ -1,7 +1,7 @@
 defmodule Expresso.E2E.TimingTest do
   use Expresso.E2E, async: false
 
-  alias PlaywrightEx.{Browser, BrowserContext}
+  alias Playwright.{Browser, BrowserContext}
 
   # The first box is slow and springs. The second box takes 450 ms. The third
   # box keeps the time and the easing of the theme.
@@ -51,15 +51,14 @@ defmodule Expresso.E2E.TimingTest do
   end
 
   defp context(browser, motion) do
-    {:ok, context} =
-      Browser.new_context(browser.guid,
-        timeout: 10_000,
+    context =
+      Browser.new_context!(browser,
         viewport: %{width: 1280, height: 720},
         reduced_motion: motion
       )
 
-    on_exit(fn -> BrowserContext.close(context.guid, timeout: 10_000) end)
-    {:ok, page} = BrowserContext.new_page(context.guid, timeout: 10_000)
+    on_exit(fn -> BrowserContext.close(context) end)
+    page = BrowserContext.new_page!(context)
     page
   end
 

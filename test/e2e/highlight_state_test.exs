@@ -220,7 +220,7 @@ defmodule Expresso.E2E.HighlightStateTest do
          %{browser: browser, tmp_dir: tmp_dir} do
       page =
         browser
-        |> new_page(forced_colors: "active", color_scheme: unquote(scheme))
+        |> new_page(forced_colors: :active, color_scheme: unquote(scheme))
         |> open(render(Deck, tmp_dir))
 
       page |> bars(screen(1), 1) |> assert_bars("0", unquote(color))

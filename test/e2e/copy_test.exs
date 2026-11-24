@@ -1,7 +1,7 @@
 defmodule Expresso.E2E.CopyTest do
   use Expresso.E2E, async: false
 
-  alias PlaywrightEx.{Browser, BrowserContext}
+  alias Playwright.{Browser, BrowserContext}
 
   # At step 2, a copy of the token goes to the circle and a copy goes to the
   # station. The token stays at its place.
@@ -103,15 +103,14 @@ defmodule Expresso.E2E.CopyTest do
   end
 
   test "a copy fades in at its source, and then it moves", %{browser: browser, tmp_dir: tmp_dir} do
-    {:ok, context} =
-      Browser.new_context(browser.guid,
-        timeout: 10_000,
+    context =
+      Browser.new_context!(browser,
         viewport: %{width: 1280, height: 720},
-        reduced_motion: "no-preference"
+        reduced_motion: :no_preference
       )
 
-    on_exit(fn -> BrowserContext.close(context.guid, timeout: 10_000) end)
-    {:ok, page} = BrowserContext.new_page(context.guid, timeout: 10_000)
+    on_exit(fn -> BrowserContext.close(context) end)
+    page = BrowserContext.new_page!(context)
     page = open(page, render(Deck, tmp_dir))
     js(page, "document.documentElement.style.setProperty('--dur', '1s')")
     token = center(page, "token")
@@ -152,15 +151,14 @@ defmodule Expresso.E2E.CopyTest do
     browser: browser,
     tmp_dir: tmp_dir
   } do
-    {:ok, context} =
-      Browser.new_context(browser.guid,
-        timeout: 10_000,
+    context =
+      Browser.new_context!(browser,
         viewport: %{width: 1280, height: 720},
-        reduced_motion: "no-preference"
+        reduced_motion: :no_preference
       )
 
-    on_exit(fn -> BrowserContext.close(context.guid, timeout: 10_000) end)
-    {:ok, page} = BrowserContext.new_page(context.guid, timeout: 10_000)
+    on_exit(fn -> BrowserContext.close(context) end)
+    page = BrowserContext.new_page!(context)
     page = open(page, render(ChainDeck, tmp_dir, "chain"))
     js(page, "document.documentElement.style.setProperty('--dur', '1s')")
     token = center(page, "token")

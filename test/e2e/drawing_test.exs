@@ -1,7 +1,7 @@
 defmodule Expresso.E2E.DrawingTest do
   use Expresso.E2E, async: false
 
-  alias PlaywrightEx.Page
+  alias Playwright.{Mouse, Page}
 
   # Slide 1 has two steps, and slide 2 has one step.
   defmodule Deck do
@@ -45,14 +45,13 @@ defmodule Expresso.E2E.DrawingTest do
       """)
 
     move = fn {x, y} ->
-      {:ok, _result} =
-        Page.mouse_move(page.guid, timeout: 10_000, x: left + x * width, y: top + y * height)
+      Mouse.move!(Page.mouse(page), left + x * width, top + y * height)
     end
 
     move.(first)
-    {:ok, _result} = Page.mouse_down(page.guid, timeout: 10_000)
+    Mouse.down!(Page.mouse(page))
     Enum.each(rest, move)
-    {:ok, _result} = Page.mouse_up(page.guid, timeout: 10_000)
+    Mouse.up!(Page.mouse(page))
     page
   end
 

@@ -64,7 +64,7 @@ defmodule Expresso.E2E.MoreContrastTest do
   defp ratios(page), do: js(page, "#{@ratios}(#{JSON.encode!(@pairs)})")
 
   defp more(browser, options \\ []),
-    do: new_page(browser, Keyword.merge([contrast: "more"], options))
+    do: new_page(browser, Keyword.merge([contrast: :more], options))
 
   defp theme_deck(theme), do: Builder.deck([Builder.slide("one")], theme: theme)
 

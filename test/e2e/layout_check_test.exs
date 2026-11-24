@@ -1,7 +1,7 @@
 defmodule Expresso.E2E.LayoutCheckTest do
   use Expresso.E2E, async: false
 
-  alias PlaywrightEx.{Browser, BrowserContext}
+  alias Playwright.{Browser, BrowserContext}
 
   # Slide 2 holds a formula that is wider than the window. A row of MathML
   # does not break, and the text of `mtext` does. Slide 3 holds a line of code
@@ -89,7 +89,7 @@ defmodule Expresso.E2E.LayoutCheckTest do
     assert js(page, ~s|document.getElementById("slide-2").style.display|) == "flex"
 
     js(page, ~s|document.querySelector("#layout-check button").click()|)
-    assert js(page, ~s|document.getElementById("layout-check")|) == nil
+    assert js(page, ~s|document.getElementById("layout-check")|) == :null
   end
 
   # The long line of `ProblemDeck`, with `wrap`: the line breaks on purpose.
@@ -258,7 +258,7 @@ defmodule Expresso.E2E.LayoutCheckTest do
   test "a deck without ?check gets no report", %{page: page, tmp_dir: tmp_dir} do
     page = open(page, render(ProblemDeck, tmp_dir))
 
-    assert js(page, ~s|document.getElementById("layout-check")|) == nil
+    assert js(page, ~s|document.getElementById("layout-check")|) == :null
     assert js(page, "document.body.dataset.layout") == nil
   end
 
@@ -266,15 +266,14 @@ defmodule Expresso.E2E.LayoutCheckTest do
     browser: browser,
     tmp_dir: tmp_dir
   } do
-    {:ok, context} =
-      Browser.new_context(browser.guid,
-        timeout: 10_000,
+    context =
+      Browser.new_context!(browser,
         viewport: %{width: 1920, height: 1080},
-        reduced_motion: "reduce"
+        reduced_motion: :reduce
       )
 
-    on_exit(fn -> BrowserContext.close(context.guid, timeout: 10_000) end)
-    {:ok, page} = BrowserContext.new_page(context.guid, timeout: 10_000)
+    on_exit(fn -> BrowserContext.close(context) end)
+    page = BrowserContext.new_page!(context)
 
     {value, _bindings} = Code.eval_file("examples/line4/line4.exs")
     result = page |> open(render(value, tmp_dir) <> "?check") |> report()
@@ -289,15 +288,14 @@ defmodule Expresso.E2E.LayoutCheckTest do
 
   # The size of the GIFs of the guides, of the presenter pages and of the themes.
   test "each example deck fits a window of 1280 × 720", %{browser: browser, tmp_dir: tmp_dir} do
-    {:ok, context} =
-      Browser.new_context(browser.guid,
-        timeout: 10_000,
+    context =
+      Browser.new_context!(browser,
         viewport: %{width: 1280, height: 720},
-        reduced_motion: "reduce"
+        reduced_motion: :reduce
       )
 
-    on_exit(fn -> BrowserContext.close(context.guid, timeout: 10_000) end)
-    {:ok, page} = BrowserContext.new_page(context.guid, timeout: 10_000)
+    on_exit(fn -> BrowserContext.close(context) end)
+    page = BrowserContext.new_page!(context)
 
     decks = Mix.Tasks.Expresso.Gifs.examples() |> Enum.map(& &1.deck) |> Enum.uniq()
 

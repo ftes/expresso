@@ -1,7 +1,7 @@
 defmodule Expresso.E2E.TransitionTest do
   use Expresso.E2E, async: false
 
-  alias PlaywrightEx.{Browser, BrowserContext}
+  alias Playwright.{Browser, BrowserContext}
 
   # The deck fades. Slide two slides in, slide three has no transition, and
   # slide four fades. Slide five wipes down with a transition of the CSS of the
@@ -67,15 +67,14 @@ defmodule Expresso.E2E.TransitionTest do
   # A page in a context that does not ask for reduced motion. The transition
   # lasts 2 seconds, so a test can read its animations.
   setup %{browser: browser, tmp_dir: tmp_dir} do
-    {:ok, context} =
-      Browser.new_context(browser.guid,
-        timeout: 10_000,
+    context =
+      Browser.new_context!(browser,
         viewport: %{width: 1280, height: 720},
-        reduced_motion: "no-preference"
+        reduced_motion: :no_preference
       )
 
-    on_exit(fn -> BrowserContext.close(context.guid, timeout: 10_000) end)
-    {:ok, moving} = BrowserContext.new_page(context.guid, timeout: 10_000)
+    on_exit(fn -> BrowserContext.close(context) end)
+    moving = BrowserContext.new_page!(context)
     moving = open(moving, render(Deck, tmp_dir))
     js(moving, "document.documentElement.style.setProperty('--transition-dur', '2s')")
     %{moving: moving}
@@ -183,12 +182,14 @@ defmodule Expresso.E2E.TransitionTest do
   # Count each call to `document.startViewTransition` in `window.started`.
   defp count(page) do
     js(page, """
-    window.started = 0;
-    const start = document.startViewTransition.bind(document);
-    document.startViewTransition = (update) => {
-      window.started += 1;
-      return start(update);
-    };
+    (() => {
+      window.started = 0;
+      const start = document.startViewTransition.bind(document);
+      document.startViewTransition = (update) => {
+        window.started += 1;
+        return start(update);
+      };
+    })()
     """)
   end
 

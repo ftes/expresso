@@ -86,6 +86,6 @@ defmodule Expresso.E2E.SlideNumbersTest do
     assert number["above"] >= 0
 
     assert js(page, "document.querySelector('.handout-page[data-slide=\"1\"] .slide-number')") ==
-             nil
+             :null
   end
 end
