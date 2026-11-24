@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.ShapeTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # A box at a quarter of the slide, and an arrow that shows at step 2.
   defmodule Deck do

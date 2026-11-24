@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.MathEachTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # At step 2, each x of the formula turns red, and no other symbol does.
   defmodule Deck do

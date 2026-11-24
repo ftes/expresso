@@ -8,12 +8,20 @@ defmodule Expresso.E2E do
   excludes that tag, so `mix test` does not start a browser. `mix test --only
   e2e` runs these tests. `docs/development/browser-tests.md` gives the setup.
 
-  Each module starts one Playwright connection and one browser. Each test gets
-  a new browser context and a new page, so no state goes from one test to the
-  next. The context emulates reduced motion, and the theme then sets each
-  duration to zero. Therefore a test can read a style immediately after a key
-  press. A test with motion makes its own context, and it reads a change with
-  `slow_motion/2`, `pause_animations/3` and `finish_animations/2`.
+  The template uses `Playwright.Case`, the case template of the test runner
+  of Playwright. Each module gets a browser from the pool of the runner, and
+  each test gets a new browser context and a new page, so no state goes from
+  one test to the next. The options of the runner are in `config/config.exs`.
+  Each context emulates reduced motion, and the theme then sets each duration
+  to zero. Therefore a test can read a style immediately after a key press.
+
+  A module, a describe block or a test with other options of the context
+  gives them as Playwright Test does: in the options of `use Expresso.E2E`,
+  in `@describetag Test.use(...)` or in `@tag Test.use(...)`. A test with
+  motion asks for `reduced_motion: :no_preference`, and it reads a change
+  with `slow_motion/2`, `pause_animations/3` and `finish_animations/2`. A
+  test that needs a second window with other options makes it with
+  `new_page/2`.
 
   The environment variable `EXPRESSO_CHROMIUM` gives the path of a Chromium
   executable. Without it, Playwright uses its own browser, which
@@ -25,25 +33,19 @@ defmodule Expresso.E2E do
   alias Playwright.{
     Browser,
     BrowserContext,
-    BrowserType,
     Clock,
+    Expect,
     Keyboard,
+    Locator,
     Mouse,
     Page,
     Touchscreen
   }
 
-  @timeout 10_000
-
-  # The time in milliseconds for the start of Chromium in
-  # `setup_all`. `mix check` runs the browser tests while the release and the
-  # dependency test compile, and in one run Chromium did not end its start in
-  # 10 seconds. A start usually takes less than 1 second, so this time limits
-  # only a start that hangs.
-  @start 60_000
-
-  using do
+  using opts do
     quote do
+      use Playwright.Case, unquote(opts)
+
       import Expresso.E2E
 
       @moduletag :e2e
@@ -51,50 +53,18 @@ defmodule Expresso.E2E do
     end
   end
 
-  setup_all do
-    start_supervised!({Playwright.Supervisor, executable: "node_modules/playwright/cli.js"})
-
-    launch =
-      Shoddy.Keywords.put_present(
-        [timeout: @start, headless: true],
-        :executable_path,
-        System.get_env("EXPRESSO_CHROMIUM")
-      )
-
-    browser = Playwright.instance() |> Playwright.chromium() |> BrowserType.launch!(launch)
-    %{browser: browser}
-  end
-
-  setup %{browser: browser} do
-    context =
-      Browser.new_context!(browser,
-        viewport: %{width: 1280, height: 720},
-        reduced_motion: :reduce
-      )
-
-    BrowserContext.set_default_timeout(context, @timeout)
-    page = BrowserContext.new_page!(context)
-    on_exit(fn -> BrowserContext.close(context) end)
-    %{context: context, page: page}
-  end
-
   @doc """
-  Make a page with its own browser context, for a test that needs a window
-  size or a preference of the user that is not the one of `setup`
+  Make a page with its own browser context, for a test that needs a second
+  window with other options than its page
 
   The options are the options of a context of Playwright, such as
   `viewport: %{width: 640, height: 360}`, `forced_colors: :active`,
-  `color_scheme: :dark` or `contrast: :more`. The context closes at the end
-  of the test.
+  `color_scheme: :dark` or `contrast: :more`. The context starts from the
+  options of the test, and the runner closes it at the end of the test.
   """
   @spec new_page(map(), keyword()) :: map()
   def new_page(browser, options) do
-    defaults = [viewport: %{width: 1280, height: 720}, reduced_motion: :reduce]
-
-    context = Browser.new_context!(browser, Keyword.merge(defaults, options))
-    BrowserContext.set_default_timeout(context, @timeout)
-    ExUnit.Callbacks.on_exit(fn -> BrowserContext.close(context) end)
-    BrowserContext.new_page!(context)
+    browser |> Browser.new_context!(options) |> BrowserContext.new_page!()
   end
 
   @doc """
@@ -128,7 +98,7 @@ defmodule Expresso.E2E do
   """
   @spec press(map(), String.t()) :: map()
   def press(page, key) do
-    Page.press!(page, "body", key)
+    page |> Page.locator("body") |> Locator.press!(key)
     page
   end
 
@@ -313,10 +283,8 @@ defmodule Expresso.E2E do
   """
   @spec wait_for_texts(map(), String.t(), [String.t()]) :: map()
   def wait_for_texts(page, selector, texts) do
-    wait_for(page, """
-    JSON.stringify(Array.from(document.querySelectorAll(#{JSON.encode!(selector)}),
-      (element) => element.textContent)) === JSON.stringify(#{JSON.encode!(texts)})
-    """)
+    page |> Page.locator(selector) |> Expect.to_have_text!(texts)
+    page
   end
 
   @doc """

@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.MathReduceTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # A β-reduction that a reduce writes. At step 2, the λ gets the color of the
   # binder and the argument gets the color of the argument. At step 3, each

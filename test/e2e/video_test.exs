@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.VideoTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Slide 1 plays a video at each step. Slide 2 has two steps, and its video
   # shows from step 2. Slide 3 has no video. Slide 4 plays a video one time,

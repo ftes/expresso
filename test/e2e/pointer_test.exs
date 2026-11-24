@@ -1,7 +1,5 @@
 defmodule Expresso.E2E.PointerTest do
-  use Expresso.E2E, async: false
-
-  alias Playwright.{Browser, BrowserContext, Keyboard, Mouse, Page}
+  use Expresso.E2E, async: true
 
   # Two slides. Slide 1 has one step, and slide 2 has two steps. The viewport
   # is 1280 pixels wide, so the left third ends at about 427.
@@ -74,17 +72,8 @@ defmodule Expresso.E2E.PointerTest do
     assert position(page) == "2.1"
   end
 
-  test "a tap on a touch screen goes forward", %{browser: browser, url: url} do
-    context =
-      Browser.new_context!(browser,
-        viewport: %{width: 1280, height: 720},
-        reduced_motion: :reduce,
-        has_touch: true
-      )
-
-    on_exit(fn -> BrowserContext.close(context) end)
-    touch = BrowserContext.new_page!(context)
-
+  @tag Test.use(has_touch: true)
+  test "a tap on a touch screen goes forward", %{page: touch, url: url} do
     touch |> open(url) |> tap(1000, 360)
     assert position(touch) == "2.1"
 
@@ -168,7 +157,7 @@ defmodule Expresso.E2E.PointerTest do
     page: page
   } do
     page |> press("Shift+Slash")
-    wait_for(page, "document.body.dataset.help === 'true'")
+    page |> Page.locator("body") |> Expect.to_have_attribute!("data-help", "true")
 
     help = js(page, "document.getElementById('help').innerText")
     assert help =~ "Full screen on or off"
@@ -179,7 +168,7 @@ defmodule Expresso.E2E.PointerTest do
     page |> click(1250, 360)
 
     # The browser fires the event `close` in a later task, so wait for it.
-    wait_for(page, "document.body.dataset.help === undefined")
+    page |> Page.locator("body") |> Expect.not_to_have_attribute!("data-help")
     assert position(page) == "1.1"
   end
 end

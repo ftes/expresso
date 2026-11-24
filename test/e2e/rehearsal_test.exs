@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.RehearsalTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Three slides. The slide "intro" has two steps, and each step has a time
   # of 5 seconds from the `advance` option.

@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.AccessibilityTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # A deck with a heading, an image, a list that builds, a table, code, a chart,
   # a callout and a stat, so axe-core reads many kinds of element.

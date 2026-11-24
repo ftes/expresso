@@ -4,7 +4,6 @@ defmodule Expresso.E2E.LazyImagesTest do
   import ExUnit.CaptureIO
 
   alias Expresso.MediaFiles
-  alias Playwright.BrowserContext
 
   # Each image of the deck keeps its file next to the document, because the
   # deck has the external option, so each image has `loading="lazy"`. Slide 3

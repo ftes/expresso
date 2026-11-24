@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.MenuTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Three slides. Slide 2 has three steps with labels, and slide 3 has one step.
   defmodule Deck do
@@ -169,7 +169,7 @@ defmodule Expresso.E2E.MenuTest do
 
     speaker |> keys(["j", "Enter"])
 
-    wait_for(audience, "location.hash === '#2.1'")
+    Expect.to_have_url!(audience, ~r/#2\.1$/)
     refute menu?(speaker)
   end
 end

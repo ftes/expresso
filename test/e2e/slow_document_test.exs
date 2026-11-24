@@ -1,7 +1,5 @@
 defmodule Expresso.E2E.SlowDocumentTest do
-  use Expresso.E2E, async: false
-
-  alias Playwright.Page
+  use Expresso.E2E, async: true
 
   # The document of a deck holds each video file as a data URI in the element
   # `expresso-videos`, which comes after the presenter script. On a slow

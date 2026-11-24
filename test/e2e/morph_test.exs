@@ -1,7 +1,5 @@
 defmodule Expresso.E2E.MorphTest do
-  use Expresso.E2E, async: false
-
-  alias Playwright.{Browser, BrowserContext}
+  use Expresso.E2E, async: true, reduced_motion: :no_preference
 
   # Slides 1 and 2 share a heading, a stat and a key. Slide 3 asks for the keys
   # only, and slide 4 asks for no morph. Slides 5 and 6 hold two codes. Slides
@@ -106,15 +104,7 @@ defmodule Expresso.E2E.MorphTest do
 
   # A page in a context that does not ask for reduced motion. The transition
   # lasts 2 seconds, so a test can read its animations.
-  setup %{browser: browser, tmp_dir: tmp_dir} do
-    context =
-      Browser.new_context!(browser,
-        viewport: %{width: 1280, height: 720},
-        reduced_motion: :no_preference
-      )
-
-    on_exit(fn -> BrowserContext.close(context) end)
-    moving = BrowserContext.new_page!(context)
+  setup %{page: moving, tmp_dir: tmp_dir} do
     moving = open(moving, render(Deck, tmp_dir))
     js(moving, "document.documentElement.style.setProperty('--transition-dur', '2s')")
     %{moving: moving}
@@ -235,6 +225,7 @@ defmodule Expresso.E2E.MorphTest do
     assert length(groups(page)) == 1
   end
 
+  @tag Test.use(reduced_motion: :reduce)
   test "a reader who asks for reduced motion gets no morph", %{page: page, tmp_dir: tmp_dir} do
     page |> open(render(Deck, tmp_dir)) |> press("j")
 

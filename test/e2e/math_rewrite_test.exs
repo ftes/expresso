@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.MathRewriteTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # A β-reduction that a rewrite writes. At step 2, each f of the body and the
   # argument get a color. At step 3, the kept symbols move down from the first

@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.ChartScatterTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # The group "EU" shows at step 1, and the group "US" at step 2.
   defmodule RevealDeck do

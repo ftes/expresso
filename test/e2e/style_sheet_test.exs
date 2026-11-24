@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.StyleSheetTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   defmodule Deck do
     use Expresso

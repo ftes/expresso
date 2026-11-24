@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.SmallWindowTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # A window smaller than 1280 by 720 pixels shows the slide of that size at a
   # smaller scale: the font size of the `html` element follows the window.
@@ -65,14 +65,11 @@ defmodule Expresso.E2E.SmallWindowTest do
 
   @phones [{390, 844}, {844, 390}]
 
-  defp phone(browser, width, height) do
-    new_page(browser,
-      viewport: %{width: width, height: height},
-      is_mobile: true,
-      has_touch: true,
-      device_scale_factor: 2.0
-    )
-  end
+  # The options of a phone, without the size of its window.
+  @phone [is_mobile: true, has_touch: true, device_scale_factor: 2.0]
+
+  defp phone(browser, width, height),
+    do: new_page(browser, @phone ++ [viewport: %{width: width, height: height}])
 
   # The distance in pixels that a text of the slide that shows is outside the
   # window, and the width of the document. A text is an element with a text
@@ -99,11 +96,12 @@ defmodule Expresso.E2E.SmallWindowTest do
     do: js(page, "parseFloat(getComputedStyle(document.documentElement).fontSize)")
 
   for {width, height} <- @phones do
+    @tag Test.use(@phone ++ [viewport: %{width: width, height: height}])
     test "each text of each step shows in a window of #{width} by #{height}", %{
-      browser: browser,
+      page: page,
       tmp_dir: tmp_dir
     } do
-      page = browser |> phone(unquote(width), unquote(height)) |> open(render(Deck, tmp_dir))
+      page = open(page, render(Deck, tmp_dir))
 
       positions =
         Enum.reduce_while(1..12, [], fn _each, positions ->
@@ -230,11 +228,12 @@ defmodule Expresso.E2E.SmallWindowTest do
 
   # A phone in the portrait direction shows a tall slide that fills the
   # window. `docs/small-windows.md` gives the reason.
+  @tag Test.use(@phone ++ [viewport: %{width: 390, height: 844}])
   test "a phone in the portrait direction shows a tall slide that fills the window", %{
-    browser: browser,
+    page: page,
     tmp_dir: tmp_dir
   } do
-    page = browser |> phone(390, 844) |> open(render(Deck, tmp_dir))
+    page = open(page, render(Deck, tmp_dir))
 
     box =
       js(page, """
@@ -251,11 +250,12 @@ defmodule Expresso.E2E.SmallWindowTest do
   # they show. `svh` is the height of the window with the bars, so the bottom
   # of the slide stays in view. The emulation of Chromium has no such bars,
   # so the test reads the rules and measures the slide in the window.
+  @tag Test.use(@phone ++ [viewport: %{width: 390, height: 844}])
   test "the height of the window is the small viewport height", %{
-    browser: browser,
+    page: page,
     tmp_dir: tmp_dir
   } do
-    page = browser |> phone(390, 844) |> open(render(Deck, tmp_dir))
+    page = open(page, render(Deck, tmp_dir))
 
     rules =
       js(page, """
@@ -281,8 +281,10 @@ defmodule Expresso.E2E.SmallWindowTest do
 
   # The button of the menu shows only where the main pointer is coarse, such
   # as a finger on a phone.
+  @tag Test.use(viewport: %{width: 390, height: 844})
   test "the button of the menu shows on a touch screen, and not with a mouse", %{
     browser: browser,
+    page: page,
     tmp_dir: tmp_dir
   } do
     address = render(Deck, tmp_dir)
@@ -292,7 +294,7 @@ defmodule Expresso.E2E.SmallWindowTest do
     assert js(phone, "matchMedia('(pointer: coarse)').matches")
     assert js(phone, display) == "flex"
 
-    computer = browser |> new_page(viewport: %{width: 390, height: 844}) |> open(address)
+    computer = open(page, address)
     refute js(computer, "matchMedia('(pointer: coarse)').matches")
     assert js(computer, display) == "none"
 
@@ -305,11 +307,12 @@ defmodule Expresso.E2E.SmallWindowTest do
     assert js(phone, display) == "none"
   end
 
+  @tag Test.use(@phone ++ [viewport: %{width: 390, height: 844}])
   test "a tap on the button of the menu opens the menu, and a second tap closes it", %{
-    browser: browser,
+    page: page,
     tmp_dir: tmp_dir
   } do
-    page = browser |> phone(390, 844) |> open(render(Deck, tmp_dir))
+    page = open(page, render(Deck, tmp_dir))
 
     [x, y, width, height] =
       js(page, """
@@ -329,7 +332,7 @@ defmodule Expresso.E2E.SmallWindowTest do
     assert js(page, expanded) == "false"
 
     tap(page, center_x, center_y)
-    wait_for(page, "document.body.dataset.menu === 'true'")
+    page |> Page.locator("body") |> Expect.to_have_attribute!("data-menu", "true")
     assert js(page, expanded) == "true"
     assert js(page, "getComputedStyle(document.querySelector('#menu')).display") == "block"
 
@@ -346,19 +349,17 @@ defmodule Expresso.E2E.SmallWindowTest do
     assert position(page) == "1.1"
   end
 
+  @tag Test.use(
+         viewport: %{width: 390, height: 844},
+         is_mobile: true,
+         has_touch: true,
+         forced_colors: :active
+       )
   test "the button of the menu has a border in forced colors", %{
-    browser: browser,
+    page: page,
     tmp_dir: tmp_dir
   } do
-    page =
-      browser
-      |> new_page(
-        viewport: %{width: 390, height: 844},
-        is_mobile: true,
-        has_touch: true,
-        forced_colors: :active
-      )
-      |> open(render(Deck, tmp_dir))
+    page = open(page, render(Deck, tmp_dir))
 
     style = "getComputedStyle(document.querySelector('#menu-button'))"
     assert js(page, "#{style}.display") == "flex"
@@ -366,8 +367,9 @@ defmodule Expresso.E2E.SmallWindowTest do
     assert js(page, "#{style}.borderTopWidth") == "1px"
   end
 
-  test "a tap goes to the next step on a phone", %{browser: browser, tmp_dir: tmp_dir} do
-    page = browser |> phone(390, 844) |> open(render(Deck, tmp_dir))
+  @tag Test.use(@phone ++ [viewport: %{width: 390, height: 844}])
+  test "a tap goes to the next step on a phone", %{page: page, tmp_dir: tmp_dir} do
+    page = open(page, render(Deck, tmp_dir))
 
     page |> tap(300, 400) |> wait_for_position("2.1")
     page |> tap(300, 400) |> wait_for_position("2.2")

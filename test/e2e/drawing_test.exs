@@ -1,7 +1,5 @@
 defmodule Expresso.E2E.DrawingTest do
-  use Expresso.E2E, async: false
-
-  alias Playwright.{Mouse, Page}
+  use Expresso.E2E, async: true
 
   # Slide 1 has two steps, and slide 2 has one step.
   defmodule Deck do
@@ -156,18 +154,18 @@ defmodule Expresso.E2E.DrawingTest do
     wait_for(audience, count_js(1))
 
     speaker |> press("j")
-    wait_for(audience, "location.hash === '#1.2'")
+    Expect.to_have_url!(audience, ~r/#1\.2$/)
     assert length(lines(audience)) == 1
     assert length(lines(speaker)) == 1
 
     speaker |> press("j")
-    wait_for(audience, "location.hash === '#2.1'")
+    Expect.to_have_url!(audience, ~r/#2\.1$/)
     wait_for(audience, count_js(0))
     assert lines(speaker) == []
 
     # The drawing does not come back with the slide.
     speaker |> press("k")
-    wait_for(audience, "location.hash === '#1.2'")
+    Expect.to_have_url!(audience, ~r/#1\.2$/)
     assert lines(audience) == []
   end
 

@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.HiddenSlidesTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Four slides. Slide 2 is hidden and has two steps, so the talk has three
   # slides. The last slide has a link to the hidden slide.

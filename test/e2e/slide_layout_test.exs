@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.SlideLayoutTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Slide 1 has a heading and two columns. Slide 2 has two code elements in
   # one parent, and slide 3 has one code element.

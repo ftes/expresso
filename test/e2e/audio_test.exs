@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.AudioTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Slide 2 plays a chime again and again from step 1. Slide 3 has no sound.
   # Slide 4 plays a chime one time, and its list has three steps. Slide 5

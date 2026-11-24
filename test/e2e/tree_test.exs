@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.TreeTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # A tree with a long detail, so the text of one box ends with an ellipsis.
   defmodule Deck do

@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.SlideNumbersTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Three slides with slide numbers. Slide 2 has notes.
   defmodule Deck do

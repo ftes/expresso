@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.GotoTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Three slides. Slide 1 has a link to slide 3, and slide 2 has two steps.
   defmodule Deck do

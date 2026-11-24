@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.EmbedTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Slide 1 holds a local page that counts, with a fallback image. Slide 2
   # holds an address. The test makes no request to the network: it reads the

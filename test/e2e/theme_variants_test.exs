@@ -1,25 +1,11 @@
 defmodule Expresso.E2E.ThemeVariantsTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   alias Expresso.Builder
   alias Expresso.Palette.Builtin
-  alias Playwright.{Browser, BrowserContext}
 
   defp deck(theme) do
     Builder.deck([Builder.slide("one", heading: "Variants")], theme: theme)
-  end
-
-  # A page in a window that asks for a dark or a light scheme.
-  defp page(browser, scheme) do
-    context =
-      Browser.new_context!(browser,
-        viewport: %{width: 1280, height: 720},
-        color_scheme: scheme
-      )
-
-    on_exit(fn -> BrowserContext.close(context) end)
-    page = BrowserContext.new_page!(context)
-    page
   end
 
   defp background(page),
@@ -32,12 +18,14 @@ defmodule Expresso.E2E.ThemeVariantsTest do
     "rgb(#{r}, #{g}, #{b})"
   end
 
+  # The window asks for a dark scheme.
+  @tag Test.use(color_scheme: :dark)
   test "a dark screen gets the dark variant, the key t changes the variant, and paper gets the default theme",
        %{
-         browser: browser,
+         page: page,
          tmp_dir: tmp_dir
        } do
-    page = browser |> page(:dark) |> open(render(deck(dark: :dracula, light: :default), tmp_dir))
+    page = open(page, render(deck(dark: :dracula, light: :default), tmp_dir))
 
     assert background(page) == background_of(:dracula)
 
@@ -52,9 +40,9 @@ defmodule Expresso.E2E.ThemeVariantsTest do
     assert background(page) == background_of(:default)
   end
 
-  test "a light screen gets the light variant", %{browser: browser, tmp_dir: tmp_dir} do
-    page =
-      browser |> page(:light) |> open(render(deck(dark: :dracula, light: :default), tmp_dir))
+  @tag Test.use(color_scheme: :light)
+  test "a light screen gets the light variant", %{page: page, tmp_dir: tmp_dir} do
+    page = open(page, render(deck(dark: :dracula, light: :default), tmp_dir))
 
     assert background(page) == background_of(:default)
 
@@ -62,9 +50,10 @@ defmodule Expresso.E2E.ThemeVariantsTest do
     assert background(page) == background_of(:dracula)
   end
 
-  test "the address chooses the variant at the load", %{browser: browser, tmp_dir: tmp_dir} do
+  @tag Test.use(color_scheme: :light)
+  test "the address chooses the variant at the load", %{page: page, tmp_dir: tmp_dir} do
     html = render(deck(dark: :dracula, light: :default), tmp_dir)
-    page = browser |> page(:light) |> open(html <> "?scheme=dark")
+    page = open(page, html <> "?scheme=dark")
 
     assert background(page) == background_of(:dracula)
 
@@ -104,11 +93,12 @@ defmodule Expresso.E2E.ThemeVariantsTest do
     assert js(speaker, dark)
   end
 
+  @tag Test.use(color_scheme: :dark)
   test "the key t changes nothing in a deck with one variant", %{
-    browser: browser,
+    page: page,
     tmp_dir: tmp_dir
   } do
-    page = browser |> page(:dark) |> open(render(deck(:dracula), tmp_dir))
+    page = open(page, render(deck(:dracula), tmp_dir))
 
     press(page, "t")
     assert background(page) == background_of(:dracula)

@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.MathCopyTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # At step 2, a copy of g goes to each hole, and a copy of the exponent n
   # goes to the m at the end. The formula keeps its layout.

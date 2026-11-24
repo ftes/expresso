@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.PresenterTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Three slides. Slide 1 has one step, slide 2 has three steps, and slide 3
   # has two steps. The second box of slide 2 appears at step 2.
@@ -165,7 +165,7 @@ defmodule Expresso.E2E.PresenterTest do
 
       refute open?(page)
       # The browser fires the event `close` in a later task, so wait for it.
-      wait_for(page, "document.body.dataset.help === undefined")
+      page |> Page.locator("body") |> Expect.not_to_have_attribute!("data-help")
       assert position(page) == "1.1"
 
       page |> press("Shift+Slash")

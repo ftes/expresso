@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.FontTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # The deck has no bold text and no italic text, and each of its characters
   # is in the range of the Latin file. A browser loads a face of a font only

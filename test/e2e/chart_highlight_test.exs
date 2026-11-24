@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.ChartHighlightTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # The series "Returns" is in focus at step 1, and the series "Orders" at
   # step 2.

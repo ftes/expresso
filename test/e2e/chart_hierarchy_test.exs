@@ -1,7 +1,5 @@
 defmodule Expresso.E2E.ChartHierarchyTest do
-  use Expresso.E2E, async: false
-
-  alias Playwright.{Browser, BrowserContext}
+  use Expresso.E2E, async: true
 
   # A treemap and a sunburst with two frames, and a treemap and a sunburst
   # with the effect grow at step 2.
@@ -115,15 +113,8 @@ defmodule Expresso.E2E.ChartHierarchyTest do
   end
 
   describe "with motion" do
-    setup %{browser: browser, tmp_dir: tmp_dir} do
-      context =
-        Browser.new_context!(browser,
-          viewport: %{width: 1280, height: 720},
-          reduced_motion: :no_preference
-        )
-
-      on_exit(fn -> BrowserContext.close(context) end)
-      page = BrowserContext.new_page!(context)
+    @describetag Test.use(reduced_motion: :no_preference)
+    setup %{page: page, tmp_dir: tmp_dir} do
       %{slow: page, url: render(Deck, tmp_dir)}
     end
 

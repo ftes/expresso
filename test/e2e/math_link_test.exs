@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.MathLinkTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # The second line shows at step 2, and a copy of g moves from the first line
   # into each linked sub-term of the second line.

@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.ChartWaterfallTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # The start and the two totals show alone at the first step. Each change
   # shows at its own step, from step 2.

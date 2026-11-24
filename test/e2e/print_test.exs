@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.PrintTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Slide 1 has three steps, and its handout option selects step 2 and the
   # last step. Slide 2 has two steps, and its handout option selects step 1,

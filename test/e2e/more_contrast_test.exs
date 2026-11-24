@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.MoreContrastTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   alias Expresso.Builder
   alias Expresso.Palette
@@ -68,10 +68,9 @@ defmodule Expresso.E2E.MoreContrastTest do
 
   defp theme_deck(theme), do: Builder.deck([Builder.slide("one")], theme: theme)
 
+  @tag Test.use(contrast: :more)
   test "each role of text of each built-in theme has 7:1 or more, also when it is dimmed",
-       %{browser: browser, tmp_dir: tmp_dir} do
-    page = more(browser)
-
+       %{page: page, tmp_dir: tmp_dir} do
     for name <- Palette.Builtin.names() do
       open(page, render(theme_deck(name), tmp_dir, Atom.to_string(name)))
       ratios = ratios(page)
@@ -122,7 +121,7 @@ defmodule Expresso.E2E.MoreContrastTest do
   # The deck has `dim_contrast 4`. The preference gives 7, which is the
   # highest value of the option.
   test "a dimmed line of code has 7:1 or more in a deck with a lower dim_contrast option",
-       %{browser: browser, tmp_dir: tmp_dir} do
+       %{browser: browser, page: page, tmp_dir: tmp_dir} do
     contrast = """
     (() => {
       const part = (value) => {
@@ -144,7 +143,7 @@ defmodule Expresso.E2E.MoreContrastTest do
     })()
     """
 
-    usual = new_page(browser, []) |> open(render(Deck, tmp_dir)) |> js(contrast)
+    usual = page |> open(render(Deck, tmp_dir)) |> js(contrast)
     with_more = browser |> more() |> open(render(Deck, tmp_dir)) |> js(contrast)
 
     # Line 2 is in focus, and each other line is dimmed.
@@ -154,13 +153,13 @@ defmodule Expresso.E2E.MoreContrastTest do
   end
 
   test "the outline of the cursor of the menu and of the search field is 3 pixels wide",
-       %{browser: browser, tmp_dir: tmp_dir} do
+       %{browser: browser, page: page, tmp_dir: tmp_dir} do
     width = fn page, selector ->
       js(page, "getComputedStyle(document.querySelector(#{JSON.encode!(selector)})).outlineWidth")
     end
 
     for {page, cursor, search} <- [
-          {new_page(browser, []), "2px", "0px"},
+          {page, "2px", "0px"},
           {more(browser), "3px", "3px"}
         ] do
       page |> open(render(Deck, tmp_dir)) |> press("m")

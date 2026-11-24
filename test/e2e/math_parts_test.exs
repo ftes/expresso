@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.MathPartsTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # The binder turns red at step 2, the argument shows from step 3, and the
   # binder moves 40px down at step 4.

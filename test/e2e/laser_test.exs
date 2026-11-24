@@ -1,7 +1,5 @@
 defmodule Expresso.E2E.LaserTest do
-  use Expresso.E2E, async: false
-
-  alias Playwright.{Browser, BrowserContext, Mouse, Page}
+  use Expresso.E2E, async: true
 
   # Slide 1 has two steps, and slide 2 has one step.
   defmodule Deck do
@@ -86,7 +84,7 @@ defmodule Expresso.E2E.LaserTest do
   } do
     speaker |> press("l")
 
-    wait_for(audience, ~s|document.body.dataset.laser === "true"|)
+    audience |> Page.locator("body") |> Expect.to_have_attribute!("data-laser", "true")
     assert js(speaker, "document.body.dataset.laser") == "true"
     assert dot(speaker, @current) == :null
     assert dot(audience, @screen) == :null
@@ -154,7 +152,7 @@ defmodule Expresso.E2E.LaserTest do
     shown(audience, @screen)
 
     speaker |> press("j")
-    wait_for(audience, "location.hash === '#1.2'")
+    Expect.to_have_url!(audience, ~r/#1\.2$/)
 
     hidden(audience, @screen)
     assert js(audience, "document.body.dataset.laser") == nil
@@ -167,7 +165,7 @@ defmodule Expresso.E2E.LaserTest do
 
     [left, top, width, height] = box(speaker, @current)
     speaker |> click(left + width * 0.9, top + height * 0.5)
-    wait_for(audience, "location.hash === '#2.1'")
+    Expect.to_have_url!(audience, ~r/#2\.1$/)
   end
 
   test "a second l turns the pointer off", %{audience: audience, speaker: speaker} do
@@ -243,15 +241,10 @@ defmodule Expresso.E2E.LaserTest do
   end
 
   describe "with a touch screen" do
+    # The setup of the module opens the two windows in the page, so the
+    # window with a touch screen has its own context.
     setup %{browser: browser, tmp_dir: tmp_dir} do
-      context =
-        Browser.new_context!(browser,
-          viewport: %{width: 1280, height: 720},
-          has_touch: true
-        )
-
-      on_exit(fn -> BrowserContext.close(context) end)
-      page = BrowserContext.new_page!(context)
+      page = new_page(browser, has_touch: true)
       %{touch: open(page, render(Deck, tmp_dir))}
     end
 

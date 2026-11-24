@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.HighlightTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # Line 2 is in focus at step 1, and lines 3 and 4 at step 2. Lines 1 and 5
   # are in no group.

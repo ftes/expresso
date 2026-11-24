@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.DocumentTagsTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   alias Expresso.Builder
 
@@ -27,14 +27,15 @@ defmodule Expresso.E2E.DocumentTagsTest do
 
   defp deck(theme), do: Builder.deck([Builder.slide("one", heading: "One")], theme: theme)
 
+  # The scheme of the screen is the opposite of the theme, so the color comes
+  # from the tag and not from the screen.
+  @tag Test.use(color_scheme: :dark)
   test "the colors of the system follow a light theme and a dark theme", %{
     browser: browser,
+    page: page,
     tmp_dir: tmp_dir
   } do
-    # The scheme of the screen is the opposite of the theme, so the color
-    # comes from the tag and not from the screen.
-    light =
-      browser |> new_page(color_scheme: :dark) |> open(render(deck(:default), tmp_dir, "light"))
+    light = open(page, render(deck(:default), tmp_dir, "light"))
 
     dark =
       browser |> new_page(color_scheme: :light) |> open(render(deck(:dracula), tmp_dir, "dark"))
@@ -43,21 +44,22 @@ defmodule Expresso.E2E.DocumentTagsTest do
     refute light?(js(dark, @canvas))
   end
 
+  @tag Test.use(color_scheme: :dark)
   test "with two variants, the colors of the system follow the screen and the key t", %{
-    browser: browser,
+    page: page,
     tmp_dir: tmp_dir
   } do
     address = render(deck(dark: :dracula, light: :default), tmp_dir)
 
-    page = browser |> new_page(color_scheme: :dark) |> open(address)
+    page = open(page, address)
     refute light?(js(page, @canvas))
 
     press(page, "t")
-    wait_for(page, "document.documentElement.dataset.scheme === 'light'")
+    page |> Page.locator("html") |> Expect.to_have_attribute!("data-scheme", "light")
     assert light?(js(page, @canvas))
 
     press(page, "t")
-    wait_for(page, "document.documentElement.dataset.scheme === 'dark'")
+    page |> Page.locator("html") |> Expect.to_have_attribute!("data-scheme", "dark")
     refute light?(js(page, @canvas))
   end
 

@@ -1,7 +1,5 @@
 defmodule Expresso.E2E.ZoomTest do
-  use Expresso.E2E, async: false
-
-  alias Playwright.{Browser, BrowserContext, Mouse, Page}
+  use Expresso.E2E, async: true
 
   # Slide 1 has two steps, with a code element and a text box. Slide 2 has
   # one step.
@@ -204,7 +202,7 @@ defmodule Expresso.E2E.ZoomTest do
     wait_for(audience, @zoomed)
 
     speaker |> press("j")
-    wait_for(audience, "location.hash === '#1.2'")
+    Expect.to_have_url!(audience, ~r/#1\.2$/)
 
     assert zoom(audience) == :null
     assert zoom(speaker) == :null
@@ -293,7 +291,7 @@ defmodule Expresso.E2E.ZoomTest do
     assert cursor.() == "auto"
 
     audience |> press("z")
-    wait_for(speaker, "document.body.dataset.zoom === 'true'")
+    speaker |> Page.locator("body") |> Expect.to_have_attribute!("data-zoom", "true")
     assert cursor.() == "zoom-in"
 
     audience |> click_at(center(audience, "#{@screen} .code"))
@@ -353,7 +351,7 @@ defmodule Expresso.E2E.ZoomTest do
 
     {x, y} = center(speaker, "#{@current} .code")
     Mouse.move!(Page.mouse(speaker), x, y)
-    wait_for(audience, ~s|document.getElementById("laser").hasAttribute("data-shown")|)
+    audience |> Page.locator("#laser") |> Expect.to_have_attribute!("data-shown")
 
     # The dot of the present view is on the center of its code element.
     {code_x, code_y} = center(audience, "#{@screen} .code")
@@ -385,15 +383,10 @@ defmodule Expresso.E2E.ZoomTest do
   end
 
   describe "with motion" do
+    # The setup of the module opens the two windows in the page, so the
+    # window with motion has its own context.
     setup %{browser: browser, tmp_dir: tmp_dir} do
-      context =
-        Browser.new_context!(browser,
-          viewport: %{width: 1280, height: 720},
-          reduced_motion: :no_preference
-        )
-
-      page = BrowserContext.new_page!(context)
-      on_exit(fn -> BrowserContext.close(context) end)
+      page = new_page(browser, reduced_motion: :no_preference)
       %{moving: open(page, render(Deck, tmp_dir, "moving"))}
     end
 

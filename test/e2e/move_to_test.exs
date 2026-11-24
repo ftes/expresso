@@ -1,5 +1,5 @@
 defmodule Expresso.E2E.MoveToTest do
-  use Expresso.E2E, async: false
+  use Expresso.E2E, async: true
 
   # The token moves to the circle at step 2, and to the station in a moved
   # group at step 3. The small rect is in a scaled group, and it moves to the

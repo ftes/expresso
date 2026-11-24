@@ -1,7 +1,5 @@
 defmodule Expresso.E2E.DeckCssTest do
-  use Expresso.E2E, async: false
-
-  alias Playwright.{Browser, BrowserContext}
+  use Expresso.E2E, async: true
 
   # The first box bounces in and shakes out. The second box drops from above.
   # The heading takes the color of the deck.
@@ -50,18 +48,11 @@ defmodule Expresso.E2E.DeckCssTest do
     """)
   end
 
+  @tag Test.use(reduced_motion: :no_preference)
   test "an effect of the deck plays its keyframes and moves the box", %{
-    browser: browser,
+    page: page,
     tmp_dir: tmp_dir
   } do
-    context =
-      Browser.new_context!(browser,
-        viewport: %{width: 1280, height: 720},
-        reduced_motion: :no_preference
-      )
-
-    on_exit(fn -> BrowserContext.close(context) end)
-    page = BrowserContext.new_page!(context)
     page = open(page, render(Deck, tmp_dir))
 
     # The hidden boxes: the exit animation, and 3rem (144 px) above the place.
